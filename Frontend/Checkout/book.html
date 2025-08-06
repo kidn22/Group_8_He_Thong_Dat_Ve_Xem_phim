@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chọn ghế</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: white;
+      border-bottom: 2px solid #ccc;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .screen {
+      background: #ccc;
+      text-align: center;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    .seats {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+    .seat {
+      width: 35px;
+      height: 35px;
+      background-color: #eee;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .seat.selected {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+    }
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+    }
+    .btn {
+      background-color: #001f3f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3>Chọn ghế</h3>
+    <h3>Thanh toán</h3>
+  </div>
+  <div class="container">
+    <div class="screen">MÀN HÌNH</div>
+    <div class="seats" id="seats"></div>
+    <div class="order-summary">
+      <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
+      <button class="btn">Tiếp tục</button>
+    </div>
+  </div>
+
+  <script>
+    const seatContainer = document.getElementById("seats");
+    const totalDisplay = document.getElementById("total");
+    const seatPrice = 60000;
+    const rows = ['A', 'B', 'C', 'D', 'E'];
+    const cols = 10;
+    let selectedSeats = [];
+
+    rows.forEach((row, rowIndex) => {
+      for (let i = 1; i <= cols; i++) {
+        const seat = document.createElement("div");
+        seat.classList.add("seat");
+        seat.dataset.name = `${row}${i}`;
+        seat.innerText = "";
+
+        seat.addEventListener("click", () => {
+          if (seat.classList.contains("selected")) {
+            seat.classList.remove("selected");
+            seat.innerText = "";
+            selectedSeats = selectedSeats.filter(s => s !== seat.dataset.name);
+          } else {
+            seat.classList.add("selected");
+            seat.innerText = seat.dataset.name;
+            selectedSeats.push(seat.dataset.name);
+          }
+          totalDisplay.innerText = selectedSeats.length * seatPrice;
+        });
+
+        seatContainer.appendChild(seat);
+      }
+    });
+  </script>
+</body>
+</html>
