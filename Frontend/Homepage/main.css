@@ -3,13 +3,13 @@ body {
     font-family: "Arial", sans-serif;
 }
 
-/* Header */
+/* HEADER */
 .header {}
 
 .header__nav__wp {
-    border-bottom: 2px solid #e5eaee;
     display: flex;
     justify-content: space-around;
+    border-bottom: 2px solid #e5eaee;
 }
 
 .navbar {
@@ -32,7 +32,7 @@ body {
     color: #7b8390;
 }
 
-/* Search */
+/* SEARCH */
 .nav__search {
     display: flex;
     align-items: center;
@@ -52,12 +52,12 @@ body {
 }
 
 .nav__search-items {
-    border: none;
-    outline: none;
-    background: transparent;
+    width: 200px;
     font-size: 15px;
     color: #333;
-    width: 200px;
+    background: transparent;
+    border: none;
+    outline: none;
 }
 
 .nav__search-items::placeholder {
@@ -69,17 +69,18 @@ body {
     box-shadow: 2px 2px 10px rgb(136, 129, 255);
 }
 
-/* Login */
+/* LOGIN */
 .nav__login {
+    display: flex;
+    justify-content: center;
     width: 50px;
     height: 50px;
-    display: flex;
     padding: 25px 100px 0 0;
     font-size: 15px;
-    justify-content: center;
 }
 
-.nav__login-txt {
+.nav__login-txt,
+.nav__login-icon {
     color: #a5aeb4;
     text-decoration: none;
 }
@@ -88,39 +89,38 @@ body {
     width: 50px;
     height: 50px;
     margin-right: 10px;
-    color: #a5aeb4;
 }
 
-/* App Wrapper */
+/* APP WRAPPER */
 .app {
     margin-bottom: 100px;
     background-color: #fafbfd;
 }
 
-/* Mua vé theo phim */
+/* MUA VÉ THEO PHIM */
 .app__movies {
-    border-bottom: 2px solid #a5aeb4;
     padding-bottom: 100px;
+    border-bottom: 2px solid #a5aeb4;
 }
 
 .app__movies-wp {
-    margin: 0 250px;
     display: flex;
     justify-content: center;
+    margin: 0 250px;
 }
 
 .app__movies-items {
     width: 110px;
+    margin-right: 20px;
     border: 1px solid #a5aeb4;
     border-radius: 10px;
     padding-bottom: 10px;
-    margin-right: 20px;
 }
 
 .app__movies-items-img {
-    display: block;
     width: 100%;
     height: 150px;
+    display: block;
     border-radius: 10px 10px 0 0;
 }
 
@@ -141,37 +141,36 @@ body {
 .app__movies-items-title,
 .app__movies-items-title-link {
     display: block;
+    width: 100%;
     padding-left: 2px;
     font-size: 15px;
-    text-decoration: none;
     color: black;
+    text-decoration: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
 }
 
-/* Mua vé theo rạp */
+/* MUA VÉ THEO RẠP */
 .app__cinema-wp {
-    margin-left: 200px;
     display: flex;
+    margin-left: 200px;
 }
 
-/* Location & Cinema Common Style */
 .app__cinema-location,
 .app__cinema-item {
-    background-color: #edf2f8;
     width: 250px;
+    margin-right: 50px;
+    background-color: #edf2f8;
     border-radius: 10px 10px 0 0;
     box-shadow: 1px 1px 5px #a7b1c2;
-    margin-right: 50px;
 }
 
 .app__cinema-location-title,
 .app__cinema-item-title {
-    font-weight: bold;
-    font-size: 20px;
     margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
     color: #a7b1c2;
 }
 
@@ -184,23 +183,22 @@ body {
 
 .app__cinema-location-list,
 .app__cinema-item-list {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 .app__cinema-location-list-items,
 .app__cinema-item-list-items {
-    list-style: none;
-    font-size: 15px;
     height: 50px;
     padding: 15px;
-    border-bottom: 1px solid #a7b1c2;
+    font-size: 15px;
     font-weight: bold;
+    list-style: none;
     color: #a7b1c2;
+    border-bottom: 1px solid #a7b1c2;
     background-color: white;
     cursor: pointer;
 }
-
 
 .app__cinema-location-list-items:hover,
 .app__cinema-item-list-items:hover {
@@ -208,7 +206,7 @@ body {
     color: white;
 }
 
-/* Calendar */
+/* CALENDAR */
 .app__calender-date,
 .app__calender-note,
 .app__calender-title {
@@ -232,11 +230,11 @@ body {
 .app__calender-date-items {
     width: 25%;
     height: 60px;
-    font-size: 15px;
-    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 15px;
+    font-weight: bold;
     color: #b5c0ce;
 }
 
@@ -252,7 +250,7 @@ body {
     background-color: #c7d6ed;
 }
 
-/* Note */
+/* NOTE */
 .app__calender-note {
     height: 50px;
     background-color: #f6c343;
@@ -274,7 +272,7 @@ body {
     font-size: 15px;
 }
 
-/* Title */
+/* TITLE */
 .app__calender-title {
     height: 80px;
 }
@@ -298,27 +296,28 @@ body {
     color: #acb3c4;
 }
 
-/* Calendar Item */
+/* CALENDAR ITEM */
 .app__calender-item {
     width: 600px;
-    height: auto;
     margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
 }
 
 .app__calender-item-wp {
     display: flex;
-    box-shadow: 1px 1px 5px #a7b1c2;
     padding-bottom: 30px;
+    box-shadow: 1px 1px 5px #a7b1c2;
 }
 
 .app__calender-items-wp {
+    width: 480px;
     padding-left: 50px;
-
 }
 
 .app__calender-item-img-wp {
-    padding-left: 20px;
-    padding-top: 20px;
+    padding: 20px 0 0 20px;
 }
 
 .app__calender-item-img {
@@ -331,7 +330,6 @@ body {
     font-size: 15px;
     font-weight: bold;
     padding-top: 20px;
-
 }
 
 .app__calender-items-dec {
@@ -348,14 +346,14 @@ body {
 .app__calender-items-time {
     width: 50px;
     height: 30px;
-    background-color: #edf2f8;
-    cursor: pointer;
     font-size: 12px;
+    font-weight: bold;
+    background-color: #edf2f8;
     margin-right: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
+    cursor: pointer;
     box-shadow: 1px 1px 5px #a7b1c2;
 }
 
@@ -364,36 +362,39 @@ body {
     color: white;
 }
 
-/* Utility */
+/* UTILITY */
 .flex {
     display: flex;
 }
 
-/* Footer */
+/* FOOTER */
 .footer__wp {
     width: 100%;
     height: 300px;
     background-color: black;
 }
 
-/* Hành Động */
+/* HÀNH ĐỘNG - ACTIVE STATE */
 .app__cinema-item,
 .app__calender {
     display: none;
 }
 
-.app__cinema-location-list-items.active {
+.app__cinema-location-list-items.active,
+.app__cinema-item-list-items.active,
+.app__calender-items-time.active,
+.app__calender-date-items.active {
     background-color: #2c7be4;
     color: white;
 }
 
-/* Rạp được chọn */
-.app__cinema-item-list-items.active {
-    background-color: #2c7be4;
-    color: white;
+.app__calender-date-items.active {
+    border-radius: 8px;
+    font-weight: bold;
 }
 
-.app__calender-items-time.active {
-    background-color: #2c7be4;
-    color: white;
+.app__calender-note,
+.app__calender-title,
+.app__calender-item {
+    display: none;
 }
