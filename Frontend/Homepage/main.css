@@ -100,13 +100,16 @@ body {
 }
 
 /* Mua ve theo phim */
-.app__movies {}
+.app__movies {
+    border-bottom: 2px solid #a5aeb4;
+    padding-bottom: 100px;
+}
 
 .app__movies-wp {
     margin-right: 250px;
     margin-left: 250px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .app__movies-items-img {
@@ -122,21 +125,72 @@ body {
 
 .app__movies-items {
     border: 1px solid #a5aeb4;
-    width: 120px;
-    height: 200px;
+    width: 110px;
+    height: auto;
     border-radius: 10px;
+    padding-bottom: 10px;
+    margin-right: 20px;
 }
+
 .app__movies-items-img {
     display: block;
     width: 100%;
     height: 150px;
     border-radius: 10px 10px 0 0;
 }
-.app__movies-items-btn{
+
+.app__movies-items-btn {
     width: 100%;
     height: 20px;
     background-color: #d31602;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.app__movies-items-title,
+.app__movies-items-title-link {
+    padding-left: 2px;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+}
+
+/* Mua ve theo rap */
+.app__cinema-wp{
+    margin-left: 250px;
+    margin-right: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+/* Location */
+.app__cinema-location{
+    background-color: #edf2f8;
+    width: 260px;
+}
+.app__cinema-location-title{
+    font-size: 20px;
+}
+.app__cinema-location-list{
+    padding: 0;
+}
+.app__cinema-location-list-items{
+    font-size: 15px;
+    list-style: none;
+    
+
+}
+/*Cinema  */
+
+/* Date */
+.app__calender-date {
+    width: 550px;
+    height: 50px;
+    background-color: #edf2f8;
+    border-radius:10px;
 }
