@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: cerebri sans;
+    font-family: "Arial", sans-serif; ;
 }
 
 .header {
@@ -98,4 +98,33 @@ body {
     height: 50px;
     margin-right: 10px;
     color: #a5aeb4;
+}
+/* Mua ve theo phim */
+.app__movies{
+
+}
+.app__movies-wp{
+    margin-right: 250px;
+    margin-left: 250px ;
+    display: flex;
+    justify-content: space-between;
+}
+.app__movies-items-img{
+    width: 100%;
+    height: 150px;
+    border-radius: 20px 20px 0 0;
+}
+.app__movies-title{
+    text-align: center;
+    padding: 30px;
+}
+.app__movies-items{
+    border: 1px solid #a5aeb4 ;
+    width: 120px;
+    height: 200px;
+    border-radius: 20px;
+}
+.app__movies-items-link,
+.app__movies-items-btn{
+    width: 100%;
 }
