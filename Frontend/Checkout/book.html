@@ -49,8 +49,16 @@
       cursor: pointer;
       transition: 0.2s;
     }
+    .seat.vip {
+      background-color: #ffd700;
+    }
+    .seat.sold {
+      background-color: #999;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
     .seat.selected {
-      background-color: #28a745;
+      background-color: #28a745 !important;
       color: white;
       font-weight: bold;
     }
@@ -80,36 +88,62 @@
     <div class="seats" id="seats"></div>
     <div class="order-summary">
       <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
-      <a href="../Checkout/checkout.html"><button class="btn">Tiếp tục</button> </a>
+      <button class="btn">Tiếp tục</button>
     </div>
   </div>
 
   <script>
     const seatContainer = document.getElementById("seats");
     const totalDisplay = document.getElementById("total");
-    const seatPrice = 60000;
     const rows = ['A', 'B', 'C', 'D', 'E'];
     const cols = 10;
     let selectedSeats = [];
 
-    rows.forEach((row, rowIndex) => {
+    // Danh sách ghế đã bán
+    const soldSeats = ['C4', 'D5', 'E6'];
+
+    function getSeatPrice(row) {
+      return (row === 'D' || row === 'E') ? 90000 : 60000;
+    }
+
+    function updateTotal() {
+      let total = 0;
+      selectedSeats.forEach(seat => {
+        const row = seat.charAt(0);
+        total += getSeatPrice(row);
+      });
+      totalDisplay.innerText = total.toLocaleString();
+    }
+
+    rows.forEach((row) => {
       for (let i = 1; i <= cols; i++) {
+        const seatName = `${row}${i}`;
         const seat = document.createElement("div");
         seat.classList.add("seat");
-        seat.dataset.name = `${row}${i}`;
-        seat.innerText = "";
+        seat.dataset.name = seatName;
+
+        // VIP ghế D và E
+        if (row === 'D' || row === 'E') {
+          seat.classList.add("vip");
+        }
+
+        // Ghế đã bán
+        if (soldSeats.includes(seatName)) {
+          seat.classList.add("sold");
+          seat.innerText = "X";
+        }
 
         seat.addEventListener("click", () => {
           if (seat.classList.contains("selected")) {
             seat.classList.remove("selected");
             seat.innerText = "";
-            selectedSeats = selectedSeats.filter(s => s !== seat.dataset.name);
+            selectedSeats = selectedSeats.filter(s => s !== seatName);
           } else {
             seat.classList.add("selected");
-            seat.innerText = seat.dataset.name;
-            selectedSeats.push(seat.dataset.name);
+            seat.innerText = seatName;
+            selectedSeats.push(seatName);
           }
-          totalDisplay.innerText = selectedSeats.length * seatPrice;
+          updateTotal();
         });
 
         seatContainer.appendChild(seat);
