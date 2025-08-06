@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thanh Toán Vé</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Tóm tắt đơn hàng</h2>
+    <table class="order-summary">
+      <thead>
+        <tr>
+          <th>MÔ TẢ</th>
+          <th>SỐ LƯỢNG</th>
+          <th>THÀNH TIỀN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Standard</td>
+          <td>1</td>
+          <td>60.000 đ</td>
+        </tr>
+        <tr>
+          <td>Phí tiện ích</td>
+          <td></td>
+          <td>3.000 đ</td>
+        </tr>
+        <tr class="total">
+          <td>Tổng</td>
+          <td></td>
+          <td>63.000 đ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Thông tin cá nhân</h2>
+    <form id="infoForm">
+      <input type="text" placeholder="* Họ và tên" required>
+      <input type="tel" placeholder="* Số điện thoại" required>
+      <input type="email" placeholder="Email">
+    </form>
+
+    <h2>Hình thức thanh toán</h2>
+    <div class="payment-methods">
+      <label><input type="radio" name="payment" checked> Chuyển khoản / Quét mã QR</label>
+      <label><input type="radio" name="payment"> Ví MoMo</label>
+      <label><input type="radio" name="payment"> Thẻ ATM / Thẻ quốc tế</label>
+    </div>
+
+    <div class="ticket-info">
+      <p><strong>Mang Mẹ Đi Bộ</strong><br>
+      Beta Trần Quang Khải<br>
+      Suất <strong>17:15 06/08/2025</strong><br>
+      Phòng chiếu <strong>P2</strong> – Ghế <strong>B7</strong></p>
+      <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>63.000 đ</strong></div>
+    </div>
+
+    <div class="note">
+      Vé đã mua không thể đổi hoặc hoàn tiền.<br>
+      Mã vé sẽ được gửi 01 lần qua số điện thoại và email đã nhập. Vui lòng kiểm tra lại thông tin trước khi tiếp tục.
+    </div>
+
+    <div class="actions">
+      <button onclick="history.back()">←</button>
+      <button id="confirmBtn">Xác nhận</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7faff;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-top: 30px;
+  color: #333;
+}
+
+.order-summary {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.order-summary th,
+.order-summary td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.order-summary .total td {
+  font-weight: bold;
+}
+
+form input {
+  width: calc(33% - 12px);
+  margin: 10px 6px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.payment-methods {
+  margin: 10px 0;
+}
+
+.payment-methods label {
+  display: block;
+  margin: 6px 0;
+}
+
+.ticket-info {
+  background: #f0f4ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.total-amount {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.note {
+  background: #fffbe6;
+  border-left: 4px solid #ffc107;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #001f3f;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.actions button:first-child {
+  background: #ddd;
+  color: black;
+}
+document.getElementById("confirmBtn").addEventListener("click", function () {
+  alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
+});
