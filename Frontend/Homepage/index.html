@@ -245,8 +245,23 @@
                     timeSlots.forEach(i => i.classList.remove('active'));
                     // Gán active cho cái được click
                     this.classList.add('active');
+
+                    // Lưu tên phim
+                    const movieTitle = document.querySelector('.app__calender-items-title')?.textContent.trim() || '';
+
+                    // Lưu suất chiếu (thời gian + ngày)
+                    const showDate = document.querySelector('.app__calender-title-date-date')?.textContent.trim() || '';
+                    const showTime = this.textContent.trim(); // ví dụ: "13:00"
+
+                    localStorage.setItem("movieTitle", movieTitle);
+                    localStorage.setItem("showTime", `${showDate} - ${showTime}`);
+
+                    // Điều hướng đến trang chọn ghế
+                    window.location.href = '../Checkout/book.html';
                 });
             });
+
+
             // Các phần cần ẩn
             const dateItems = document.querySelectorAll('.app__calender-date-items');
             const note = document.querySelector('.app__calender-note');
