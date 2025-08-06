@@ -8,9 +8,9 @@ document.getElementById("registerForm").addEventListener("submit", function(even
   const password = document.getElementById("password").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
 
-  // Kiểm tra rỗng và định dạng
+  // Kiểm tra dữ liệu
   if (!fullName || !gender || !phone.match(/^0\d{9}$/) || !username || !password || !confirmPassword) {
-    alert("Vui lòng điền đầy đủ thông tin và đúng định dạng.");
+    alert("Vui lòng điền đầy đủ và đúng định dạng.");
     return;
   }
 
@@ -24,16 +24,14 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     return;
   }
 
-  // Hiển thị thông tin tạm thời
   const resultHTML = `
     ✅ Đăng ký thành công!<br>
     👤 Họ tên: ${fullName}<br>
     🚻 Giới tính: ${gender}<br>
-    ☎️ SĐT: ${phone}<br>
+    ☎️ Số điện thoại: ${phone}<br>
     🧑‍💻 Tài khoản: ${username}
   `;
   document.getElementById("result").innerHTML = resultHTML;
 
-  // Reset form
   this.reset();
 });
