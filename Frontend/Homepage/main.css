@@ -1,9 +1,9 @@
 body {
     margin: 0;
     font-family: "Arial", sans-serif;
-    ;
 }
 
+/* Header */
 .header {}
 
 .header__nav__wp {
@@ -13,7 +13,6 @@ body {
 }
 
 .navbar {
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +32,7 @@ body {
     color: #7b8390;
 }
 
+/* Search */
 .nav__search {
     display: flex;
     align-items: center;
@@ -43,7 +43,6 @@ body {
     border-radius: 50px;
     background-color: #fff;
     color: #6c7a89;
-
 }
 
 .nav__search-icon {
@@ -65,25 +64,19 @@ body {
     color: #a0a4ab;
 }
 
-.nav__search-items:focus {
-    outline: none;
-}
-
 .nav__search:has(.nav__search-items:focus) {
     border: 1px solid rgb(78, 69, 247);
     box-shadow: 2px 2px 10px rgb(136, 129, 255);
 }
 
+/* Login */
 .nav__login {
     width: 50px;
     height: 50px;
     display: flex;
-    padding-right: 100px;
-    padding-top: 25px;
+    padding: 25px 100px 0 0;
     font-size: 15px;
     justify-content: center;
-
-
 }
 
 .nav__login-txt {
@@ -92,44 +85,33 @@ body {
 }
 
 .nav__login-icon {
-    color: black;
     width: 50px;
     height: 50px;
     margin-right: 10px;
     color: #a5aeb4;
 }
 
-/* Mua ve theo phim */
-.app{
+/* App Wrapper */
+.app {
     margin-bottom: 100px;
+    background-color: #fafbfd;
 }
+
+/* Mua vé theo phim */
 .app__movies {
     border-bottom: 2px solid #a5aeb4;
     padding-bottom: 100px;
 }
 
 .app__movies-wp {
-    margin-right: 250px;
-    margin-left: 250px;
+    margin: 0 250px;
     display: flex;
     justify-content: center;
 }
 
-.app__movies-items-img {
-    width: 100%;
-    height: 150px;
-    border-radius: 20px 20px 0 0;
-}
-
-.app__movies-title {
-    text-align: center;
-    padding: 30px;
-}
-
 .app__movies-items {
-    border: 1px solid #a5aeb4;
     width: 110px;
-    height: auto;
+    border: 1px solid #a5aeb4;
     border-radius: 10px;
     padding-bottom: 10px;
     margin-right: 20px;
@@ -140,6 +122,11 @@ body {
     width: 100%;
     height: 150px;
     border-radius: 10px 10px 0 0;
+}
+
+.app__movies-title {
+    text-align: center;
+    padding: 30px;
 }
 
 .app__movies-items-btn {
@@ -153,6 +140,7 @@ body {
 
 .app__movies-items-title,
 .app__movies-items-title-link {
+    display: block;
     padding-left: 2px;
     font-size: 15px;
     text-decoration: none;
@@ -160,75 +148,26 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
     width: 100%;
 }
 
-/* Mua ve theo rap */
+/* Mua vé theo rạp */
 .app__cinema-wp {
-    margin-left: 250px;
-    margin-right: 250px;
+    margin-left: 200px;
     display: flex;
 }
 
-/* Location */
-.app__cinema-location {
-    background-color: #edf2f8;
-    width: 300px;
-    height: auto;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 1px 1px 5px #a7b1c2;
-    margin-right: 50px;
-
-
-}
-
-.app__cinema-location-title {
-    font-weight: bold;
-    font-size: 20px;
-    margin-left: 20px;
-    color: #a7b1c2;
-}
-
-.app__cinema-location-list-wp {
-    background-color: white;
-    width: 100%;
-    height: 500px;
-
-}
-
-.app__cinema-location-list {
-    padding: 0;
-    margin: 0;
-}
-
-.app__cinema-location-list-items {
-    font-size: 15px;
-    list-style: none;
-    height: 50px;
-    border-bottom: 1px solid #a7b1c2;
-    padding: 15px;
-    color: #a7b1c2;
-    font-weight: bold;
-}
-
-.app__cinema-location-list-items:hover {
-    background-color: #2c7be4;
-    color: white;
-    font-weight: bold;
-}
-
-/*Cinema  */
+/* Location & Cinema Common Style */
+.app__cinema-location,
 .app__cinema-item {
     background-color: #edf2f8;
-    width: 300px;
-    height: auto;
+    width: 250px;
     border-radius: 10px 10px 0 0;
     box-shadow: 1px 1px 5px #a7b1c2;
     margin-right: 50px;
-
 }
 
+.app__cinema-location-title,
 .app__cinema-item-title {
     font-weight: bold;
     font-size: 20px;
@@ -236,55 +175,188 @@ body {
     color: #a7b1c2;
 }
 
+.app__cinema-location-list-wp,
 .app__cinema-item-list-wp {
     width: 100%;
     height: 500px;
     background-color: white;
 }
 
+.app__cinema-location-list,
 .app__cinema-item-list {
     padding: 0;
     margin: 0;
 }
 
+.app__cinema-location-list-items,
 .app__cinema-item-list-items {
-    font-size: 15px;
     list-style: none;
+    font-size: 15px;
     height: 50px;
-    border-bottom: 1px solid #a7b1c2;
     padding: 15px;
-    color: #a7b1c2;
+    border-bottom: 1px solid #a7b1c2;
     font-weight: bold;
+    color: #a7b1c2;
     background-color: white;
 }
 
+.app__cinema-location-list-items:hover,
 .app__cinema-item-list-items:hover {
     background-color: #2c7be4;
     color: white;
-    font-weight: bold;
 }
-/* Calender */
-.app__calender{
-    
-}
-/* Date */
-.app__calender-date {
-    width: 700px;
-    height: 80px;
+
+/* Calendar */
+.app__calender-date,
+.app__calender-note,
+.app__calender-title {
+    width: 600px;
     background-color: #edf2f8;
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    box-shadow: 1px 1px 5px #a7b1c2;
 }
+
+.app__calender-date {
+    height: 60px;
+}
+
+.app__calender-date-wp {
+    display: flex;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.app__calender-date-items {
+    width: 25%;
+    height: 60px;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b5c0ce;
+}
+
+.app__calender-date-items:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.app__calender-date-items:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.app__calender-date-items:hover {
+    background-color: #c7d6ed;
+}
+
 /* Note */
-.app__calender-note{
+.app__calender-note {
     height: 50px;
-    width: 700px;
     background-color: #f6c343;
-    margin-bottom: 15px;
     border-radius: 5px;
 }
+
+.app__calender-note-wp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__calender-note-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.app__calender-note-dec {
+    font-size: 15px;
+}
+
+/* Title */
+.app__calender-title {
+    height: 80px;
+}
+
+.app__calender-title-wp {
+    padding: 20px;
+}
+
+.app__calender-title-item1 {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.app__calender-title-items {
+    font-size: 13px;
+}
+
+.app__calender-title-date-date {
+    font-size: 15px;
+    color: #acb3c4;
+}
+
+/* Calendar Item */
+.app__calender-item {
+    width: 600px;
+    height: 300px;
+    margin-top: 10px;
+    box-shadow: 1px 1px 5px #a7b1c2;
+    display: flex;
+}
+
+.app__calender-items-wp {
+    padding-left: 20px;
+}
+
+.app__calender-item-img-wp {
+    padding: 50px 0 0 50px;
+}
+
+.app__calender-item-img {
+    width: 100px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.app__calender-items-title {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 50px 0 0 5px;
+}
+
+.app__calender-items-time-wp {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 50px 50px 0 5px;
+}
+
+.app__calender-items-time {
+    width: 80px;
+    height: 40px;
+    background-color: #edf2f8;
+    border-radius: 10px;
+    font-size: 15px;
+    margin: 0 30px 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 1px 1px 5px #a7b1c2;
+}
+
+.app__calender-items-time:hover {
+    background-color: #2c7be4;
+    color: white;
+}
+
+/* Utility */
+.flex {
+    display: flex;
+}
+
 /* Footer */
-.footer__wp{
+.footer__wp {
     width: 100%;
     height: 300px;
     background-color: black;
