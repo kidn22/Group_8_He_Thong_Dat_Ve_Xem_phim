@@ -168,10 +168,79 @@ form input {
     </div>
   </div>
 
-  <script src="script.js">document.getElementById("confirmBtn").addEventListener("click", function () {
-      alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
+ <script>
+  const selectedSeats = localStorage.getItem("selectedSeats");
+  const totalPrice = parseInt(localStorage.getItem("totalPrice")) || 0;
+  const fee = 3000;
+  const orderTable = document.querySelector(".order-summary tbody");
+
+  let standardCount = 0;
+  let vipCount = 0;
+  let standardTotal = 0;
+  let vipTotal = 0;
+
+  // Xóa dòng mẫu
+  orderTable.innerHTML = "";
+
+  if (selectedSeats) {
+    const seatsArray = selectedSeats.split(',');
+    seatsArray.forEach(seat => {
+      const isVIP = seat[0] === 'D' || seat[0] === 'E';
+      if (isVIP) {
+        vipCount++;
+        vipTotal += 90000;
+      } else {
+        standardCount++;
+        standardTotal += 60000;
+      }
     });
-  </script>
+
+    // Thêm hàng Standard nếu có
+    if (standardCount > 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>Standard</td><td>${standardCount}</td><td>${standardTotal.toLocaleString()} đ</td>`;
+      orderTable.appendChild(row);
+    }
+
+    // Thêm hàng VIP nếu có
+    if (vipCount > 0) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>VIP</td><td>${vipCount}</td><td>${vipTotal.toLocaleString()} đ</td>`;
+      orderTable.appendChild(row);
+    }
+  }
+
+  // Thêm phí tiện ích
+  const feeRow = document.createElement("tr");
+  feeRow.innerHTML = `<td>Phí tiện ích</td><td></td><td>${fee.toLocaleString()} đ</td>`;
+  orderTable.appendChild(feeRow);
+
+  // Thêm tổng cộng
+  const finalTotal = standardTotal + vipTotal + fee;
+  const totalRow = document.createElement("tr");
+  totalRow.classList.add("total");
+  totalRow.innerHTML = `<td>Tổng</td><td></td><td>${finalTotal.toLocaleString()} đ</td>`;
+  orderTable.appendChild(totalRow);
+
+  // Cập nhật phần thông tin ghế bên dưới
+  const ticketInfo = document.querySelector(".ticket-info p");
+  if (selectedSeats) {
+    ticketInfo.innerHTML = `<strong>Mang Mẹ Đi Bộ</strong><br>
+      Beta Trần Quang Khải<br>
+      Suất <strong>17:15 06/08/2025</strong><br>
+      Phòng chiếu <strong>P2</strong> – Ghế <strong>${selectedSeats}</strong>`;
+  }
+
+  // Tổng tiền dưới cùng
+  document.querySelector(".total-amount strong").innerText = finalTotal.toLocaleString() + " đ";
+
+  // Sau khi xác nhận, xóa dữ liệu localStorage
+  document.getElementById("confirmBtn").addEventListener("click", function () {
+    alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
+    localStorage.removeItem("selectedSeats");
+    localStorage.removeItem("totalPrice");
+  });
+  </script> 
 </body>
 
 </html>
