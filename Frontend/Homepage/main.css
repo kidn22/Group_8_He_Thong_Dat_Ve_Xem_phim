@@ -4,13 +4,13 @@ body {
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    height: 70px;
-    border-bottom: 2px solid #e5eaee;
-    margin-left: 250px;
-    margin-right: 250px;
 
+}
+
+.header__nav__wp {
+    border-bottom: 2px solid #e5eaee;
+    display: flex;
+    justify-content: space-around;
 }
 
 .navbar {
@@ -99,4 +99,3 @@ body {
     margin-right: 10px;
     color: #a5aeb4;
 }
-
