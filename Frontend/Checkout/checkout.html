@@ -1,77 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <title>Thanh Toán Vé</title>
   <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <h2>Tóm tắt đơn hàng</h2>
-    <table class="order-summary">
-      <thead>
-        <tr>
-          <th>MÔ TẢ</th>
-          <th>SỐ LƯỢNG</th>
-          <th>THÀNH TIỀN</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Standard</td>
-          <td>1</td>
-          <td>60.000 đ</td>
-        </tr>
-        <tr>
-          <td>Phí tiện ích</td>
-          <td></td>
-          <td>3.000 đ</td>
-        </tr>
-        <tr class="total">
-          <td>Tổng</td>
-          <td></td>
-          <td>63.000 đ</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2>Thông tin cá nhân</h2>
-    <form id="infoForm">
-      <input type="text" placeholder="* Họ và tên" required>
-      <input type="tel" placeholder="* Số điện thoại" required>
-      <input type="email" placeholder="Email">
-    </form>
-
-    <h2>Hình thức thanh toán</h2>
-    <div class="payment-methods">
-      <label><input type="radio" name="payment" checked> Chuyển khoản / Quét mã QR</label>
-      <label><input type="radio" name="payment"> Ví MoMo</label>
-      <label><input type="radio" name="payment"> Thẻ ATM / Thẻ quốc tế</label>
-    </div>
-
-    <div class="ticket-info">
-      <p><strong>Mang Mẹ Đi Bộ</strong><br>
-      Beta Trần Quang Khải<br>
-      Suất <strong>17:15 06/08/2025</strong><br>
-      Phòng chiếu <strong>P2</strong> – Ghế <strong>B7</strong></p>
-      <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>63.000 đ</strong></div>
-    </div>
-
-    <div class="note">
-      Vé đã mua không thể đổi hoặc hoàn tiền.<br>
-      Mã vé sẽ được gửi 01 lần qua số điện thoại và email đã nhập. Vui lòng kiểm tra lại thông tin trước khi tiếp tục.
-    </div>
-
-    <div class="actions">
-      <button onclick="history.back()">←</button>
-      <button id="confirmBtn">Xác nhận</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
-body {
+  <style>
+    body {
   font-family: Arial, sans-serif;
   background: #f7faff;
   margin: 0;
@@ -166,6 +101,77 @@ form input {
   background: #ddd;
   color: black;
 }
-document.getElementById("confirmBtn").addEventListener("click", function () {
-  alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
-});
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Tóm tắt đơn hàng</h2>
+    <table class="order-summary">
+      <thead>
+        <tr>
+          <th>MÔ TẢ</th>
+          <th>SỐ LƯỢNG</th>
+          <th>THÀNH TIỀN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Standard</td>
+          <td>1</td>
+          <td>60.000 đ</td>
+        </tr>
+        <tr>
+          <td>Phí tiện ích</td>
+          <td></td>
+          <td>3.000 đ</td>
+        </tr>
+        <tr class="total">
+          <td>Tổng</td>
+          <td></td>
+          <td>63.000 đ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Thông tin cá nhân</h2>
+    <form id="infoForm">
+      <input type="text" placeholder="* Họ và tên" required>
+      <input type="tel" placeholder="* Số điện thoại" required>
+      <input type="email" placeholder="Email">
+    </form>
+
+    <h2>Hình thức thanh toán</h2>
+    <div class="payment-methods">
+      <label><input type="radio" name="payment" checked> Chuyển khoản / Quét mã QR</label>
+      <label><input type="radio" name="payment"> Ví MoMo</label>
+      <label><input type="radio" name="payment"> Thẻ ATM / Thẻ quốc tế</label>
+    </div>
+
+    <div class="ticket-info">
+      <p><strong>Mang Mẹ Đi Bộ</strong><br>
+        Beta Trần Quang Khải<br>
+        Suất <strong>17:15 06/08/2025</strong><br>
+        Phòng chiếu <strong>P2</strong> – Ghế <strong>B7</strong></p>
+      <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>63.000 đ</strong></div>
+    </div>
+
+    <div class="note">
+      Vé đã mua không thể đổi hoặc hoàn tiền.<br>
+      Mã vé sẽ được gửi 01 lần qua số điện thoại và email đã nhập. Vui lòng kiểm tra lại thông tin trước khi tiếp tục.
+    </div>
+
+    <div class="actions">
+      <button onclick="history.back()">←</button>
+      <button id="confirmBtn">Xác nhận</button>
+    </div>
+  </div>
+
+  <script src="script.js">document.getElementById("confirmBtn").addEventListener("click", function () {
+      alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
+    });
+  </script>
+</body>
+
+</html>
