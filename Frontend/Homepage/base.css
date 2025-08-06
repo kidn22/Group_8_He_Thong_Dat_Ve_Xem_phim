@@ -1,0 +1,28 @@
+/* COLOR TEXT */
+:root{
+    --white-color: #fff;
+    --black-color: #000;
+    --text-light: #333;
+}
+*{
+    box-sizing: inherit;
+}
+html{
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+.grid{
+    width: 1400px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+.grid-full-width{
+    width: 100%;
+}
+.grid-row{
+    display: flex;
+    flex-wrap: wrap;
+}
