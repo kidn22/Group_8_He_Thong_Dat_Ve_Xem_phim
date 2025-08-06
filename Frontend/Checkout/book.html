@@ -88,15 +88,13 @@
     <div class="seats" id="seats"></div>
     <div class="order-summary">
       <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
-      <a href="checkout.html"> <button class="btn">Tiếp tục</button></a>
+      <a href="checkout.html"><button class="btn" id="nextBtn">Tiếp tục</button></a>
     </div>
   </div>
 
   <script>
     const seatContainer = document.getElementById("seats");
     const totalDisplay = document.getElementById("total");
-    const selectedSeatsInput = document.getElementById("selectedSeatsInput");
-    const totalInput = document.getElementById("totalInput");
     const rows = ['A', 'B', 'C', 'D', 'E'];
     const cols = 10;
     let selectedSeats = [];
@@ -114,8 +112,6 @@
         total += getSeatPrice(row);
       });
       totalDisplay.innerText = total.toLocaleString();
-      totalInput.value = total;
-      selectedSeatsInput.value = selectedSeats.join(',');
     }
 
     rows.forEach((row) => {
@@ -125,16 +121,15 @@
         seat.classList.add("seat");
         seat.dataset.name = seatName;
 
-        if (row === 'D' || row === 'E') {
-          seat.classList.add("vip");
-        }
-
+        if (row === 'D' || row === 'E') seat.classList.add("vip");
         if (soldSeats.includes(seatName)) {
           seat.classList.add("sold");
           seat.innerText = "X";
         }
 
         seat.addEventListener("click", () => {
+          if (seat.classList.contains("sold")) return;
+
           if (seat.classList.contains("selected")) {
             seat.classList.remove("selected");
             seat.innerText = "";
@@ -149,6 +144,12 @@
 
         seatContainer.appendChild(seat);
       }
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", function () {
+      localStorage.setItem("selectedSeats", selectedSeats.join(','));
+      const total = selectedSeats.reduce((sum, seat) => sum + getSeatPrice(seat[0]), 0);
+      localStorage.setItem("totalPrice", total);
     });
   </script>
 </body>
