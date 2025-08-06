@@ -198,6 +198,7 @@ body {
     font-weight: bold;
     color: #a7b1c2;
     background-color: white;
+    cursor: pointer;
 }
 
 
@@ -303,14 +304,16 @@ body {
     height: auto;
     margin-top: 10px;
 }
-.app__calender-item-wp{
+
+.app__calender-item-wp {
     display: flex;
     box-shadow: 1px 1px 5px #a7b1c2;
     padding-bottom: 30px;
 }
+
 .app__calender-items-wp {
     padding-left: 50px;
-    
+
 }
 
 .app__calender-item-img-wp {
@@ -330,10 +333,12 @@ body {
     padding-top: 20px;
 
 }
-.app__calender-items-dec{
+
+.app__calender-items-dec {
     padding-top: 10px;
     color: #c1cad5;
 }
+
 .app__calender-items-time-wp {
     display: flex;
     flex-wrap: wrap;
@@ -344,7 +349,7 @@ body {
     width: 50px;
     height: 30px;
     background-color: #edf2f8;
-    
+    cursor: pointer;
     font-size: 12px;
     margin-right: 20px;
     display: flex;
@@ -370,17 +375,25 @@ body {
     height: 300px;
     background-color: black;
 }
+
 /* Hành Động */
 .app__cinema-item,
 .app__calender {
     display: none;
 }
+
 .app__cinema-location-list-items.active {
     background-color: #2c7be4;
     color: white;
 }
+
 /* Rạp được chọn */
 .app__cinema-item-list-items.active {
+    background-color: #2c7be4;
+    color: white;
+}
+
+.app__calender-items-time.active {
     background-color: #2c7be4;
     color: white;
 }

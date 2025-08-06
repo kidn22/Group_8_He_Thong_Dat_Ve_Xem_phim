@@ -86,9 +86,9 @@
                     <h3 class="app__cinema-location-title">Khu vuc</h3>
                     <ul class="app__cinema-location-list">
                         <div class="app__cinema-location-list-wp">
-                            <li class="app__cinema-location-list-items app__cinema-location-list-items.active">Tp.Ho Chi Minh</li>
-                            <li class="app__cinema-location-list-items app__cinema-location-list-items.active">Ha Noi</li>
-                            <li class="app__cinema-location-list-items app__cinema-location-list-items.active">Tien Giang</li>
+                            <li class="app__cinema-location-list-items">Tp.Ho Chi Minh</li>
+                            <li class="app__cinema-location-list-items">Ha Noi</li>
+                            <li class="app__cinema-location-list-items">Tien Giang</li>
                         </div>
                     </ul>
                 </div>
@@ -97,9 +97,9 @@
                     <h3 class="app__cinema-item-title">CGV</h3>
                     <ul class="app__cinema-item-list">
                         <div class="app__cinema-item-list-wp">
-                            <li class="app__cinema-item-list-items app__cinema-item-list-items.active ">Ung Van Khiem</li>
-                            <li class="app__cinema-item-list-items app__cinema-item-list-items.active ">Bui Dinh Tuy</li>
-                            <li class="app__cinema-item-list-items app__cinema-item-list-items.active ">Quang Trung</li>
+                            <li class="app__cinema-item-list-items ">Ung Van Khiem</li>
+                            <li class="app__cinema-item-list-items ">Bui Dinh Tuy</li>
+                            <li class="app__cinema-item-list-items ">Quang Trung</li>
                         </div>
                     </ul>
                 </div>
@@ -193,7 +193,7 @@
         const cinemaItem = document.querySelector('.app__cinema-item');
         const calendar = document.querySelector('.app__calender');
         const cinemaListItems = document.querySelectorAll('.app__cinema-item-list-items');
-
+       
         // Ẩn rạp & lịch chiếu ban đầu
         cinemaItem.style.display = 'none';
         calendar.style.display = 'none';
@@ -223,6 +223,17 @@
 
                 // Hiện lịch chiếu
                 calendar.style.display = 'block';
+            });
+        });
+        //Click vao time
+        const timeSlots = document.querySelectorAll('.app__calender-items-time');
+
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function () {
+                // Bỏ active tất cả
+                timeSlots.forEach(i => i.classList.remove('active'));
+                // Gán active cho cái được click
+                this.classList.add('active');
             });
         });
     });
