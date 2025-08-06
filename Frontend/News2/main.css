@@ -1,127 +1,142 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-  background-color: #f0f2f5;
-  padding: 30px;
-  color: #333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f5f7fa;
+    color: #333; 
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
 }
 
 .container {
-  display: flex;
-  gap: 25px;
-  max-width: 1200px;
-  margin: auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 30px;
 }
 
-/* Cột trái - nội dung chính */
 .main-content {
-  flex: 3;
+    flex: 3;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.main-content h2 {
-  font-size: 26px;
-  margin-bottom: 20px;
-  color: #111;
-}
-
-/* Review Card */
-.review-card {
-  display: flex;
-  background-color: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.review-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-
-.review-card img {
-  width: 180px;
-  height: 120px;
-  object-fit: cover;
-}
-
-.review-text {
-  padding: 15px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.review-text h3 {
-  font-size: 18px;
-  color: #222;
-  margin-bottom: 6px;
-  line-height: 1.4;
-  transition: color 0.2s;
-}
-
-.review-text h3:hover {
-  color: #007bff;
-  cursor: pointer;
-}
-
-.review-text .author {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 8px;
-}
-
-.review-text p {
-  font-size: 14px;
-  color: #444;
-  line-height: 1.5;
-}
-
-/* Cột phải - sidebar */
 .sidebar {
-  flex: 1;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.sidebar h2 {
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #111;
+h2, .sidebar h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50; 
+    border-bottom: 3px solid #3498db; 
+    padding-bottom: 10px;
+    margin-bottom: 25px;
 }
 
-.sidebar ul {
-  list-style: none;
+.sidebar h3 {
+    font-size: 1.4rem;
+    border-bottom-style: dashed;
+    border-color: #ecf0f1; 
+    color: #7f8c8d; 
 }
 
-.sidebar li {
-  margin-bottom: 18px;
-  padding-left: 5px;
-  border-left: 4px solid transparent;
-  transition: border-color 0.2s;
+.article-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.sidebar li:hover {
-  border-left: 4px solid #007bff;
+.article-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
 }
 
-.sidebar strong {
-  font-size: 16px;
-  color: #007bff;
-  display: block;
-  margin-bottom: 5px;
+.article-item:last-child {
+    border-bottom: none;
 }
 
-.sidebar span {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
+.article-item .image {
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+.article-item .content h4 {
+    font-size: 1.2rem;
+    margin: 0 0 5px 0;
+    color: #2980b9; 
+}
+
+.article-item .content h4 a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+.article-item .content h4 a:hover {
+    color: #3498db;
+}
+
+.article-item .content .meta {
+    font-size: 0.9rem;
+    color: #7f8c8d; 
+    margin-bottom: 10px;
+}
+
+.article-item .content p {
+    margin: 0;
+    color: #666;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-nav li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.sidebar-nav li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: #34495e;
+    font-weight: 500;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+    color: #3498db;
+}
+
+.sidebar-nav p {
+    font-size: 0.9rem;
+    color: #95a5a6;
+    margin: 5px 0 0 0;
+    padding-left: 10px;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .main-content, .sidebar {
+        padding: 20px;
+    }
 }
