@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,18 +88,19 @@
     <div class="seats" id="seats"></div>
     <div class="order-summary">
       <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
-      <button class="btn">Tiếp tục</button>
+      <a href="checkout.html"> <button class="btn">Tiếp tục</button></a>
     </div>
   </div>
 
   <script>
     const seatContainer = document.getElementById("seats");
     const totalDisplay = document.getElementById("total");
+    const selectedSeatsInput = document.getElementById("selectedSeatsInput");
+    const totalInput = document.getElementById("totalInput");
     const rows = ['A', 'B', 'C', 'D', 'E'];
     const cols = 10;
     let selectedSeats = [];
 
-    // Danh sách ghế đã bán
     const soldSeats = ['C4', 'D5', 'E6'];
 
     function getSeatPrice(row) {
@@ -113,6 +114,8 @@
         total += getSeatPrice(row);
       });
       totalDisplay.innerText = total.toLocaleString();
+      totalInput.value = total;
+      selectedSeatsInput.value = selectedSeats.join(',');
     }
 
     rows.forEach((row) => {
@@ -122,12 +125,10 @@
         seat.classList.add("seat");
         seat.dataset.name = seatName;
 
-        // VIP ghế D và E
         if (row === 'D' || row === 'E') {
           seat.classList.add("vip");
         }
 
-        // Ghế đã bán
         if (soldSeats.includes(seatName)) {
           seat.classList.add("sold");
           seat.innerText = "X";
