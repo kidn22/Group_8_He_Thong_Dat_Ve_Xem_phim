@@ -30,7 +30,7 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-h2, .sidebar h3 {
+h2 {
     font-size: 1.8rem;
     font-weight: 700;
     color: #2c3e50; 
@@ -44,6 +44,7 @@ h2, .sidebar h3 {
     border-bottom-style: dashed;
     border-color: #ecf0f1; 
     color: #7f8c8d; 
+    margin-bottom: 25px;
 }
 
 .article-list {
@@ -57,18 +58,30 @@ h2, .sidebar h3 {
     align-items: flex-start;
     padding: 20px 0;
     border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s ease;
 }
 
-.article-item:last-child {
+.article-item:last-child a {
     border-bottom: none;
 }
 
-.article-item .image {
-    width: 100px;
-    height: auto;
+.article-item a:hover {
+    background-color: #fafbfd; 
+}
+
+.article-item a .image {
+    width: 120px;
+    height: 90px;
     object-fit: cover;
     border-radius: 4px;
     margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.article-item .content {
+    flex-grow: 1;
 }
 
 .article-item .content h4 {
