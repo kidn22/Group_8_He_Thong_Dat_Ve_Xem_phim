@@ -1,3 +1,4 @@
+/* Giữ nguyên CSS như cũ */
 body {
   font-family: Arial, sans-serif;
   background: #f4f8fb;
@@ -6,56 +7,51 @@ body {
 }
 
 .container {
-  width: 100%;
   max-width: 400px;
   margin: 50px auto;
-  padding: 20px 25px;
-  background: white;
+  background: #fff;
+  padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
 }
 
 label {
   display: block;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  font-weight: bold;
+  margin: 10px 0 5px;
 }
 
 input, select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
   font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 button {
   width: 100%;
   margin-top: 20px;
-  padding: 10px;
+  padding: 12px;
   background-color: #2196f3;
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 6px;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #0b7dda;
+  background-color: #1976d2;
 }
 
 .result {
   margin-top: 20px;
-  color: green;
   font-weight: bold;
+  color: green;
   text-align: center;
 }

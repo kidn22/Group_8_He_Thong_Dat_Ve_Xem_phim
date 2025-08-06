@@ -1,25 +1,39 @@
 document.getElementById("registerForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Ngăn submit thật
+  event.preventDefault();
 
   const fullName = document.getElementById("fullName").value.trim();
   const gender = document.getElementById("gender").value;
   const phone = document.getElementById("phone").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
 
-  // Kiểm tra dữ liệu đầu vào
-  if (!fullName || !gender || !phone.match(/^0\d{9}$/)) {
-    alert("Vui lòng nhập đầy đủ và đúng định dạng!");
+  // Kiểm tra rỗng và định dạng
+  if (!fullName || !gender || !phone.match(/^0\d{9}$/) || !username || !password || !confirmPassword) {
+    alert("Vui lòng điền đầy đủ thông tin và đúng định dạng.");
     return;
   }
 
-  // Hiển thị kết quả tạm thời (ở thực tế sẽ gửi đến server)
-  const result = `
+  if (password.length < 6) {
+    alert("Mật khẩu phải có ít nhất 6 ký tự.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Mật khẩu và xác nhận mật khẩu không khớp.");
+    return;
+  }
+
+  // Hiển thị thông tin tạm thời
+  const resultHTML = `
     ✅ Đăng ký thành công!<br>
     👤 Họ tên: ${fullName}<br>
     🚻 Giới tính: ${gender}<br>
-    ☎️ Số điện thoại: ${phone}
+    ☎️ SĐT: ${phone}<br>
+    🧑‍💻 Tài khoản: ${username}
   `;
-  document.getElementById("result").innerHTML = result;
+  document.getElementById("result").innerHTML = resultHTML;
 
   // Reset form
-  document.getElementById("registerForm").reset();
+  this.reset();
 });
