@@ -6,6 +6,7 @@ body {
 }
 
 .container {
+  display: flex;
   max-width: 1200px;
   margin: auto;
   gap: 20px;
@@ -77,27 +78,4 @@ body {
   text-decoration: none;
   color: #0ea5e9;
   font-weight: bold;
-}
-.right {
-    width: 30%;
-    float: right;
-    background-color: #f5f9fc;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.menu {
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-.menu h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.menu p {
-    margin: 5px 0 0;
-    color: #666;
 }
