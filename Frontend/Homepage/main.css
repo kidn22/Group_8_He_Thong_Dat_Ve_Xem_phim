@@ -98,59 +98,121 @@ body {
 }
 
 /* MUA VÉ THEO PHIM */
+/* MUA VÉ THEO PHIM */
 .app__movies {
-    padding-bottom: 100px;
-    border-bottom: 2px solid #a5aeb4;
+    padding: 50px 0;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.app__movies-title {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.app__movies-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #dc3545;
+    border-radius: 2px;
 }
 
 .app__movies-wp {
     display: flex;
     justify-content: center;
-    margin: 0 250px;
+    flex-wrap: wrap;
+    gap: 20px; /* Giảm khoảng cách để các mục gần nhau hơn */
+    padding: 0 30px;
 }
 
 .app__movies-items {
-    width: 110px;
-    margin-right: 20px;
-    border: 1px solid #a5aeb4;
-    border-radius: 10px;
-    padding-bottom: 10px;
+    width: 180px; /* Thu nhỏ chiều rộng */
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.app__movies-items:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .app__movies-items-img {
     width: 100%;
-    height: 150px;
+    height: 250px; /* Thu nhỏ chiều cao */
+    object-fit: cover;
     display: block;
-    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.app__movies-title {
-    text-align: center;
-    padding: 30px;
+.app__movies-items-dec {
+    padding: 15px; /* Giảm padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.app__movies-items-btn {
-    width: 100%;
-    height: 20px;
-    background-color: #d31602;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.app__movies-items-title,
-.app__movies-items-title-link {
-    display: block;
-    width: 100%;
-    padding-left: 2px;
-    font-size: 15px;
-    color: black;
-    text-decoration: none;
+.app__movies-items-title {
+    font-size: 16px; /* Thu nhỏ kích thước tiêu đề */
+    font-weight: 600;
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.app__movies-items-btn {
+    width: 100%;
+    height: 40px; /* Thu nhỏ chiều cao button */
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.app__movies-items-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.03);
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .app__movies-items {
+        width: calc(50% - 10px);
+    }
+}
+
+/* Responsive cho màn hình rất nhỏ */
+@media (max-width: 480px) {
+    .app__movies-items {
+        width: 100%;
+    }
+}
 /* MUA VÉ THEO RẠP */
 .app__cinema-wp {
     display: flex;

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Hệ thống Phim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        /* CSS cho toàn bộ body và font-family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* CSS cho sidebar item đang active */
+        .danhmuc__items.active {
+            background-color: #34495e;
+            font-weight: bold;
+            color: #e67e22;
+            border-left-color: #e67e22;
+        }
+
+        /* Ẩn các phần nội dung mặc định */
+        .content-section {
+            display: none;
+        }
+
+        /* Hiển thị phần nội dung đang active */
+        .content-section.active {
+            display: block;
+        }
+
+        /* CSS cho modal */
+        .modal-overlay {
+            display: none;
+            /* Mặc định ẩn */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* CSS cho tab tin tức đang active */
+        .tintuc-tab.active {
+            border-bottom: 3px solid #e67e22;
+            color: #e67e22;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="flex min-h-screen">
+        <div class="danhmuc bg-gray-800 text-gray-100 w-64 pt-8 shadow-lg">
+            <div class="px-6">
+                <h1 class="text-3xl font-bold text-center mb-10 text-orange-400">Kidin</h1>
+                <div class="danhmuc__items-wp">
+                    <div class="danhmuc__items py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors duration-200 rounded-lg active"
+                        data-content="phim">
+                        <i class="fas fa-video mr-3"></i>Quản lí Phim Ảnh
+                    </div>
+                    <div class="danhmuc__items py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors duration-200 rounded-lg"
+                        data-content="doanhthu">
+                        <i class="fas fa-chart-line mr-3"></i>Quản lí Doanh Thu
+                    </div>
+                    <div class="danhmuc__items py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors duration-200 rounded-lg"
+                        data-content="taikhoan">
+                        <i class="fas fa-users-cog mr-3"></i>Quản lí Tài khoản
+                    </div>
+                    <div class="danhmuc__items py-4 px-6 cursor-pointer hover:bg-gray-700 transition-colors duration-200 rounded-lg"
+                        data-content="tintuc">
+                        <i class="fas fa-newspaper mr-3"></i>Quản lí Tin Tức
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 p-10">
+
+            <div class="content-section active" id="phim">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-10 border-b-2 pb-4">Quản lí Phim Ảnh</h1>
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Thông tin phim mới</h2>
+                        <section class="mb-6 space-y-4">
+                            <div>
+                                <label for="tenPhim" class="block font-medium text-gray-700">Tên Phim</label>
+                                <input type="text" id="tenPhim"
+                                    class="sec__1-input w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label for="ngayChieu" class="block font-medium text-gray-700">Ngày Chiếu</label>
+                                <input type="date" id="ngayChieu"
+                                    class="sec__1-date w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </section>
+                        <section class="mb-6">
+                            <h2
+                                class="text-xl font-medium mb-3 flex items-center justify-between cursor-pointer toggle-heading">
+                                Chọn Giờ Chiếu
+                                <i class="fas fa-chevron-down arrow-icon transition-transform duration-300"></i>
+                            </h2>
+                            <div class="time-grid-wrapper transition-all duration-300 overflow-hidden collapsed">
+                                <div
+                                    class="time-grid flex flex-wrap gap-2 max-h-64 overflow-y-auto p-2 border rounded-lg bg-gray-50">
+                                </div>
+                            </div>
+                        </section>
+                        <section class="mb-6 space-y-4">
+                            <h2 class="text-xl font-medium mb-3">Chọn Rạp Phim & Địa Chỉ</h2>
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="flex-1">
+                                    <label for="cinema-select" class="block font-medium text-gray-700">Rạp</label>
+                                    <select
+                                        class="cinema-select w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        <option value="">-- Chọn Rạp --</option>
+                                        <option value="CGV">CGV</option>
+                                        <option value="Beta Cinema">Beta Cinema</option>
+                                        <option value="Cinestar">Cinestar</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label for="address-select" class="block font-medium text-gray-700">Địa Chỉ</label>
+                                    <select
+                                        class="address-select w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                        <option value="">-- Chọn Địa Chỉ --</option>
+                                        <option value="Ung Văn Khiêm">Ung Văn Khiêm</option>
+                                        <option value="Quang Trung">Quang Trung</option>
+                                        <option value="Bùi Đình Túy">Bùi Đình Túy</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="mb-6">
+                            <h2 class="text-xl font-medium mb-3">Chọn Ảnh Phim</h2>
+                            <input type="file" id="file-input" accept="image/*" class="w-full p-3 border rounded-lg">
+                        </section>
+                        <div class="flex justify-end">
+                            <button
+                                class="btn-add bg-green-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-600 transition-colors duration-200">Thêm
+                                Phim</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Danh Sách Phim</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="py-3 px-6">Tên Phim</th>
+                                        <th scope="col" class="py-3 px-6">Ngày Chiếu</th>
+                                        <th scope="col" class="py-3 px-6">Giờ Chiếu</th>
+                                        <th scope="col" class="py-3 px-6">Rạp</th>
+                                        <th scope="col" class="py-3 px-6">Địa Chỉ</th>
+                                        <th scope="col" class="py-3 px-6">Ảnh</th>
+                                        <th scope="col" class="py-3 px-6">Hành Động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="movie-list" class="divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="doanhthu">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-10 border-b-2 pb-4">Quản lí Doanh Thu</h1>
+                <div class="bg-white p-8 rounded-xl shadow-lg mb-8">
+                    <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Bộ Lọc</h2>
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <div>
+                            <label for="date-filter" class="block font-medium text-gray-700">Chọn Ngày:</label>
+                            <input type="date" id="date-filter"
+                                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="movie-filter" class="block font-medium text-gray-700">Chọn Phim:</label>
+                            <select id="movie-filter"
+                                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="all">Tất cả</option>
+                            </select>
+                        </div>
+                        <button
+                            class="btn-filter bg-blue-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-200 mt-6 md:mt-0">Lọc</button>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Báo Cáo Doanh Thu</h2>
+                    <div class="flex flex-col lg:flex-row gap-6 mb-8">
+                        <div class="summary-card bg-gray-100 p-6 rounded-lg flex-1 text-center">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">Tổng Doanh Thu</h3>
+                            <p id="total-revenue" class="text-4xl font-bold text-green-600">0 VND</p>
+                        </div>
+                        <div class="summary-card bg-gray-100 p-6 rounded-lg flex-1 text-center">
+                            <h3 class="text-xl font-semibold text-gray-700 mb-2">Tổng Vé Đã Bán</h3>
+                            <p id="total-tickets" class="text-4xl font-bold text-blue-600">0</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="py-3 px-6">Tên Phim</th>
+                                    <th scope="col" class="py-3 px-6">Ngày Chiếu</th>
+                                    <th scope="col" class="py-3 px-6">Tổng Vé Bán</th>
+                                    <th scope="col" class="py-3 px-6">Tổng Doanh Thu</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doanhthu-list" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="taikhoan">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-10 border-b-2 pb-4">Quản lí Tài khoản</h1>
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Thêm tài khoản mới</h2>
+                        <form id="add-account-form" class="space-y-4">
+                            <div>
+                                <label for="username" class="block font-medium text-gray-700">Tên đăng nhập</label>
+                                <input type="text" id="username"
+                                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Nhập tên đăng nhập" required>
+                            </div>
+                            <div>
+                                <label for="password" class="block font-medium text-gray-700">Mật khẩu</label>
+                                <input type="password" id="password"
+                                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Nhập mật khẩu" required>
+                            </div>
+                            <div>
+                                <label for="role" class="block font-medium text-gray-700">Phân quyền</label>
+                                <select id="role"
+                                    class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="user">Người dùng</option>
+                                    <option value="admin">Quản trị viên</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                    class="bg-blue-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-blue-600 transition-colors duration-200">Thêm
+                                    tài khoản</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                        <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Danh sách tài khoản</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="py-3 px-6">Tên đăng nhập</th>
+                                        <th scope="col" class="py-3 px-6">Phân quyền</th>
+                                        <th scope="col" class="py-3 px-6">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="account-list" class="divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="tintuc">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-10 border-b-2 pb-4">Quản lí Tin Tức</h1>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="flex border-b border-gray-200 mb-6">
+                        <button
+                            class="tintuc-tab py-4 px-6 text-gray-600 hover:text-orange-400 focus:outline-none active"
+                            data-tab="tintuc1">Quản lí Tin Tức 1</button>
+                        <button class="tintuc-tab py-4 px-6 text-gray-600 hover:text-orange-400 focus:outline-none"
+                            data-tab="tintuc2">Quản lí Tin Tức 2</button>
+                    </div>
+
+                    <div id="tintuc1" class="tintuc-content active">
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                                <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Thêm Tin Tức 1</h2>
+                                <form id="add-news1-form" class="space-y-4">
+                                    <div>
+                                        <label for="news1-title" class="block font-medium text-gray-700">Tiêu đề</label>
+                                        <input type="text" id="news1-title"
+                                            class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập tiêu đề tin tức" required>
+                                    </div>
+                                    <div>
+                                        <label for="news1-content" class="block font-medium text-gray-700">Nội
+                                            dung</label>
+                                        <textarea id="news1-content" rows="4"
+                                            class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Nhập nội dung tin tức" required></textarea>
+                                    </div>
+                                    <div>
+                                        <label for="news1-image" class="block font-medium text-gray-700">Ảnh tin
+                                            tức</label>
+                                        <input type="file" id="news1-image" accept="image/*"
+                                            class="w-full p-3 border rounded-lg">
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button type="submit"
+                                            class="bg-green-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-600 transition-colors duration-200">Thêm
+                                            Tin Tức</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                                <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Danh sách Tin Tức 1</h2>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left text-gray-500">
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="py-3 px-6">Tiêu đề</th>
+                                                <th scope="col" class="py-3 px-6">Nội dung</th>
+                                                <th scope="col" class="py-3 px-6">Ảnh</th>
+                                                <th scope="col" class="py-3 px-6">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tintuc1-list" class="divide-y divide-gray-200">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tintuc2" class="tintuc-content" style="display:none;">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                            <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Thêm Tin Tức 2</h2>
+                            <form id="add-news2-form" class="space-y-4">
+                                <div>
+                                    <label for="news2-title" class="block font-medium text-gray-700">Tiêu đề</label>
+                                    <input type="text" id="news2-title"
+                                        class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Nhập tiêu đề tin tức" required>
+                                </div>
+                                <div>
+                                    <label for="news2-content" class="block font-medium text-gray-700">Nội
+                                        dung</label>
+                                    <textarea id="news2-content" rows="4"
+                                        class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Nhập nội dung tin tức" required></textarea>
+                                </div>
+                                <div>
+                                    <label for="news2-image" class="block font-medium text-gray-700">Ảnh tin
+                                        tức</label>
+                                    <input type="file" id="news2-image" accept="image/*"
+                                        class="w-full p-3 border rounded-lg">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="bg-green-500 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-600 transition-colors duration-200">Thêm
+                                        Tin Tức</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg flex-1">
+                            <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Danh sách Tin Tức 2</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left text-gray-500">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="py-3 px-6">Tiêu đề</th>
+                                            <th scope="col" class="py-3 px-6">Nội dung</th>
+                                            <th scope="col" class="py-3 px-6">Ảnh</th>
+                                            <th scope="col" class="py-3 px-6">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tintuc2-list" class="divide-y divide-gray-200">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="custom-modal" class="modal-overlay">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4">
+            <h3 id="modal-title" class="text-xl font-bold mb-4"></h3>
+            <p id="modal-message" class="text-gray-700 mb-6"></p>
+            <div id="modal-buttons" class="flex justify-end space-x-4">
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="phimanh.js"></script>
+    <script src="doanhthu.js"></script>
+    <script src="account.js"></script>
+    <script src="tintuc.js"></script>
+</body>
+
+</html>
