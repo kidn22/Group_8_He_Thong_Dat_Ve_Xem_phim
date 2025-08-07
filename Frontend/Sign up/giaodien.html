@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng Ký Tài Khoản</title>
+  <link rel="stylesheet" href="makeup.css">
+  <link rel="stylesheet" href="xulydulieu.js">
+</head>
+<body>
+  
+  <div class="container">
+    <h2>Đăng Ký Tài Khoản</h2>
+    <form id="registerForm">
+      <label for="fullName">Họ và Tên:</label>
+      <input type="text" id="fullName" name="fullName" required>
+
+      <label for="gender">Giới tính:</label>
+      <select id="gender" name="gender" required>
+        <option value="">-- Chọn giới tính --</option>
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+        <option value="Khác">Khác</option>
+      </select>
+
+      <label for="phone">Số điện thoại:</label>
+      <input type="tel" id="phone" name="phone" required pattern="0[0-9]{9}">
+
+      <label for="username">Tài khoản:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Mật khẩu:</label>
+      <input type="password" id="password" name="password" required minlength="6">
+
+      <label for="confirmPassword">Xác nhận mật khẩu:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+
+      <button type="submit">Đăng Ký</button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

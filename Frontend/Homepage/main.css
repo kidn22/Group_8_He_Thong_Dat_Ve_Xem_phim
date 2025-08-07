@@ -1,19 +1,18 @@
 body {
     margin: 0;
     font-family: "Arial", sans-serif;
-    ;
 }
 
+/* HEADER */
 .header {}
 
 .header__nav__wp {
-    border-bottom: 2px solid #e5eaee;
     display: flex;
     justify-content: space-around;
+    border-bottom: 2px solid #e5eaee;
 }
 
 .navbar {
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +32,7 @@ body {
     color: #7b8390;
 }
 
+/* SEARCH */
 .nav__search {
     display: flex;
     align-items: center;
@@ -43,7 +43,6 @@ body {
     border-radius: 50px;
     background-color: #fff;
     color: #6c7a89;
-
 }
 
 .nav__search-icon {
@@ -53,20 +52,16 @@ body {
 }
 
 .nav__search-items {
-    border: none;
-    outline: none;
-    background: transparent;
+    width: 200px;
     font-size: 15px;
     color: #333;
-    width: 200px;
+    background: transparent;
+    border: none;
+    outline: none;
 }
 
 .nav__search-items::placeholder {
     color: #a0a4ab;
-}
-
-.nav__search-items:focus {
-    outline: none;
 }
 
 .nav__search:has(.nav__search-items:focus) {
@@ -74,123 +69,424 @@ body {
     box-shadow: 2px 2px 10px rgb(136, 129, 255);
 }
 
+/* LOGIN */
 .nav__login {
+    display: flex;
+    justify-content: center;
     width: 50px;
     height: 50px;
-    display: flex;
-    padding-right: 100px;
-    padding-top: 25px;
+    padding: 25px 100px 0 0;
     font-size: 15px;
-    justify-content: center;
-
-
 }
 
-.nav__login-txt {
+.nav__login-txt,
+.nav__login-icon {
     color: #a5aeb4;
     text-decoration: none;
 }
 
 .nav__login-icon {
-    color: black;
     width: 50px;
     height: 50px;
     margin-right: 10px;
-    color: #a5aeb4;
 }
 
-/* Mua ve theo phim */
+/* APP WRAPPER */
+.app {
+    margin-bottom: 100px;
+    background-color: #fafbfd;
+}
+
+/* MUA VÉ THEO PHIM */
+/* MUA VÉ THEO PHIM */
 .app__movies {
-    border-bottom: 2px solid #a5aeb4;
-    padding-bottom: 100px;
-}
-
-.app__movies-wp {
-    margin-right: 250px;
-    margin-left: 250px;
-    display: flex;
-    justify-content: center;
-}
-
-.app__movies-items-img {
-    width: 100%;
-    height: 150px;
-    border-radius: 20px 20px 0 0;
+    padding: 50px 0;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
 }
 
 .app__movies-title {
     text-align: center;
-    padding: 30px;
+    font-size: 38px;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 40px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.app__movies-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+.app__movies-wp {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px; /* Giảm khoảng cách để các mục gần nhau hơn */
+    padding: 0 30px;
 }
 
 .app__movies-items {
-    border: 1px solid #a5aeb4;
-    width: 110px;
-    height: auto;
-    border-radius: 10px;
-    padding-bottom: 10px;
-    margin-right: 20px;
+    width: 180px; /* Thu nhỏ chiều rộng */
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.app__movies-items:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .app__movies-items-img {
-    display: block;
     width: 100%;
-    height: 150px;
-    border-radius: 10px 10px 0 0;
+    height: 250px; /* Thu nhỏ chiều cao */
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.app__movies-items-dec {
+    padding: 15px; /* Giảm padding */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.app__movies-items-title {
+    font-size: 16px; /* Thu nhỏ kích thước tiêu đề */
+    font-weight: 600;
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .app__movies-items-btn {
     width: 100%;
-    height: 20px;
-    background-color: #d31602;
-    color: white;
+    height: 40px; /* Thu nhỏ chiều cao button */
+    background-color: #dc3545;
+    color: #fff;
     border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.app__movies-items-btn:hover {
+    background-color: #c82333;
+    transform: scale(1.03);
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .app__movies-items {
+        width: calc(50% - 10px);
+    }
+}
+
+/* Responsive cho màn hình rất nhỏ */
+@media (max-width: 480px) {
+    .app__movies-items {
+        width: 100%;
+    }
+}
+/* MUA VÉ THEO RẠP */
+.app__cinema-wp {
+    display: flex;
+    margin-left: 200px;
+}
+
+.app__cinema-location,
+.app__cinema-item {
+    width: 250px;
+    margin-right: 50px;
+    background-color: #edf2f8;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 1px 1px 5px #a7b1c2;
+}
+
+.app__cinema-location-title,
+.app__cinema-item-title {
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #a7b1c2;
+}
+
+.app__cinema-location-list-wp,
+.app__cinema-item-list-wp {
+    width: 100%;
+    height: 550px;
+    background-color: white;
+}
+
+.app__cinema-location-list,
+.app__cinema-item-list {
+    margin: 0;
+    padding: 0;
+}
+
+.app__cinema-location-list-items,
+.app__cinema-item-list-items {
+    height: 50px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    list-style: none;
+    color: #a7b1c2;
+    border-bottom: 1px solid #a7b1c2;
+    background-color: white;
     cursor: pointer;
 }
 
-.app__movies-items-title,
-.app__movies-items-title-link {
-    padding-left: 2px;
-    font-size: 15px;
-    text-decoration: none;
-    color: black;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    width: 100%;
+.app__cinema-location-list-items:hover,
+.app__cinema-item-list-items:hover {
+    background-color: #2c7be4;
+    color: white;
 }
 
-/* Mua ve theo rap */
-.app__cinema-wp{
-    margin-left: 250px;
-    margin-right: 250px;
-    display: flex;
-    justify-content: space-between;
-}
-/* Location */
-.app__cinema-location{
+/* CALENDAR */
+.app__calender-date,
+.app__calender-note,
+.app__calender-title {
+    width: 600px;
     background-color: #edf2f8;
-    width: 260px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 1px 1px 5px #a7b1c2;
 }
-.app__cinema-location-title{
-    font-size: 20px;
-}
-.app__cinema-location-list{
-    padding: 0;
-}
-.app__cinema-location-list-items{
-    font-size: 15px;
-    list-style: none;
-    
 
-}
-/*Cinema  */
-
-/* Date */
 .app__calender-date {
-    width: 550px;
+    height: 60px;
+}
+
+.app__calender-date-wp {
+    display: flex;
+    height: 60px;
+    border-radius: 10px;
+}
+
+.app__calender-date-items {
+    width: 25%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #b5c0ce;
+}
+
+.app__calender-date-items:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.app__calender-date-items:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.app__calender-date-items:hover {
+    background-color: #c7d6ed;
+}
+
+/* NOTE */
+.app__calender-note {
     height: 50px;
+    background-color: #f6c343;
+    border-radius: 5px;
+}
+
+.app__calender-note-wp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app__calender-note-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.app__calender-note-dec {
+    font-size: 15px;
+}
+
+/* TITLE */
+.app__calender-title {
+    height: 80px;
+}
+
+.app__calender-title-wp {
+    padding: 20px;
+}
+
+.app__calender-title-item1 {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.app__calender-title-items {
+    font-size: 13px;
+}
+
+.app__calender-title-date-date {
+    font-size: 15px;
+    color: #acb3c4;
+}
+
+/* CALENDAR ITEM */
+.app__calender-item {
+    width: 600px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.app__calender-item-wp {
+    display: flex;
+    padding-bottom: 30px;
+    box-shadow: 1px 1px 5px #a7b1c2;
+}
+
+.app__calender-items-wp {
+    width: 480px;
+    padding-left: 50px;
+}
+
+.app__calender-item-img-wp {
+    padding: 20px 0 0 20px;
+}
+
+.app__calender-item-img {
+    width: 100px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.app__calender-items-title {
+    font-size: 15px;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+.app__calender-items-dec {
+    padding-top: 10px;
+    color: #c1cad5;
+}
+
+.app__calender-items-time-wp {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+.app__calender-items-time {
+    width: 50px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: bold;
     background-color: #edf2f8;
-    border-radius:10px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #a7b1c2;
+}
+
+.app__calender-items-time:hover {
+    background-color: #2c7be4;
+    color: white;
+}
+
+/* UTILITY */
+.flex {
+    display: flex;
+}
+
+/* FOOTER */
+.footer__wp {
+    width: 100%;
+    height: 300px;
+    background-color: black;
+}
+
+/* HÀNH ĐỘNG - ACTIVE STATE */
+.app__cinema-item,
+.app__calender {
+    display: none;
+}
+
+.app__cinema-location-list-items.active,
+.app__cinema-item-list-items.active,
+.app__calender-items-time.active,
+.app__calender-date-items.active {
+    background-color: #2c7be4;
+    color: white;
+}
+
+.app__calender-date-items.active {
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.app__calender-note,
+.app__calender-title,
+.app__calender-item {
+    display: none;
+}
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Hiện dropdown khi hover */
+.dropdown:hover .dropdown-content {
+    display: block;
 }
