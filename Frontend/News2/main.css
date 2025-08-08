@@ -90,13 +90,7 @@ h2 {
     transition: color 0.3s ease;
 }
 
-.article-item .content h4 a {
-    text-decoration: none;
-    color: inherit;
-    transition: color 0.3s ease;
-}
-
-.article-item .content h4 a:hover {
+.article-item a:hover .content h4 {
     color: #3498db;
 }
 
