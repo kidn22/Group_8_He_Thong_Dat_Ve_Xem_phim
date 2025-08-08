@@ -265,3 +265,89 @@ function renderCalendarMovies() {
 
 // Gọi hàm khi load trang lịch chiếu
 document.addEventListener('DOMContentLoaded', renderCalendarMovies);
+function renderNowShowingMovies() {
+    const moviesContainer = document.querySelector('.app__movies-wp');
+    if (!moviesContainer) return;
+
+    const moviesData = JSON.parse(localStorage.getItem('moviesData')) || [];
+    moviesContainer.innerHTML = ''; // Xóa các phim cứng
+
+    moviesData.forEach(movie => {
+        const movieHTML = `
+            <div class="app__movies-items">
+                <img src="${movie.anh}" alt="${movie.tenPhim}" class="app__movies-items-img">
+                <div class="app__movies-items-dec">
+                    <h3 class="app__movies-items-title">${movie.tenPhim}</h3>
+                    <a href="#cinema-section" class="app__movies-items-link">
+                        <button class="app__movies-items-btn">Mua Vé</button>
+                    </a>
+                </div>
+            </div>
+        `;
+        moviesContainer.insertAdjacentHTML('beforeend', movieHTML);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderNowShowingMovies();
+});
+function renderCalendarMovies() {
+    const calendarContainer = document.querySelector('.app__calender-item');
+    if (!calendarContainer) return;
+
+    const moviesData = JSON.parse(localStorage.getItem('moviesData')) || [];
+    calendarContainer.innerHTML = ''; // Xóa item cũ
+
+    moviesData.forEach(movie => {
+        // Tạo HTML giờ chiếu
+        const timesHTML = movie.gioChieu.split(', ').map(time => `
+            <div class="app__calender-items-time" 
+                 data-movie="${movie.tenPhim}" 
+                 data-date="${movie.ngayChieu}">
+                ${time}
+            </div>
+        `).join('');
+
+        // Tạo khối phim
+        const movieHTML = `
+            <div class="app__calender-item-wp">
+                <div class="app__calender-item-img-wp">
+                    <img src="${movie.anh}" alt="movies" class="app__calender-item-img">
+                </div>
+                <div class="app__calender-items-wp">
+                    <div class="app__calender-items-title">${movie.tenPhim}</div>
+                    <div class="app__calender-items-dec">${movie.rap} - ${movie.diaChi} . ${movie.ngayChieu}</div>
+                    <div class="app__calender-items-time-wp">
+                        ${timesHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        calendarContainer.insertAdjacentHTML('beforeend', movieHTML);
+    });
+
+    // Gắn lại sự kiện click sau khi render
+    const timeSlots = document.querySelectorAll('.app__calender-items-time');
+    timeSlots.forEach(slot => {
+        slot.addEventListener('click', function () {
+            // Bỏ active tất cả
+            timeSlots.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+
+            // Lấy dữ liệu từ dataset
+            const movieTitle = this.getAttribute('data-movie');
+            const showDate = this.getAttribute('data-date');
+            const showTime = this.textContent.trim();
+
+            // Lưu vào localStorage
+            localStorage.setItem("movieTitle", movieTitle);
+            localStorage.setItem("showTime", `${showDate} - ${showTime}`);
+
+            // Chuyển sang trang chọn ghế
+            window.location.href = '../Checkout/book.html';
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', renderCalendarMovies);

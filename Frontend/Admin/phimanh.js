@@ -1,3 +1,4 @@
+
 // Admin - Quản lý phim
 let moviesData = JSON.parse(localStorage.getItem('moviesData')) || [];
 
@@ -118,7 +119,17 @@ addBtn.addEventListener('click', () => {
         const randomRevenue = randomTickets * ticketPrice;
         const newMovie = { tenPhim, ngayChieu, gioChieu, rap, diaChi, anh: e.target.result, doanhThu: randomRevenue, soVeBan: randomTickets };
         moviesData.push(newMovie);
-        localStorage.setItem('moviesData', JSON.stringify(moviesData));
+        function saveMoviesToServer() {
+            fetch('http://localhost:3000/movies', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(moviesData)
+            })
+                .then(res => res.json())
+                .then(data => console.log(data.message))
+                .catch(err => console.error(err));
+        }
+
         renderMovieList();
         fileInput.value = "";
     };
@@ -130,3 +141,4 @@ toggleHeading.addEventListener('click', () => {
     timeGridWrapper.classList.toggle('collapsed');
     arrowIcon.classList.toggle('rotate-180');
 });
+
