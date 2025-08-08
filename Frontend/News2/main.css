@@ -87,6 +87,7 @@ h2 {
     font-size: 1.2rem;
     margin: 0 0 5px 0;
     color: #2980b9; 
+    transition: color 0.3s ease;
 }
 
 .article-item .content h4 a {
