@@ -1,28 +1,17 @@
 
 // Admin - Quản lý phim
-let moviesData = [];
+let moviesData = JSON.parse(localStorage.getItem('moviesData')) || [];
 
-// Lấy danh sách phim từ server khi load trang
-fetch('http://localhost:5000/movies')
-    .then(res => res.json())
-    .then(data => {
-        moviesData = data;
-        renderMovieList();
-    })
-    .catch(err => console.error('Lỗi khi tải phim:', err));
+const movieList = document.getElementById('movie-list');
+const timeGrid = document.querySelector('.time-grid');
+const addBtn = document.querySelector('.btn-add');
+const toggleHeading = document.querySelector('.toggle-heading');
+const timeGridWrapper = document.querySelector('.time-grid-wrapper');
+const arrowIcon = document.querySelector('.arrow-icon');
 
-// Lưu dữ liệu phim lên server
-function saveMoviesToServer() {
-    fetch('http://localhost:5000/movies', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(moviesData)
-    })
-    .then(res => res.json())
-    .then(data => console.log(data.message))
-    .catch(err => console.error('Lỗi khi lưu phim:', err));
+function padZero(num) {
+    return num.toString().padStart(2, '0');
 }
-
 
 // Tạo khung giờ
 function generateTimeSlots(startHour, endHour, intervalMinutes) {
