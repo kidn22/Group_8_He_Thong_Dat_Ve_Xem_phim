@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("header-container").innerHTML = data;
 
             // Sau khi load xong header, đổi Login thành tên nếu có
-            const fullName = localStorage.getItem("fullName");
+
             const userNameLink = document.getElementById("userNameLink");
             if (fullName) {
                 userNameLink.textContent = fullName;

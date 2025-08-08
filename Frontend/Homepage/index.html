@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="header.css">
     <title>Lotto</title>
 </head>
 
@@ -204,6 +205,32 @@
 <script src="initDateSelection.js"></script>
 <script src="renderCalendarMovies.js"></script>
 <script src="renderHomepageMovies.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch("../Homepage/header.html")
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+
+                const fullName = localStorage.getItem("fullName");
+                const userNameLink = document.getElementById("userNameLink");
+                const logoutLink = document.getElementById("logoutLink");
+
+                if (fullName && userNameLink && logoutLink) {
+                    userNameLink.textContent = fullName;
+                    userNameLink.href = "#";
+                    logoutLink.style.display = "inline"; // Hiện nút đăng xuất
+
+                    logoutLink.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        localStorage.clear();
+                        window.location.href = "../Login/login.html";
+                    });
+                }
+            })
+            .catch(err => console.error("Lỗi load header:", err));
+    });
+</script>
 
 
 </body>

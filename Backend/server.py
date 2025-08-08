@@ -85,7 +85,7 @@ def register_account():
         return jsonify({"error": "Tên đăng nhập đã tồn tại"}), 400
 
     # ======= Mã hóa mật khẩu =======
-    hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
 
     # Tạo tài khoản mới
     new_account = {
@@ -94,7 +94,7 @@ def register_account():
         "gender": gender,
         "phone": phone,
         "username": username,
-        "password": hashed_password,
+        "password": password,
         "role": "user"
     }
 
@@ -102,8 +102,41 @@ def register_account():
     save_data(ACCOUNT_FILE, accounts)
 
     return jsonify({"message": "Đăng ký thành công", "account": new_account}), 201
+@app.route("/login", methods=["POST"])
+def login_account():
+    accounts = load_data(ACCOUNT_FILE)
+    data = request.get_json()
+
+    username = data.get("username", "").strip()
+    password = data.get("password", "")
+
+    # Kiểm tra dữ liệu đầu vào
+    if not username or not password:
+        return jsonify({"error": "Vui lòng nhập đầy đủ thông tin"}), 400
+
+    # Tìm tài khoản có username khớp
+    account = next((acc for acc in accounts if acc["username"].lower() == username.lower()), None)
+    if not account:
+        return jsonify({"error": "Sai tài khoản hoặc mật khẩu"}), 401
+
+    # So sánh mật khẩu đã hash
+    if not bcrypt.checkpw(password.encode("utf-8"), account["password"].encode("utf-8")):
+        return jsonify({"error": "Sai tài khoản hoặc mật khẩu"}), 401
+
+    # Thành công, trả thông tin tài khoản (trừ mật khẩu)
+    return jsonify({
+        "message": "Đăng nhập thành công!",
+        "account": {
+            "id": account["id"],
+            "fullName": account["fullName"],
+            "username": account["username"],
+            "role": account["role"]
+        },
+        "redirect": "../Homepage/index.html"
+    }), 200
 
 
 # ================== CHẠY SERVER ==================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=True)
+
