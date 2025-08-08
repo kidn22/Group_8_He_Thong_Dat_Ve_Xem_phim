@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderNowShowingMovies();
     renderCalendarMovies();
 });
-<<<<<<< HEAD
 function renderCalendarMovies() {
     const calendarContainer = document.querySelector('.app__calender-item');
     if (!calendarContainer) return;
@@ -103,7 +102,29 @@ function renderCalendarMovies() {
 }
 
 document.addEventListener('DOMContentLoaded', renderCalendarMovies);
-///
+//
+document.addEventListener("DOMContentLoaded", () => {
+    const fullName = localStorage.getItem("fullName");
+    const userNameLink = document.getElementById("userNameLink");
 
-=======
->>>>>>> 10ee87ca59209cb5c75dfeeb10e286678654d2aa
+    if (fullName) {
+        userNameLink.textContent = fullName; // đổi chữ Login thành họ tên
+        userNameLink.href = "#"; // hoặc trang hồ sơ
+    }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("../Homepage/header.html") // đường dẫn đến file header
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("header-container").innerHTML = data;
+
+            // Sau khi load xong header, đổi Login thành tên nếu có
+            const fullName = localStorage.getItem("fullName");
+            const userNameLink = document.getElementById("userNameLink");
+            if (fullName) {
+                userNameLink.textContent = fullName;
+                userNameLink.href = "#";
+            }
+        })
+        .catch(err => console.error("Lỗi load header:", err));
+});
