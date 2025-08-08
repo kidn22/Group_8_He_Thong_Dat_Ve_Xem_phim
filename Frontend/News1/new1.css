@@ -35,7 +35,7 @@ body {
 
 .news-item img {
   width: 120px;
-  height: 80px;
+  height: auto;
   border-radius: 5px;
   object-fit: cover;
 }
