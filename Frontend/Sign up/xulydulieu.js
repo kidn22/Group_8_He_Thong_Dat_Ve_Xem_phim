@@ -75,3 +75,5 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(err => console.error("Lỗi load header:", err));
 });
+localStorage.setItem("isLoggedIn", "true");
+localStorage.setItem("username", "Nguyen Van A");
