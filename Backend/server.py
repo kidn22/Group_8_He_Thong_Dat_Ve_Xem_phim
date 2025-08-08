@@ -1,26 +1,41 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 import os
 
 app = Flask(__name__)
-DATA_FILE = os.path.join(os.path.dirname(__file__), 'data.json')
+CORS(app)  # Cho phép frontend truy cập
 
-# Lấy danh sách phim
-@app.route('/movies', methods=['GET'])
-def get_movies():
+DATA_FILE = "data.json"
+
+# Hàm đọc dữ liệu
+def read_data():
     if not os.path.exists(DATA_FILE):
-        return jsonify([])
-    with open(DATA_FILE, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-    return jsonify(data)
+        return []
+    with open(DATA_FILE, "r", encoding="utf-8") as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return []
 
-# Ghi danh sách phim
-@app.route('/movies', methods=['POST'])
-def save_movies():
-    movies = request.json
-    with open(DATA_FILE, 'w', encoding='utf-8') as f:
-        json.dump(movies, f, ensure_ascii=False, indent=2)
-    return jsonify({"message": "Lưu thành công!"})
+# Hàm ghi dữ liệu
+def write_data(data):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+# API lấy toàn bộ phim
+@app.route("/movies", methods=["GET"])
+def get_movies():
+    return jsonify(read_data())
+
+# API thêm phim
+@app.route("/movies", methods=["POST"])
+def add_movie():
+    new_movie = request.json
+    data = read_data()
+    data.append(new_movie)
+    write_data(data)
+    return jsonify({"message": "Thêm phim thành công"}), 201
+
+if __name__ == "__main__":
+    app.run(port=3000, debug=True)

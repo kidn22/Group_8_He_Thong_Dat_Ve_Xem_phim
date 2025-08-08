@@ -117,18 +117,30 @@ addBtn.addEventListener('click', () => {
         const randomTickets = Math.floor(Math.random() * 500) + 50;
         const ticketPrice = 100000;
         const randomRevenue = randomTickets * ticketPrice;
-        const newMovie = { tenPhim, ngayChieu, gioChieu, rap, diaChi, anh: e.target.result, doanhThu: randomRevenue, soVeBan: randomTickets };
+        const newMovie = {
+            tenPhim, ngayChieu, gioChieu, rap, diaChi,
+            anh: e.target.result, doanhThu: randomRevenue, soVeBan: randomTickets
+        };
         moviesData.push(newMovie);
-        function saveMoviesToServer() {
+        localStorage.setItem('moviesData', JSON.stringify(moviesData));
+
+        // Gửi phim mới lên server để lưu vào data.json
+        saveMovieToServer(newMovie);
+
+        renderMovieList();
+        fileInput.value = "";
+        moviesData.push(newMovie);
+        function saveMovieToServer(movie) {
             fetch('http://localhost:3000/movies', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(moviesData)
+                body: JSON.stringify(movie)
             })
                 .then(res => res.json())
                 .then(data => console.log(data.message))
                 .catch(err => console.error(err));
         }
+
 
         renderMovieList();
         fileInput.value = "";
