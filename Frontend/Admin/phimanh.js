@@ -1,6 +1,6 @@
-/* Quản Lí Phim Ảnh */
-// --- CÁC BIẾN & HÀM CHO TRANG QUẢN LÍ PHIM ---
-let moviesData = db.load('moviesData');
+// Admin - Quản lý phim
+let moviesData = JSON.parse(localStorage.getItem('moviesData')) || [];
+
 const movieList = document.getElementById('movie-list');
 const timeGrid = document.querySelector('.time-grid');
 const addBtn = document.querySelector('.btn-add');
@@ -8,7 +8,11 @@ const toggleHeading = document.querySelector('.toggle-heading');
 const timeGridWrapper = document.querySelector('.time-grid-wrapper');
 const arrowIcon = document.querySelector('.arrow-icon');
 
-// Tạo các khung giờ chiếu phim
+function padZero(num) {
+    return num.toString().padStart(2, '0');
+}
+
+// Tạo khung giờ
 function generateTimeSlots(startHour, endHour, intervalMinutes) {
     for (let hour = startHour; hour <= endHour; hour++) {
         for (let minute = 0; minute < 60; minute += intervalMinutes) {
@@ -28,13 +32,11 @@ function generateTimeSlots(startHour, endHour, intervalMinutes) {
 }
 generateTimeSlots(8, 23, 10);
 
-// Lấy các khung giờ đã chọn
 function getSelectedTimes() {
-    const selected = document.querySelectorAll('.time-slot.bg-blue-500');
-    return Array.from(selected).map(slot => slot.dataset.value);
+    return Array.from(document.querySelectorAll('.time-slot.bg-blue-500')).map(slot => slot.dataset.value);
 }
 
-// Hiển thị danh sách phim
+// Render bảng phim
 function renderMovieList() {
     movieList.innerHTML = '';
     moviesData.forEach((movie, index) => {
@@ -55,33 +57,28 @@ function renderMovieList() {
         movieList.appendChild(newRow);
     });
 
-    // Gán sự kiện XÓA
+    // Xóa
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = e.target.dataset.index;
             if (confirm('Bạn có chắc muốn xóa phim này?')) {
                 moviesData.splice(index, 1);
-                db.save('moviesData', moviesData);
+                localStorage.setItem('moviesData', JSON.stringify(moviesData));
                 renderMovieList();
-                renderDoanhThuTable(moviesData);
-                populateMovieFilter();
             }
         });
     });
 
-    // Gán sự kiện SỬA (nâng cao – bạn có thể tự xử lý hiển thị form sửa)
+    // Sửa
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = e.target.dataset.index;
             const movie = moviesData[index];
-
-            // Gán giá trị vào form
             document.getElementById('tenPhim').value = movie.tenPhim;
             document.getElementById('ngayChieu').value = movie.ngayChieu;
             document.querySelector('.cinema-select').value = movie.rap;
             document.querySelector('.address-select').value = movie.diaChi;
 
-            // Set lại các khung giờ đã chọn
             document.querySelectorAll('.time-slot').forEach(slot => {
                 slot.classList.remove('bg-blue-500', 'text-white');
                 slot.classList.add('bg-gray-200');
@@ -91,18 +88,15 @@ function renderMovieList() {
                 }
             });
 
-            // Xóa phim cũ, đợi user nhấn "Thêm" lại để cập nhật (cách đơn giản nhất)
             moviesData.splice(index, 1);
-            db.save('moviesData', moviesData);
+            localStorage.setItem('moviesData', JSON.stringify(moviesData));
             renderMovieList();
-            renderDoanhThuTable(moviesData);
-            populateMovieFilter();
         });
     });
 }
+renderMovieList();
 
-
-// Xử lý sự kiện thêm phim
+// Thêm phim
 addBtn.addEventListener('click', () => {
     const tenPhim = document.getElementById('tenPhim').value;
     const ngayChieu = document.getElementById('ngayChieu').value;
@@ -113,7 +107,7 @@ addBtn.addEventListener('click', () => {
     const file = fileInput.files[0];
 
     if (!tenPhim || !ngayChieu || !gioChieu || !rap || !diaChi || !file) {
-        showModal('Thông báo', 'Vui lòng điền đầy đủ thông tin và chọn ảnh.', [{ text: 'Đóng', class: 'bg-gray-200 text-gray-700 hover:bg-gray-300' }]);
+        alert('Vui lòng điền đầy đủ thông tin và chọn ảnh.');
         return;
     }
 
@@ -122,33 +116,16 @@ addBtn.addEventListener('click', () => {
         const randomTickets = Math.floor(Math.random() * 500) + 50;
         const ticketPrice = 100000;
         const randomRevenue = randomTickets * ticketPrice;
-        const newMovie = {
-            tenPhim, ngayChieu, gioChieu, rap, diaChi,
-            anh: e.target.result,
-            doanhThu: randomRevenue,
-            soVeBan: randomTickets
-        };
+        const newMovie = { tenPhim, ngayChieu, gioChieu, rap, diaChi, anh: e.target.result, doanhThu: randomRevenue, soVeBan: randomTickets };
         moviesData.push(newMovie);
-        db.save('moviesData', moviesData);
+        localStorage.setItem('moviesData', JSON.stringify(moviesData));
         renderMovieList();
-        renderDoanhThuTable(moviesData); // Cập nhật bảng doanh thu
-        populateMovieFilter(); // Cập nhật bộ lọc phim
-
-        // Reset form
-        document.getElementById('tenPhim').value = "";
-        document.getElementById('ngayChieu').value = "";
-        document.querySelector('.cinema-select').value = "";
-        document.querySelector('.address-select').value = "";
         fileInput.value = "";
-        document.querySelectorAll('.time-slot.bg-blue-500').forEach(slot => {
-            slot.classList.remove('bg-blue-500', 'text-white');
-            slot.classList.add('bg-gray-200');
-        });
     };
     reader.readAsDataURL(file);
 });
 
-// Xử lý đóng/mở khung giờ
+// Đóng/mở khung giờ
 toggleHeading.addEventListener('click', () => {
     timeGridWrapper.classList.toggle('collapsed');
     arrowIcon.classList.toggle('rotate-180');
