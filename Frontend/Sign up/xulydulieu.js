@@ -24,14 +24,9 @@ document.getElementById("registerForm").addEventListener("submit", function(even
     return;
   }
 
-  const resultHTML = `
-    ✅ Đăng ký thành công!<br>
-    👤 Họ tên: ${fullName}<br>
-    🚻 Giới tính: ${gender}<br>
-    ☎️ Số điện thoại: ${phone}<br>
-    🧑‍💻 Tài khoản: ${username}
-  `;
-  document.getElementById("result").innerHTML = resultHTML;
+  // Lưu thông tin vào localStorage
+  localStorage.setItem("fullName", fullName);
 
-  this.reset();
+  // Chuyển sang trang homepage
+  window.location.href = "../index.html"; // Đường dẫn tới file homepage
 });
