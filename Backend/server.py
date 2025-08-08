@@ -1,41 +1,62 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 import json
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)  # Cho phép frontend truy cập
 
 DATA_FILE = "data.json"
 
-# Hàm đọc dữ liệu
-def read_data():
+# Hàm đọc dữ liệu từ file JSON
+def load_data():
     if not os.path.exists(DATA_FILE):
-        return []
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump([], f, ensure_ascii=False, indent=4)
     with open(DATA_FILE, "r", encoding="utf-8") as f:
-        try:
-            return json.load(f)
-        except json.JSONDecodeError:
-            return []
+        return json.load(f)
 
-# Hàm ghi dữ liệu
-def write_data(data):
+# Hàm ghi dữ liệu vào file JSON
+def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-# API lấy toàn bộ phim
+# Lấy danh sách phim
 @app.route("/movies", methods=["GET"])
 def get_movies():
-    return jsonify(read_data())
+    return jsonify(load_data())
 
-# API thêm phim
+# Thêm phim
 @app.route("/movies", methods=["POST"])
 def add_movie():
-    new_movie = request.json
-    data = read_data()
-    data.append(new_movie)
-    write_data(data)
-    return jsonify({"message": "Thêm phim thành công"}), 201
+    movies = load_data()
+    new_movie = request.get_json()
+    # Tạo id tự tăng
+    new_movie["id"] = movies[-1]["id"] + 1 if movies else 1
+    movies.append(new_movie)
+    save_data(movies)
+    return jsonify(new_movie), 201
+
+# Sửa phim
+@app.route("/movies/<int:movie_id>", methods=["PUT"])
+def update_movie(movie_id):
+    movies = load_data()
+    for i, movie in enumerate(movies):
+        if movie["id"] == movie_id:
+            movies[i].update(request.get_json())
+            movies[i]["id"] = movie_id  # đảm bảo id không bị đổi
+            save_data(movies)
+            return jsonify(movies[i])
+    return jsonify({"error": "Movie not found"}), 404
+
+# Xóa phim
+@app.route("/movies/<int:movie_id>", methods=["DELETE"])
+def delete_movie(movie_id):
+    movies = load_data()
+    movies = [m for m in movies if m["id"] != movie_id]
+    save_data(movies)
+    return jsonify({"message": "Deleted successfully"})
 
 if __name__ == "__main__":
-    app.run(port=3000, debug=True)
+    # Chạy trên tất cả IP trong mạng LAN, port 3000
+    app.run(host="0.0.0.0", port=3000, debug=True)
