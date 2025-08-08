@@ -1,70 +1,66 @@
-let accountsData = db.load('accountsData');
-const accountList = document.getElementById('account-list');
-const addAccountForm = document.getElementById('add-account-form');
+const registerForm = document.getElementById("register-form");
+const loginForm = document.getElementById("login-form");
+const accountList = document.getElementById("account-list");
 
-function renderAccountsTable() {
-    accountList.innerHTML = '';
-    accountsData.forEach((account, index) => {
-        const newRow = document.createElement('tr');
-        newRow.className = 'bg-white border-b';
-        newRow.innerHTML = `
-            <td class="py-3 px-6 font-medium text-gray-900">${account.username}</td>
-            <td class="py-3 px-6 capitalize">${account.role}</td>
-            <td class="py-3 px-6 space-x-2">
-                <button class="btn-toggle-role bg-yellow-500 text-white p-2 rounded-md hover:bg-yellow-600 transition-colors" data-index="${index}">
-                    ${account.role === 'admin' ? 'Hạ quyền' : 'Nâng quyền'}
-                </button>
-                <button class="btn-delete-account bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors" data-index="${index}">
-                    <i class="fas fa-trash"></i> Xóa
-                </button>
-            </td>
-        `;
-        accountList.appendChild(newRow);
-    });
-    document.querySelectorAll('.btn-toggle-role').forEach(button => {
-        button.addEventListener('click', toggleRole);
-    });
-    document.querySelectorAll('.btn-delete-account').forEach(button => {
-        button.addEventListener('click', deleteAccount);
-    });
-}
-addAccountForm.addEventListener('submit', (e) => {
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
+
+registerForm.addEventListener("submit", function(e) {
     e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const role = document.getElementById('role').value;
 
-    if (accountsData.some(acc => acc.username === username)) {
-        showModal('Lỗi', 'Tên đăng nhập đã tồn tại!', [{ text: 'Đóng', class: 'bg-gray-200 text-gray-700 hover:bg-gray-300' }]);
+    const fullname = document.getElementById("fullname").value.trim();
+    const gender = document.getElementById("gender").value;
+    const phone = document.getElementById("phone").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+        alert("Mật khẩu xác nhận không khớp!");
         return;
     }
-    const newAccount = { username, password, role };
-    accountsData.push(newAccount);
-    db.save('accountsData', accountsData);
-    renderAccountsTable();
-    addAccountForm.reset();
+
+    if (accounts.some(acc => acc.username === username)) {
+        alert("Tài khoản đã tồn tại!");
+        return;
+    }
+
+    const account = { fullname, gender, phone, username, password };
+    accounts.push(account);
+
+    localStorage.setItem("accounts", JSON.stringify(accounts));
+
+    renderAccounts();
+    registerForm.reset();
+    alert("Đăng ký thành công!");
 });
-function toggleRole(e) {
-    const index = e.target.dataset.index;
-    accountsData[index].role = accountsData[index].role === 'admin' ? 'user' : 'admin';
-    db.save('accountsData', accountsData);
-    renderAccountsTable();
+
+loginForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const loginUsername = document.getElementById("loginUsername").value.trim();
+    const loginPassword = document.getElementById("loginPassword").value;
+
+    const account = accounts.find(acc => acc.username === loginUsername && acc.password === loginPassword);
+
+    if (account) {
+        alert(`Xin chào ${account.fullname}, bạn đã đăng nhập thành công!`);
+    } else {
+        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+    }
+
+    loginForm.reset();
+});
+
+function renderAccounts() {
+    accountList.innerHTML = "";
+    accounts.forEach(acc => {
+        const row = `<tr>
+            <td class="py-2 px-6">${acc.fullname}</td>
+            <td class="py-2 px-6">${acc.gender}</td>
+            <td class="py-2 px-6">${acc.phone}</td>
+            <td class="py-2 px-6">${acc.username}</td>
+        </tr>`;
+        accountList.innerHTML += row;
+    });
 }
-function deleteAccount(e) {
-    const index = e.target.dataset.index;
-    showModal('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa tài khoản này không?', [
-        {
-            text: 'Hủy',
-            class: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-        },
-        {
-            text: 'Xóa',
-            class: 'bg-red-500 text-white hover:bg-red-600',
-            callback: () => {
-                accountsData.splice(index, 1);
-                db.save('accountsData', accountsData);
-                renderAccountsTable();
-            }
-        }
-    ]);
-}
+renderAccounts();

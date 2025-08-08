@@ -87,15 +87,10 @@ h2 {
     font-size: 1.2rem;
     margin: 0 0 5px 0;
     color: #2980b9; 
-}
-
-.article-item .content h4 a {
-    text-decoration: none;
-    color: inherit;
     transition: color 0.3s ease;
 }
 
-.article-item .content h4 a:hover {
+.article-item a:hover .content h4 {
     color: #3498db;
 }
 
