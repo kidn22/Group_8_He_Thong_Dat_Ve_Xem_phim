@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Phim</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="main.css">
 </head>
-
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="header__nav__wp">
-            <div class="navbar">
-                <div class="nav__items" style="color: #c86877;">Lotto</div>
-
-                <div class="nav__items dropdown">
-                    <a href="#" class="nav__items-link">Tin tức</a>
+        <nav class="header__nav">
+            <div class="header__logo">
+                <a href="#" style="color: #c86877; font-size: 24px; font-weight: bold;">Lotto</a>
+            </div>
+            <div class="header__menu">
+                <a href="#" class="header__link">Thanh Toán</a>
+                <div class="dropdown">
+                    <a href="#" class="header__link dropdown-toggle">Tin tức</a>
                     <div class="dropdown-content">
-                        <a href="..\News1\new1.html">Tin điện ảnh</a>
-                        <a href="..\News2\new2.html">Đánh giá phim</a>
+                        <a href="../News1/new1.html">Tin điện ảnh</a>
+                        <a href="../News2/new2.html">Đánh giá phim</a>
                     </div>
                 </div>
-
-
-
-                <div class="nav__items"><a href="../Checkout/book.html" class="nav__items-link">Thanh Toán</a>
-                </div>
-                <div class="nav__logo"></div>
-                <div class="nav__search">
-                    <i class="nav__search-icon fa-solid fa-magnifying-glass"></i>
-                    <input type="search" class="nav__search-items" placeholder="Tu khoa tim kiem">
-                </div>
             </div>
-            <div class="nav__login">
-                <i class="fa-regular fa-user nav__login-icon"></i>
-                <a href="..\Sign up\giaodien.html" class="nav__login-txt">Login</a>
+            <div class="header__actions">
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="search" placeholder="Từ khóa tìm kiếm" class="search-input">
+                </div>
+                <a href="../Sign up/giaodien.html" class="login-link">
+                    <i class="far fa-user login-icon"></i>
+                    Login
+                </a>
             </div>
-        </div>
+        </nav>
     </header>
-    <div class="container">
-        <div class="main-content">
+
+    <main class="container">
+        <section class="main-content">
             <h2>Mới Nhất</h2>
-            <div class="review -card">
-                <img src="img1.jpg" alt="Na Tra 2">
-                <div class="review-text">
+            <div class="review-card">
+                <img src="img1.jpg" alt="Poster phim Na Tra 2: Ma Đồng Náo Hải">
+                <div class="review-info">
                     <h3>Review Na Tra 2: Ma Đồng Náo Hải - Bom tấn hoạt hình đúng nghĩa!</h3>
-                    <p class="author">miduynph · 55 phút trước</p>
-                    <p>Na Tra 2: ma Đồng Náo Hải xứng đáng được gọi là siêu phẩm hoạt hình của điện ảnh Trung Quốc năm
-                        2025.</p>
+                    <p class="review-meta">miduynph · 55 phút trước</p>
+                    <p>Na Tra 2: Ma Đồng Náo Hải xứng đáng được gọi là siêu phẩm hoạt hình của điện ảnh Trung Quốc năm 2025.</p>
                 </div>
             </div>
             <div class="review-card">
-                <img src="img2.jpg" alt="Zombie Cưng Của Ba">
-                <div class="reivew-text">
+                <img src="img2.jpg" alt="Poster phim Zombie Cưng Của Ba">
+                <div class="review-info">
                     <h3>Review Zombie Cưng Của Ba - Bộ phim lan tỏa hơi ấm và chữa lành</h3>
-                    <p class="author">Ivy_Trat · 9 giờ trước</p>
-                    <p>Sau thấy ma thông minh, thấy ma tiến hóa, thấy ma biết yêu, đến lúc chúng ta có thấy ma chữa lành
-                        trong Zombie Cưng Của Ba.</p>
+                    <p class="review-meta">Ivy_Trat · 9 giờ trước</p>
+                    <p>Sau thấy ma thông minh, thấy ma tiến hóa, thấy ma biết yêu, đến lúc chúng ta có thấy ma chữa lành trong Zombie Cưng Của Ba.</p>
                 </div>
             </div>
-            <div class="reivew-card">
-                <img src="img3.jpg" alt="Năm Oxford">
-                <div class="review-text">
+            <div class="review-card">
+                <img src="img3.jpg" alt="Poster phim Năm Oxford Của Tôi">
+                <div class="review-info">
                     <h3>Review Năm Oxford Của Tôi - Chuyện tình đẹp nhưng không chạm được đến trái tim</h3>
-                    <p class="author">linhhuynh0257 · 1 ngày trước</p>
+                    <p class="review-meta">linhhuynh0257 · 1 ngày trước</p>
                     <p>Một thành tích quá ấn tượng cho một phim lãng mạn.</p>
                 </div>
             </div>
-            <div class="reivew-card">
-                <img src="img4.jpg" alt="Mang Mẹ Đi Bỏ">
-                <div class="reivew-text">
+            <div class="review-card">
+                <img src="img4.jpg" alt="Poster phim Mang Mẹ Đi Bỏ">
+                <div class="review-info">
                     <h3>Vì sao cái kết của Mang Mẹ Đi Bỏ lại gây tranh cãi dữ dội?</h3>
-                    <p class="author">miduynph · 3 ngày trước</p>
-                    <p>Kết phim của Mang Mẹ Đi Bỏ khiến khán giả chia phe tranh cãi người cho là nhân văn, người thấy
-                        hụt hẫng.</p>
+                    <p class="review-meta">miduynph · 3 ngày trước</p>
+                    <p>Kết phim của Mang Mẹ Đi Bỏ khiến khán giả chia phe tranh cãi người cho là nhân văn, người thấy hụt hẫng.</p>
                 </div>
             </div>
-        </div>
-        <!-- Cột phải -->
-        <div class="sidebar">
+        </section>
+
+        <aside class="sidebar">
             <h2>Chuyên mục</h2>
             <ul>
-                <li><strong>Đánh giá phim</strong><br><span>Góc nhìn chân thực, khách quan nhất về các bộ phim</span>
+                <li>
+                    <strong>Đánh giá phim</strong>
+                    <span>Góc nhìn chân thực, khách quan nhất về các bộ phim</span>
                 </li>
-                <li><strong>Tin điện ảnh</strong><br><span>Tin tức điện ảnh Việt Nam & thế giới</span></li>
-                <li><strong>Video - Trailer</strong><br><span>Trailer, video phim chiếu rạp và truyền hình hot
-                        nhất</span></li>
+                <li>
+                    <strong>Tin điện ảnh</strong>
+                    <span>Tin tức điện ảnh Việt Nam & thế giới</span>
+                </li>
+                <li>
+                    <strong>Video - Trailer</strong>
+                    <span>Trailer, video phim chiếu rạp và truyền hình hot nhất</span>
+                </li>
             </ul>
-        </div>
-    </div>
+        </aside>
+    </main>
 </body>
-
 </html>
