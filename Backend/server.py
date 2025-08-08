@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
@@ -39,3 +41,4 @@ def add_movie():
 
 if __name__ == "__main__":
     app.run(port=3000, debug=True)
+>>>>>>> dd6fbbbf42e5906832198ef4b102b75116ca71c7
