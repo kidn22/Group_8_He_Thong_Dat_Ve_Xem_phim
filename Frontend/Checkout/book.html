@@ -1,110 +1,30 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chọn ghế</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f8f9fa;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      background-color: white;
-      border-bottom: 2px solid #ccc;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .screen {
-      background: #ccc;
-      text-align: center;
-      padding: 5px;
-      margin-bottom: 10px;
-    }
-
-    .seats {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 5px;
-      margin-bottom: 20px;
-    }
-
-    .seat {
-      width: 35px;
-      height: 35px;
-      background-color: #eee;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .seat.vip {
-      background-color: #ffd700;
-    }
-
-    .seat.sold {
-      background-color: #999;
-      pointer-events: none;
-      cursor: not-allowed;
-    }
-
-    .seat.selected {
-      background-color: #28a745 !important;
-      color: white;
-      font-weight: bold;
-    }
-
-    .order-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 18px;
-    }
-
-    .btn {
-      background-color: #001f3f;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .movie-info {
-      margin-bottom: 20px;
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-left: 5px solid #001f3f;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+    body {font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa;}
+    .header {display:flex; justify-content:space-between; align-items:center; padding:10px; background:#fff; border-bottom:2px solid #ccc;}
+    .container {max-width:600px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,.1);}
+    .screen {background:#ccc; text-align:center; padding:5px; margin-bottom:10px;}
+    .seats {display:grid; grid-template-columns:repeat(10, 1fr); gap:5px; margin-bottom:20px;}
+    .seat {width:35px; height:35px; background:#eee; border-radius:5px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.2s;}
+    .seat.vip {background:#ffd700;}
+    .seat.sold {background:#999; pointer-events:none; cursor:not-allowed;}
+    .seat.selected {background:#28a745 !important; color:#fff; font-weight:bold;}
+    .order-summary {display:flex; justify-content:space-between; align-items:center; font-size:18px;}
+    .btn {background:#001f3f; color:#fff; padding:10px 20px; border:none; border-radius:5px; cursor:pointer;}
+    .movie-info {margin-bottom:20px; padding:10px; background:#f1f1f1; border-left:5px solid #001f3f; border-radius:5px; font-size:16px;}
   </style>
 </head>
-
 <body>
-  
   <div class="header">
     <h3>Chọn ghế</h3>
     <h3>Thanh toán</h3>
   </div>
+
   <div class="movie-info">
     <p><strong>Phim:</strong> <span id="movieTitle">-</span></p>
     <p><strong>Suất chiếu:</strong> <span id="showTime">-</span></p>
@@ -115,76 +35,84 @@
     <div class="seats" id="seats"></div>
     <div class="order-summary">
       <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
-      <a href="checkout.html"><button class="btn" id="nextBtn">Tiếp tục</button></a>
+      <button class="btn" id="nextBtn">Tiếp tục</button>
     </div>
   </div>
 
   <script>
-    // Hiển thị tên phim và suất chiếu từ localStorage
-    const movieTitle = localStorage.getItem("movieTitle") || "Chưa chọn";
-    const showTime = localStorage.getItem("showTime") || "Chưa chọn";
-    document.getElementById("movieTitle").textContent = movieTitle;
-    document.getElementById("showTime").textContent = showTime;
+    // ==== CẤU HÌNH ====
+    const ROWS = ['A','B','C','D','E'];
+    const COLS = 10;
+    const VIP_ROWS = new Set(['D','E']);
+    const SOLD = new Set(['C4','D5','E6']); // như dữ liệu cũ
+    const CURRENCY = new Intl.NumberFormat('vi-VN');
 
-    const seatContainer = document.getElementById("seats");
-    const totalDisplay = document.getElementById("total");
-    const rows = ['A', 'B', 'C', 'D', 'E'];
-    const cols = 10;
-    let selectedSeats = [];
+    const getSeatPrice = (rowChar) => VIP_ROWS.has(rowChar) ? 90000 : 60000;
 
-    const soldSeats = ['C4', 'D5', 'E6'];
+    // ==== HIỂN THỊ THÔNG TIN PHIM/SUẤT ====
+    const movieTitle = localStorage.getItem('movieTitle') || 'Chưa chọn';
+    const showTime = localStorage.getItem('showTime') || 'Chưa chọn';
+    document.getElementById('movieTitle').textContent = movieTitle;
+    document.getElementById('showTime').textContent = showTime;
 
-    function getSeatPrice(row) {
-      return (row === 'D' || row === 'E') ? 90000 : 60000;
-    }
+    // ==== TẠO GHẾ BẰNG DocumentFragment ====
+    const seatContainer = document.getElementById('seats');
+    const frag = document.createDocumentFragment();
 
-    function updateTotal() {
-      let total = 0;
-      selectedSeats.forEach(seat => {
-        const row = seat.charAt(0);
-        total += getSeatPrice(row);
-      });
-      totalDisplay.innerText = total.toLocaleString();
-    }
-
-    rows.forEach((row) => {
-      for (let i = 1; i <= cols; i++) {
-        const seatName = `${row}${i}`;
-        const seat = document.createElement("div");
-        seat.classList.add("seat");
-        seat.dataset.name = seatName;
-
-        if (row === 'D' || row === 'E') seat.classList.add("vip");
-        if (soldSeats.includes(seatName)) {
-          seat.classList.add("sold");
-          seat.innerText = "X";
+    for (const r of ROWS) {
+      for (let i = 1; i <= COLS; i++) {
+        const id = `${r}${i}`;
+        const div = document.createElement('div');
+        div.className = 'seat' + (VIP_ROWS.has(r) ? ' vip' : '');
+        if (SOLD.has(id)) {
+          div.classList.add('sold');
+          div.textContent = 'X';
         }
-
-        seat.addEventListener("click", () => {
-          if (seat.classList.contains("sold")) return;
-
-          if (seat.classList.contains("selected")) {
-            seat.classList.remove("selected");
-            seat.innerText = "";
-            selectedSeats = selectedSeats.filter(s => s !== seatName);
-          } else {
-            seat.classList.add("selected");
-            seat.innerText = seatName;
-            selectedSeats.push(seatName);
-          }
-          updateTotal();
-        });
-
-        seatContainer.appendChild(seat);
+        div.dataset.id = id;     // lưu id ghế
+        div.dataset.row = r;     // lưu row để biết giá
+        frag.appendChild(div);
       }
+    }
+    seatContainer.appendChild(frag);
+
+    // ==== TRẠNG THÁI CHỌN GHẾ ====
+    const selectedSeats = new Set();
+    const totalDisplay = document.getElementById('total');
+
+    const updateTotal = () => {
+      let total = 0;
+      selectedSeats.forEach(id => {
+        total += getSeatPrice(id[0]);
+      });
+      totalDisplay.textContent = CURRENCY.format(total);
+    };
+
+    // ==== EVENT DELEGATION: chọn/bỏ ghế ====
+    seatContainer.addEventListener('click', (e) => {
+      const seat = e.target.closest('.seat');
+      if (!seat || seat.classList.contains('sold')) return;
+
+      const id = seat.dataset.id;
+      const isSelected = seat.classList.toggle('selected');
+      if (isSelected) {
+        seat.textContent = id;     // hiển thị nhãn khi chọn
+        selectedSeats.add(id);
+      } else {
+        seat.textContent = '';     // bỏ nhãn khi bỏ chọn
+        selectedSeats.delete(id);
+      }
+      updateTotal();
     });
 
-    document.getElementById("nextBtn").addEventListener("click", function () {
-      localStorage.setItem("selectedSeats", selectedSeats.join(','));
-      const total = selectedSeats.reduce((sum, seat) => sum + getSeatPrice(seat[0]), 0);
-      localStorage.setItem("totalPrice", total);
+    // ==== NÚT TIẾP TỤC: lưu localStorage & chuyển trang ====
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const ids = Array.from(selectedSeats);
+      localStorage.setItem('selectedSeats', ids.join(','));
+      const total = ids.reduce((sum, id) => sum + getSeatPrice(id[0]), 0);
+      localStorage.setItem('totalPrice', String(total));
+      // điều hướng như <a href="checkout.html">
+      window.location.href = 'checkout.html';
     });
   </script>
 </body>
-
 </html>

@@ -35,6 +35,7 @@ function generateTimeSlots(startHour, endHour, intervalMinutes) {
         }
     }
 }
+
 generateTimeSlots(8, 23, 10);
 
 function getSelectedTimes() {
@@ -51,8 +52,6 @@ function renderMovieList() {
             <td class="py-3 px-6">${movie.tenPhim}</td>
             <td class="py-3 px-6">${movie.ngayChieu}</td>
             <td class="py-3 px-6">${movie.gioChieu}</td>
-            <td class="py-3 px-6">${movie.rap}</td>
-            <td class="py-3 px-6">${movie.diaChi}</td>
             <td class="py-3 px-6">
                 <img src="${movie.anh}" alt="Ảnh phim" class="w-16 h-auto rounded-lg mx-auto">
             </td>
@@ -69,7 +68,7 @@ function renderMovieList() {
         btn.addEventListener('click', (e) => {
             const id = e.target.dataset.id;
             if (confirm('Bạn có chắc muốn xóa phim này?')) {
-                fetch(`${SERVER_URL}/movies/${id}`, { method: 'DELETE' })
+                fetch(`${SERVER_URL}/movies/${id}`, {method: 'DELETE'})
                     .then(res => res.json())
                     .then(() => loadMovies());
             }
@@ -85,8 +84,6 @@ function renderMovieList() {
             // Điền form
             document.getElementById('tenPhim').value = movie.tenPhim;
             document.getElementById('ngayChieu').value = movie.ngayChieu;
-            document.querySelector('.cinema-select').value = movie.rap;
-            document.querySelector('.address-select').value = movie.diaChi;
 
             // Chọn lại giờ chiếu
             document.querySelectorAll('.time-slot').forEach(slot => {
@@ -104,8 +101,7 @@ function renderMovieList() {
                     tenPhim: document.getElementById('tenPhim').value,
                     ngayChieu: document.getElementById('ngayChieu').value,
                     gioChieu: getSelectedTimes().join(", "),
-                    rap: document.querySelector('.cinema-select').value,
-                    diaChi: document.querySelector('.address-select').value,
+
                     anh: movie.anh,
                     doanhThu: movie.doanhThu,
                     soVeBan: movie.soVeBan
@@ -113,13 +109,13 @@ function renderMovieList() {
 
                 fetch(`${SERVER_URL}/movies/${id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(updatedMovie)
                 })
-                .then(() => {
-                    loadMovies();
-                    addBtn.onclick = defaultAddHandler; // Gán lại Add
-                });
+                    .then(() => {
+                        loadMovies();
+                        addBtn.onclick = defaultAddHandler; // Gán lại Add
+                    });
             };
         });
     });
@@ -130,15 +126,14 @@ function defaultAddHandler() {
     const tenPhim = document.getElementById('tenPhim').value;
     const ngayChieu = document.getElementById('ngayChieu').value;
     const gioChieu = getSelectedTimes().join(", ");
-    const rap = document.querySelector('.cinema-select').value;
-    const diaChi = document.querySelector('.address-select').value;
     const fileInput = document.getElementById('file-input');
     const file = fileInput.files[0];
 
-    if (!tenPhim || !ngayChieu || !gioChieu || !rap || !diaChi || !file) {
+    if (!tenPhim || !ngayChieu || !gioChieu || !file) {
         alert('Vui lòng điền đầy đủ thông tin và chọn ảnh.');
         return;
     }
+
 
     const reader = new FileReader();
     reader.onload = function (e) {
@@ -147,7 +142,7 @@ function defaultAddHandler() {
         const randomRevenue = randomTickets * ticketPrice;
 
         const newMovie = {
-            tenPhim, ngayChieu, gioChieu, rap, diaChi,
+            tenPhim, ngayChieu, gioChieu,
             anh: e.target.result,
             doanhThu: randomRevenue,
             soVeBan: randomTickets
@@ -175,7 +170,7 @@ function loadMovies() {
 function saveMovieToServer(movie) {
     return fetch(`${SERVER_URL}/movies`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(movie)
     }).then(res => res.json());
 }

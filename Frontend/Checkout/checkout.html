@@ -1,300 +1,309 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Thanh Toán Vé</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7faff;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <title>Thanh Toán Vé</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#f7faff; --card:#fff; --ink:#333; --muted:#95a1b4;
+      --brand:#001f3f; --border:#e5eaee; --accent:#ffc107;
+      --shadow:0 0 12px rgba(0,0,0,.1); --radius:10px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Arial, sans-serif; background:var(--bg); color:var(--ink)}
+    .container{max-width:760px; margin:24px auto; background:var(--card); padding:24px; border-radius:var(--radius); box-shadow:var(--shadow)}
+    h2{margin:18px 0 10px}
+    /* Header (có thể load từ file khác) */
+    .header__nav__wp{display:flex; justify-content:space-around; border-bottom:2px solid var(--border); background:#fff}
+    .navbar{display:flex; align-items:center; gap:12px; padding:10px}
+    .nav__items,.nav__items-link{font-size:15px; color:var(--muted); text-decoration:none}
+    .nav__items:hover,.nav__items-link:hover{color:#7b8390}
+    .nav__search{display:flex; align-items:center; gap:8px; padding:0 12px; height:40px; border:2px solid #c3c6cc; border-radius:50px; background:#fff}
+    .nav__search-items{width:200px; font-size:15px; border:0; outline:0}
+    .nav__login{display:flex; align-items:center; gap:8px; padding:10px; color:#a5aeb4}
+    .dropdown{position:relative}
+    .dropdown-content{display:none; position:absolute; background:#fff; min-width:160px; border:1px solid #ddd; box-shadow:0 8px 16px rgba(0,0,0,.12); z-index:10}
+    .dropdown-content a{display:block; padding:10px 14px; text-decoration:none; color:#333}
+    .dropdown:hover .dropdown-content{display:block}
 
-        .container {
-            max-width: 700px;
-            margin: 30px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-        }
+    /* Bảng tóm tắt */
+    table{width:100%; border-collapse:collapse; margin-top:8px}
+    th,td{border:1px solid #ddd; padding:10px; text-align:left}
+    tr.total td{font-weight:bold}
+    .ticket-info{background:#f0f4ff; padding:15px; border-radius:8px; margin-top:16px}
+    .total-amount{font-size:18px; margin-top:10px; font-weight:bold}
+    .note{background:#fffbe6; border-left:4px solid var(--accent); padding:14px; margin:18px 0; border-radius:6px}
+    .actions{display:flex; justify-content:flex-end; gap:10px; margin-top:10px}
+    .btn{padding:10px 18px; border:0; border-radius:8px; font-size:16px; cursor:pointer}
+    .btn.secondary{background:#ddd; color:#000}
+    .btn.primary{background:var(--brand); color:#fff}
+    .btn[disabled]{opacity:.6; cursor:not-allowed}
 
-        h2 {
-            margin-top: 30px;
-            color: #333;
-        }
+    /* Form */
+    #infoForm{display:flex; flex-wrap:wrap; gap:12px}
+    #infoForm .field{flex:1 1 220px; display:flex; flex-direction:column; gap:6px}
+    .field label{font-size:14px; color:#555}
+    .field input{padding:10px; border:1px solid #ccc; border-radius:6px}
+    .err{font-size:12px; color:#c62828; min-height:16px}
 
-        .order-summary {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .order-summary th,
-        .order-summary td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-
-        .order-summary .total td {
-            font-weight: bold;
-        }
-
-        form input {
-            width: calc(33% - 12px);
-            margin: 10px 6px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .payment-methods {
-            margin: 10px 0;
-        }
-
-        .payment-methods label {
-            display: block;
-            margin: 6px 0;
-        }
-
-        .ticket-info {
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .total-amount {
-            font-size: 18px;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        .note {
-            background: #fffbe6;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .actions button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            background: #001f3f;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .actions button:first-child {
-            background: #ddd;
-            color: black;
-        }
-
-        body {
-            margin: 0;
-            font-family: "Arial", sans-serif;
-        }
-
-        /* HEADER */
-        .header__nav__wp {
-            display: flex;
-            justify-content: space-around;
-            border-bottom: 2px solid #e5eaee;
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-left: 100px;
-        }
-
-        .nav__items,
-        .nav__items-link {
-            font-size: 15px;
-            color: #95a1b4;
-            margin-right: 10px;
-            text-decoration: none;
-        }
-
-        .nav__items:hover,
-        .nav__items-link:hover {
-            color: #7b8390;
-        }
-
-        /* SEARCH */
-        .nav__search {
-            display: flex;
-            align-items: center;
-            width: fit-content;
-            padding: 0 12px;
-            height: 40px;
-            border: 2px solid #c3c6cc;
-            border-radius: 50px;
-            background-color: #fff;
-            color: #6c7a89;
-        }
-
-        .nav__search-icon {
-            margin-right: 8px;
-            font-size: 16px;
-            color: #a0a4ab;
-        }
-
-        .nav__search-items {
-            width: 200px;
-            font-size: 15px;
-            color: #333;
-            background: transparent;
-            border: none;
-            outline: none;
-        }
-
-        .nav__search-items::placeholder {
-            color: #a0a4ab;
-        }
-
-        .nav__search:has(.nav__search-items:focus) {
-            border: 1px solid rgb(78, 69, 247);
-            box-shadow: 2px 2px 10px rgb(136, 129, 255);
-        }
-
-        /* LOGIN */
-        .nav__login {
-            display: flex;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            padding: 25px 100px 0 0;
-            font-size: 15px;
-        }
-
-        .nav__login-txt,
-        .nav__login-icon {
-            color: #a5aeb4;
-            text-decoration: none;
-        }
-
-        .nav__login-icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #fff;
-            min-width: 160px;
-            border: 1px solid #ddd;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .dropdown-content a {
-            color: #333;
-            padding: 10px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* Hiện dropdown khi hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-    </style>
+    @media (max-width:520px){
+      .nav__search-items{width:140px}
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Header (nếu bạn có file loader riêng, vẫn giữ #header-container) -->
+  <div id="header-container"></div>
 
-<div id="header-container"></div>
+  <div class="container" role="main" aria-labelledby="title">
+    <h2 id="title">Tóm tắt đơn hàng</h2>
 
-<div class="container">
-    <h2>Tóm tắt đơn hàng</h2>
-    <table class="order-summary">
-        <thead>
-        <tr>
-            <th>MÔ TẢ</th>
-            <th>SỐ LƯỢNG</th>
-            <th>THÀNH TIỀN</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Standard</td>
-            <td>1</td>
-            <td>60.000 đ</td>
-        </tr>
-        <tr>
-            <td>Phí tiện ích</td>
-            <td></td>
-            <td>3.000 đ</td>
-        </tr>
-        <tr class="total">
-            <td>Tổng</td>
-            <td></td>
-            <td>63.000 đ</td>
-        </tr>
-        </tbody>
+    <table class="order-summary" aria-describedby="orderDesc">
+      <caption id="orderDesc" style="text-align:left; padding:6px 0;">
+        Kiểm tra chi tiết đơn trước khi thanh toán
+      </caption>
+      <thead>
+      <tr>
+        <th>MÔ TẢ</th>
+        <th>SỐ LƯỢNG</th>
+        <th>THÀNH TIỀN</th>
+      </tr>
+      </thead>
+      <tbody id="summaryBody">
+      <!-- Hàng sẽ được script render dựa trên localStorage -->
+      </tbody>
+      <tfoot>
+      <tr class="total">
+        <td>Tổng</td>
+        <td id="totalQty">0</td>
+        <td id="grandTotal">0 đ</td>
+      </tr>
+      </tfoot>
     </table>
 
     <h2>Thông tin cá nhân</h2>
-    <form id="infoForm">
-        <input type="text" placeholder="* Họ và tên" required>
-        <input type="tel" placeholder="* Số điện thoại" required>
-        <input type="email" placeholder="Email">
+    <form id="infoForm" novalidate>
+      <div class="field">
+        <label for="fullName">* Họ và tên</label>
+        <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+        <div class="err" id="errName"></div>
+      </div>
+      <div class="field">
+        <label for="phone">* Số điện thoại</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="09xxxxxxxx"
+               pattern="^(0|\+84)(\d){9,10}$" required />
+        <div class="err" id="errPhone"></div>
+      </div>
+      <div class="field">
+        <label for="email">Email (tuỳ chọn)</label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+        <div class="err" id="errEmail"></div>
+      </div>
     </form>
 
     <h2>Hình thức thanh toán</h2>
-    <div class="payment-methods">
-        <label><input type="radio" name="payment" checked> Chuyển khoản / Quét mã QR</label>
-        <label><input type="radio" name="payment"> Ví MoMo</label>
-        <label><input type="radio" name="payment"> Thẻ ATM / Thẻ quốc tế</label>
-    </div>
+    <fieldset class="payment-methods">
+      <legend class="sr-only" style="position:absolute;left:-9999px">Chọn phương thức thanh toán</legend>
+      <label><input type="radio" name="payment" value="qr" checked> Chuyển khoản / Quét mã QR</label>
+      <label><input type="radio" name="payment" value="momo"> Ví MoMo</label>
+      <label><input type="radio" name="payment" value="card"> Thẻ ATM / Thẻ quốc tế</label>
+    </fieldset>
 
-    <div class="ticket-info">
-        <p><strong>Mang Mẹ Đi Bộ</strong><br>
-            Beta Trần Quang Khải<br>
-            Suất <strong>17:15 06/08/2025</strong><br>
-            Phòng chiếu <strong>P2</strong> – Ghế <strong>B7</strong></p>
-        <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>63.000 đ</strong></div>
+    <div class="ticket-info" id="ticketInfo">
+      <!-- Nội dung sẽ được render từ localStorage -->
     </div>
 
     <div class="note">
-        Vé đã mua không thể đổi hoặc hoàn tiền.<br>
-        Mã vé sẽ được gửi 01 lần qua số điện thoại và email đã nhập. Vui lòng kiểm tra lại thông tin trước khi tiếp tục.
+      Vé đã mua không thể đổi hoặc hoàn tiền.<br>
+      Mã vé sẽ được gửi một lần qua số điện thoại và email (nếu có). Vui lòng kiểm tra thông tin trước khi tiếp tục.
     </div>
 
     <div class="actions">
-        <button onclick="history.back()">←</button>
-        <button id="confirmBtn">Xác nhận</button>
+      <button class="btn secondary" type="button" id="backBtn" aria-label="Quay lại">←</button>
+      <button class="btn primary" id="confirmBtn" disabled>Xác nhận</button>
     </div>
-</div>
+  </div>
 
-<script src="checkout.js">
-</script>
-<script src="../Homepage/loadheader.js"></script>
+  <!-- Nếu bạn đang dùng file loader header riêng, cứ giữ như cũ -->
+  <script src="../Homepage/loadheader.js"></script>
+
+  <script>
+    // ====== CẤU HÌNH ======
+    const CURRENCY = new Intl.NumberFormat('vi-VN');
+    const PRICE_STANDARD = 60000;
+    const PRICE_VIP = 90000;
+    // 'perTicket' = tính theo số vé, 'perOrder' = tính 1 lần cho cả đơn
+    const FEE_MODE = 'perTicket';
+    const FEE_VALUE = 3000;
+
+    // ====== TIỆN ÍCH ======
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+    const money = v => CURRENCY.format(v) + ' đ';
+
+    // Lấy dữ liệu từ localStorage do trang chọn ghế lưu
+    const selectedSeats = (localStorage.getItem('selectedSeats') || '')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+    const storedTotal = Number(localStorage.getItem('totalPrice') || 0);
+    const movieTitle = localStorage.getItem('movieTitle') || '—';
+    const showTime   = localStorage.getItem('showTime')   || '—';
+    // Nếu bạn có thêm phòng chiếu… có thể thêm localStorage key 'room'
+    const room       = localStorage.getItem('room') || '—';
+
+    // Suy ra nhóm vé theo loại (Standard/VIP) bằng cách nhìn chữ cái hàng
+    const VIP_ROWS = new Set(['D','E']);
+    const splitByType = (ids) => {
+      const out = { Standard: [], VIP: [] };
+      for (const id of ids){
+        const row = id[0]?.toUpperCase();
+        (VIP_ROWS.has(row) ? out.VIP : out.Standard).push(id);
+      }
+      return out;
+    };
+
+    // Phí tiện ích
+    function calcFee(qty){
+      if (!qty) return 0;
+      if (FEE_MODE === 'perOrder') return FEE_VALUE;
+      return qty * FEE_VALUE;
+    }
+
+    // ====== RENDER TÓM TẮT ĐƠN ======
+    function renderSummary(){
+      const body = $('#summaryBody');
+      body.innerHTML = '';
+
+      const groups = splitByType(selectedSeats);
+      let subTotal = 0;
+      let qty = 0;
+
+      const addRow = (label, count, amount) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${label}</td><td>${count || ''}</td><td>${money(amount)}</td>`;
+        body.appendChild(tr);
+      };
+
+      if (groups.Standard.length){
+        const count = groups.Standard.length;
+        const amount = count * PRICE_STANDARD;
+        addRow('Standard', count, amount);
+        subTotal += amount; qty += count;
+      }
+      if (groups.VIP.length){
+        const count = groups.VIP.length;
+        const amount = count * PRICE_VIP;
+        addRow('VIP', count, amount);
+        subTotal += amount; qty += count;
+      }
+
+      // Nếu không có ghế (người dùng vào trực tiếp), hiển thị mẫu 1 vé Standard
+      if (!qty){
+        addRow('Standard', 1, PRICE_STANDARD);
+        qty = 1; subTotal = PRICE_STANDARD;
+      }
+
+      const fee = calcFee(qty);
+      addRow('Phí tiện ích', '', fee);
+
+      const grand = subTotal + fee;
+
+      $('#totalQty').textContent = qty;
+      $('#grandTotal').textContent = money(grand);
+
+      // Cập nhật “Thông tin vé”
+      const seatsLabel = selectedSeats.length ? selectedSeats.join(', ') : 'B7';
+      $('#ticketInfo').innerHTML = `
+        <p><strong>${movieTitle}</strong><br>
+        ${/* cụm rạp - có thể thay chuỗi cứng bằng localStorage 'cinema' nếu có */''}
+        Beta Trần Quang Khải<br>
+        Suất <strong>${showTime}</strong><br>
+        Phòng chiếu <strong>${room}</strong> – Ghế <strong>${seatsLabel}</strong></p>
+        <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>${money(grand)}</strong></div>
+      `;
+
+      // Lưu lại tổng cuối (để trang sau dùng nếu cần)
+      localStorage.setItem('payableTotal', String(grand));
+    }
+
+    // ====== FORM VALIDATION ======
+    const form = $('#infoForm');
+    const confirmBtn = $('#confirmBtn');
+    const backBtn = $('#backBtn');
+
+    function validate(){
+      let ok = true;
+      const name = $('#fullName');
+      const phone = $('#phone');
+      const email = $('#email');
+
+      // Họ tên
+      if (!name.value.trim()){
+        ok = false; $('#errName').textContent = 'Vui lòng nhập họ tên.';
+      } else {
+        $('#errName').textContent = '';
+      }
+
+      // Điện thoại (regex trong thuộc tính pattern)
+      if (!phone.value.trim()){
+        ok = false; $('#errPhone').textContent = 'Vui lòng nhập số điện thoại.';
+      } else if (phone.validity.patternMismatch){
+        ok = false; $('#errPhone').textContent = 'SĐT không đúng định dạng (bắt đầu 0 hoặc +84).';
+      } else {
+        $('#errPhone').textContent = '';
+      }
+
+      // Email (tuỳ chọn)
+      if (email.value && email.validity.typeMismatch){
+        ok = false; $('#errEmail').textContent = 'Email không hợp lệ.';
+      } else {
+        $('#errEmail').textContent = '';
+      }
+
+      // Phương thức thanh toán
+      const pay = $('input[name="payment"]:checked');
+      if (!pay) ok = false;
+
+      confirmBtn.disabled = !ok;
+      return ok;
+    }
+
+    form.addEventListener('input', validate);
+    form.addEventListener('change', validate);
+    $$('input[name="payment"]').forEach(r => r.addEventListener('change', validate));
+
+    // ====== HÀNH ĐỘNG ======
+    backBtn.addEventListener('click', ()=> history.back());
+
+    confirmBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      if (!validate()) return;
+
+      // Lưu thông tin người mua (để trang kết quả/biên nhận)
+      const payload = {
+        fullName: $('#fullName').value.trim(),
+        phone: $('#phone').value.trim(),
+        email: $('#email').value.trim(),
+        payment: $('input[name="payment"]:checked').value,
+        seats: selectedSeats,
+        movieTitle, showTime, room,
+        payableTotal: Number(localStorage.getItem('payableTotal') || 0),
+        createdAt: new Date().toISOString()
+      };
+      localStorage.setItem('checkoutInfo', JSON.stringify(payload));
+
+      // Điều hướng sang trang kết quả (tuỳ bạn đặt tên)
+      // Ví dụ: 'result.html' hoặc 'payment.html'
+      window.location.href = 'payment.html';
+    });
+
+    // Khởi tạo trang
+    renderSummary();
+    validate();
+  </script>
 </body>
-
 </html>

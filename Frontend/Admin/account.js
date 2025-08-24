@@ -2,65 +2,89 @@ const registerForm = document.getElementById("register-form");
 const loginForm = document.getElementById("login-form");
 const accountList = document.getElementById("account-list");
 
-let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-
-registerForm.addEventListener("submit", function(e) {
+// ======== Đăng ký ========
+registerForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const fullname = document.getElementById("fullname").value.trim();
-    const gender = document.getElementById("gender").value;
-    const phone = document.getElementById("phone").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const data = {
+        fullName: document.getElementById("fullname").value.trim(),
+        gender: document.getElementById("gender").value,
+        phone: document.getElementById("phone").value.trim(),
+        username: document.getElementById("username").value.trim(),
+        password: document.getElementById("password").value.trim()
+    };
 
-    if (password !== confirmPassword) {
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+    if (data.password !== confirmPassword) {
         alert("Mật khẩu xác nhận không khớp!");
         return;
     }
 
-    if (accounts.some(acc => acc.username === username)) {
-        alert("Tài khoản đã tồn tại!");
-        return;
-    }
-
-    const account = { fullname, gender, phone, username, password };
-    accounts.push(account);
-
-    localStorage.setItem("accounts", JSON.stringify(accounts));
-
-    renderAccounts();
-    registerForm.reset();
-    alert("Đăng ký thành công!");
+    fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(resData => {
+        if (resData.error) {
+            alert(resData.error);
+        } else {
+            alert("Đăng ký thành công!");
+            registerForm.reset();
+            loadAccounts();
+        }
+    })
+    .catch(err => console.error("Lỗi đăng ký:", err));
 });
 
-loginForm.addEventListener("submit", function(e) {
+// ======== Đăng nhập ========
+loginForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const loginUsername = document.getElementById("loginUsername").value.trim();
-    const loginPassword = document.getElementById("loginPassword").value;
+    const data = {
+        username: document.getElementById("loginUsername").value.trim(),
+        password: document.getElementById("loginPassword").value.trim()
+    };
 
-    const account = accounts.find(acc => acc.username === loginUsername && acc.password === loginPassword);
-
-    if (account) {
-        alert(`Xin chào ${account.fullname}, bạn đã đăng nhập thành công!`);
-    } else {
-        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
-    }
+    fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(resData => {
+        if (resData.error) {
+            alert(resData.error);
+        } else {
+            alert(`Xin chào ${resData.account.fullName}, bạn đã đăng nhập thành công!`);
+        }
+    })
+    .catch(err => console.error("Lỗi đăng nhập:", err));
 
     loginForm.reset();
 });
 
-function renderAccounts() {
-    accountList.innerHTML = "";
-    accounts.forEach(acc => {
-        const row = `<tr>
-            <td class="py-2 px-6">${acc.fullname}</td>
-            <td class="py-2 px-6">${acc.gender}</td>
-            <td class="py-2 px-6">${acc.phone}</td>
-            <td class="py-2 px-6">${acc.username}</td>
-        </tr>`;
-        accountList.innerHTML += row;
-    });
+// ======== Render danh sách tài khoản ========
+function loadAccounts() {
+    fetch("http://localhost:3000/accounts")
+        .then(response => response.json())
+        .then(accounts => {
+            accountList.innerHTML = "";
+            accounts.forEach(account => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="py-3 px-6">${account.fullName}</td>
+                    <td class="py-3 px-6">${account.gender}</td>
+                    <td class="py-3 px-6">${account.phone}</td>
+                    <td class="py-3 px-6">${account.username}</td>
+                `;
+                accountList.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("Lỗi khi tải danh sách tài khoản:", error);
+        });
 }
-renderAccounts();
+
+document.addEventListener("DOMContentLoaded", loadAccounts);
