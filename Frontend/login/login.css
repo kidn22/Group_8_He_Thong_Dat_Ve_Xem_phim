@@ -1,5 +1,9 @@
+/* Nền toàn trang với overlay gradient */
 body {
-    background: url('https://images.unsplash.com/photo-1549692520-acc6663f738a?q=80&w=1974&auto=format&fit=crop') no-repeat center center fixed; 
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('https://images.unsplash.com/photo-1549692520-acc6663f738a?q=80&w=1974&auto=format&fit=crop') 
+        no-repeat center center fixed; 
     background-size: cover;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -9,20 +13,24 @@ body {
     margin: 0;
 }
 
+/* Khung login */
 .login-container {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 50px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     width: 400px;
     text-align: center;
+    animation: fadeIn 0.5s ease;
 }
 
+/* Tiêu đề */
 h2 {
     color: #2c3e50;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
+/* Nhóm input */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -35,23 +43,26 @@ label {
     font-weight: 600;
 }
 
+/* Input */
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 14px;
     border: 1px solid #bdc3c7;
     border-radius: 6px;
-    box-sizing: border-box;
     font-size: 16px;
-    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
     border-color: #3498db;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.4);
     outline: none;
 }
 
+/* Nút login */
 .btn-login {
     width: 100%;
     padding: 14px;
@@ -70,8 +81,13 @@ input[type="password"]:focus {
     transform: translateY(-2px);
 }
 
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* Link đăng ký */
 .register-link {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 14px;
     color: #7f8c8d;
 }
@@ -84,4 +100,18 @@ input[type="password"]:focus {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+/* Hiệu ứng xuất hiện */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-container {
+        width: 90%;
+        padding: 25px;
+    }
 }
