@@ -2,127 +2,133 @@
 <html lang="vi">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chọn ghế</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f8f9fa;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn ghế</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      background-color: white;
-      border-bottom: 2px solid #ccc;
-    }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-bottom: 2px solid #ccc;
+        }
 
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .screen {
-      background: #ccc;
-      text-align: center;
-      padding: 5px;
-      margin-bottom: 10px;
-    }
+        .screen {
+            background: #ccc;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
 
-    .seats {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 5px;
-      margin-bottom: 20px;
-    }
+        .seats {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
 
-    .seat {
-      width: 35px;
-      height: 35px;
-      background-color: #eee;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        .seat {
+            width: 35px;
+            height: 35px;
+            background-color: #eee;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .seat.vip {
-      background-color: #ffd700;
-    }
+        .seat.vip {
+            background-color: #ffd700;
+        }
 
-    .seat.sold {
-      background-color: #999;
-      pointer-events: none;
-      cursor: not-allowed;
-    }
+        .seat.sold {
+            background-color: #999;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
 
-    .seat.selected {
-      background-color: #28a745 !important;
-      color: white;
-      font-weight: bold;
-    }
+        .seat.selected {
+            background-color: #28a745 !important;
+            color: white;
+            font-weight: bold;
+        }
 
-    .order-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 18px;
-    }
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
 
-    .btn {
-      background-color: #001f3f;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+        .btn {
+            background-color: #001f3f;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-    .movie-info {
-      margin-bottom: 20px;
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-left: 5px solid #001f3f;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-  </style>
+        .movie-info {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-left: 5px solid #001f3f;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
-  
-  <div class="header">
+
+<div class="header">
     <h3>Chọn ghế</h3>
     <h3>Thanh toán</h3>
-  </div>
-  <div class="movie-info">
+</div>
+<div class="movie-info">
     <p><strong>Phim:</strong> <span id="movieTitle">-</span></p>
     <p><strong>Suất chiếu:</strong> <span id="showTime">-</span></p>
-  </div>
+    <p><strong>Địa chỉ:</strong> <span id="showAddress">-</span></p>
+</div>
 
-  <div class="container">
+<div class="container">
     <div class="screen">MÀN HÌNH</div>
     <div class="seats" id="seats"></div>
     <div class="order-summary">
-      <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
-      <a href="checkout.html"><button class="btn" id="nextBtn">Tiếp tục</button></a>
+        <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
+        <a href="checkout.html">
+            <button class="btn" id="nextBtn">Tiếp tục</button>
+        </a>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
     // Hiển thị tên phim và suất chiếu từ localStorage
     const movieTitle = localStorage.getItem("movieTitle") || "Chưa chọn";
     const showTime = localStorage.getItem("showTime") || "Chưa chọn";
+    const showAddress = localStorage.getItem("showAddress") || "Chưa chọn";
+    document.getElementById("showAddress").textContent = showAddress;
+
     document.getElementById("movieTitle").textContent = movieTitle;
     document.getElementById("showTime").textContent = showTime;
 
@@ -135,56 +141,56 @@
     const soldSeats = ['C4', 'D5', 'E6'];
 
     function getSeatPrice(row) {
-      return (row === 'D' || row === 'E') ? 90000 : 60000;
+        return (row === 'D' || row === 'E') ? 90000 : 60000;
     }
 
     function updateTotal() {
-      let total = 0;
-      selectedSeats.forEach(seat => {
-        const row = seat.charAt(0);
-        total += getSeatPrice(row);
-      });
-      totalDisplay.innerText = total.toLocaleString();
+        let total = 0;
+        selectedSeats.forEach(seat => {
+            const row = seat.charAt(0);
+            total += getSeatPrice(row);
+        });
+        totalDisplay.innerText = total.toLocaleString();
     }
 
     rows.forEach((row) => {
-      for (let i = 1; i <= cols; i++) {
-        const seatName = `${row}${i}`;
-        const seat = document.createElement("div");
-        seat.classList.add("seat");
-        seat.dataset.name = seatName;
+        for (let i = 1; i <= cols; i++) {
+            const seatName = `${row}${i}`;
+            const seat = document.createElement("div");
+            seat.classList.add("seat");
+            seat.dataset.name = seatName;
 
-        if (row === 'D' || row === 'E') seat.classList.add("vip");
-        if (soldSeats.includes(seatName)) {
-          seat.classList.add("sold");
-          seat.innerText = "X";
+            if (row === 'D' || row === 'E') seat.classList.add("vip");
+            if (soldSeats.includes(seatName)) {
+                seat.classList.add("sold");
+                seat.innerText = "X";
+            }
+
+            seat.addEventListener("click", () => {
+                if (seat.classList.contains("sold")) return;
+
+                if (seat.classList.contains("selected")) {
+                    seat.classList.remove("selected");
+                    seat.innerText = "";
+                    selectedSeats = selectedSeats.filter(s => s !== seatName);
+                } else {
+                    seat.classList.add("selected");
+                    seat.innerText = seatName;
+                    selectedSeats.push(seatName);
+                }
+                updateTotal();
+            });
+
+            seatContainer.appendChild(seat);
         }
-
-        seat.addEventListener("click", () => {
-          if (seat.classList.contains("sold")) return;
-
-          if (seat.classList.contains("selected")) {
-            seat.classList.remove("selected");
-            seat.innerText = "";
-            selectedSeats = selectedSeats.filter(s => s !== seatName);
-          } else {
-            seat.classList.add("selected");
-            seat.innerText = seatName;
-            selectedSeats.push(seatName);
-          }
-          updateTotal();
-        });
-
-        seatContainer.appendChild(seat);
-      }
     });
 
     document.getElementById("nextBtn").addEventListener("click", function () {
-      localStorage.setItem("selectedSeats", selectedSeats.join(','));
-      const total = selectedSeats.reduce((sum, seat) => sum + getSeatPrice(seat[0]), 0);
-      localStorage.setItem("totalPrice", total);
+        localStorage.setItem("selectedSeats", selectedSeats.join(','));
+        const total = selectedSeats.reduce((sum, seat) => sum + getSeatPrice(seat[0]), 0);
+        localStorage.setItem("totalPrice", total);
     });
-  </script>
+</script>
 </body>
 
 </html>

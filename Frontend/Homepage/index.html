@@ -159,11 +159,7 @@
                             </div>
                             <div class="app__calender-items-dec">Leaving Mom . 2h00</div>
                             <div class="app__calender-items-time-wp">
-                                <div class="app__calender-items-time">8:00</div>
-                                <div class="app__calender-items-time">11:00</div>
-                                <div class="app__calender-items-time">13:00</div>
-                                <div class="app__calender-items-time">15:00</div>
-                                <div class="app__calender-items-time">15:00</div>
+                                <div class="app__calender-items-time"></div>
                             </div>
                         </div>
                     </div>
@@ -200,37 +196,9 @@
 </div>
 
 <!--Script-->
-<script src="main.js"></script>
-<script src="initCinemaInfoUpdate.js"></script>
-<script src="initDateSelection.js"></script>
-<script src="renderCalendarMovies.js"></script>
-<script src="renderHomepageMovies.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        fetch("../Homepage/header.html")
-            .then(res => res.text())
-            .then(data => {
-                document.getElementById("header-container").innerHTML = data;
+<script src="../Homepage/loadheader.js"></script>
+<script src="../Homepage/styles.js"></script>
 
-                const fullName = localStorage.getItem("fullName");
-                const userNameLink = document.getElementById("userNameLink");
-                const logoutLink = document.getElementById("logoutLink");
-
-                if (fullName && userNameLink && logoutLink) {
-                    userNameLink.textContent = fullName;
-                    userNameLink.href = "#";
-                    logoutLink.style.display = "inline"; // Hiện nút đăng xuất
-
-                    logoutLink.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        localStorage.clear();
-                        window.location.href = "../Login/login.html";
-                    });
-                }
-            })
-            .catch(err => console.error("Lỗi load header:", err));
-    });
-</script>
 
 
 </body>
