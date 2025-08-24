@@ -99,6 +99,99 @@
       </div>
     </div>
   </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+  // --- Search bar functionality ---
+  // The search bar is a common interactive element. This script adds focus/blur effects
+  // and listens for user input. It doesn't perform an actual search, but lays the groundwork.
+  const searchContainer = document.querySelector('.nav__search');
+  const searchInput = document.querySelector('.nav__search-items');
+
+  if (searchContainer && searchInput) {
+    searchInput.addEventListener('focus', () => {
+      // Adds a class on focus for visual feedback, though the CSS handles most of this.
+      searchContainer.classList.add('is-focused');
+    });
+
+    searchInput.addEventListener('blur', () => {
+      // Removes the class when the input is no longer focused.
+      searchContainer.classList.remove('is-focused');
+    });
+  }
+
+  // --- Dropdown menu toggle ---
+  // This script handles the display of the dropdown menu when a user hovers over
+  // the 'dropdown' element. The CSS provides the core functionality, but a JS-based
+  // approach can offer more control or alternative triggers (e.g., click).
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  dropdowns.forEach(dropdown => {
+    dropdown.addEventListener('mouseenter', () => {
+      const dropdownContent = dropdown.querySelector('.dropdown-content');
+      if (dropdownContent) {
+        dropdownContent.style.display = 'block';
+      }
+    });
+
+    dropdown.addEventListener('mouseleave', () => {
+      const dropdownContent = dropdown.querySelector('.dropdown-content');
+      if (dropdownContent) {
+        dropdownContent.style.display = 'none';
+      }
+    });
+  });
+
+  // --- Dynamic news content loading ---
+  // This is an example of how you can use JavaScript to populate the news section
+  // dynamically, rather than hard-coding each item in the HTML. This is useful
+  // for sites that fetch content from an API or a database.
+  const newsData = [
+    {
+      image: 'https://via.placeholder.com/120x80?text=News+1',
+      title: 'Exciting Tech Innovations Announced',
+      source: 'Tech Insider',
+      date: 'Aug 24, 2025',
+      description: 'A look at the latest breakthroughs in artificial intelligence and machine learning.'
+    },
+    {
+      image: 'https://via.placeholder.com/120x80?text=News+2',
+      title: 'Global Economy Shows Promising Signs',
+      source: 'Financial Times',
+      date: 'Aug 23, 2025',
+      description: 'Analysts predict a period of steady growth fueled by new market strategies.'
+    },
+    {
+      image: 'https://via.placeholder.com/120x80?text=News+3',
+      title: 'New Study Reveals Surprising Health Benefits',
+      source: 'Health Daily',
+      date: 'Aug 22, 2025',
+      description: 'Research suggests a simple daily habit can significantly improve well-being.'
+    }
+  ];
+
+  const mainContent = document.querySelector('.main-content');
+
+  if (mainContent) {
+    // Clear any existing content to prevent duplication
+    mainContent.innerHTML = '<h2>Latest News</h2>';
+
+    newsData.forEach(item => {
+      const newsItem = document.createElement('div');
+      newsItem.className = 'news-item';
+      newsItem.innerHTML = `
+        <img src="${item.image}" alt="${item.title}">
+        <div class="text">
+          <h3>${item.title}</h3>
+          <div class="meta">${item.source} | ${item.date}</div>
+          <p class="desc">${item.description}</p>
+        </div>
+      `;
+      mainContent.appendChild(newsItem);
+    });
+  }
+});
+</script>
 </body>
 
 </html>
