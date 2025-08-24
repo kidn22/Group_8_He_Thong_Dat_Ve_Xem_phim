@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 import json
 import os
 from flask_cors import CORS
+from flask import Flask, request, jsonify, render_template
+
 import bcrypt
 
 app = Flask(__name__)
@@ -9,8 +11,9 @@ CORS(app)
 
 # ================== ĐƯỜNG DẪN FILE ==================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_FILE = os.path.join(BASE_DIR, "data.json")        # Lưu phim
-ACCOUNT_FILE = os.path.join(BASE_DIR, "accounts.json") # Lưu tài khoản
+DATA_FILE = os.path.join(BASE_DIR, "data.json")  # Lưu phim
+ACCOUNT_FILE = os.path.join(BASE_DIR, "accounts.json")  # Lưu tài khoản
+
 
 # ================== HÀM CHUNG ==================
 def load_data(file_path):
@@ -21,15 +24,18 @@ def load_data(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+
 def save_data(file_path, data):
     """Ghi dữ liệu vào file JSON."""
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+
 # ================== API PHIM ==================
 @app.route("/movies", methods=["GET"])
 def get_movies():
     return jsonify(load_data(DATA_FILE))
+
 
 @app.route("/movies", methods=["POST"])
 def add_movie():
@@ -39,6 +45,7 @@ def add_movie():
     movies.append(new_movie)
     save_data(DATA_FILE, movies)
     return jsonify(new_movie), 201
+
 
 @app.route("/movies/<int:movie_id>", methods=["PUT"])
 def update_movie(movie_id):
@@ -51,12 +58,14 @@ def update_movie(movie_id):
             return jsonify(movies[i])
     return jsonify({"error": "Movie not found"}), 404
 
+
 @app.route("/movies/<int:movie_id>", methods=["DELETE"])
 def delete_movie(movie_id):
     movies = load_data(DATA_FILE)
     movies = [m for m in movies if m["id"] != movie_id]
     save_data(DATA_FILE, movies)
     return jsonify({"message": "Deleted successfully"})
+
 
 # ================== API TÀI KHOẢN ==================
 @app.route("/register", methods=["POST"])
@@ -86,7 +95,6 @@ def register_account():
 
     # ======= Mã hóa mật khẩu =======
 
-
     # Tạo tài khoản mới
     new_account = {
         "id": accounts[-1]["id"] + 1 if accounts else 1,
@@ -102,41 +110,24 @@ def register_account():
     save_data(ACCOUNT_FILE, accounts)
 
     return jsonify({"message": "Đăng ký thành công", "account": new_account}), 201
-@app.route("/login", methods=["POST"])
-def login_account():
+
+
+@app.route('/admin')
+def admin_page():
+    return render_template('admin.html')
+
+
+# ================== API DANH SÁCH TÀI KHOẢN ==================
+@app.route("/accounts", methods=["GET"])
+def get_accounts():
     accounts = load_data(ACCOUNT_FILE)
-    data = request.get_json()
-
-    username = data.get("username", "").strip()
-    password = data.get("password", "")
-
-    # Kiểm tra dữ liệu đầu vào
-    if not username or not password:
-        return jsonify({"error": "Vui lòng nhập đầy đủ thông tin"}), 400
-
-    # Tìm tài khoản có username khớp
-    account = next((acc for acc in accounts if acc["username"].lower() == username.lower()), None)
-    if not account:
-        return jsonify({"error": "Sai tài khoản hoặc mật khẩu"}), 401
-
-    # So sánh mật khẩu đã hash
-    if not bcrypt.checkpw(password.encode("utf-8"), account["password"].encode("utf-8")):
-        return jsonify({"error": "Sai tài khoản hoặc mật khẩu"}), 401
-
-    # Thành công, trả thông tin tài khoản (trừ mật khẩu)
-    return jsonify({
-        "message": "Đăng nhập thành công!",
-        "account": {
-            "id": account["id"],
-            "fullName": account["fullName"],
-            "username": account["username"],
-            "role": account["role"]
-        },
-        "redirect": "../Homepage/index.html"
-    }), 200
+    accounts_sanitized = [
+        {k: v for k, v in acc.items() if k != "password"}
+        for acc in accounts
+    ]
+    return jsonify(accounts_sanitized), 200
 
 
 # ================== CHẠY SERVER ==================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=True)
-

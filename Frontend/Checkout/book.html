@@ -1,174 +1,190 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chọn ghế</title>
   <style>
-    :root{
-      --bg:#f8f9fa; --card:#fff; --brand:#001f3f;
-      --seat:#eee; --seat-sold:#999; --seat-vip:#ffd700;
-      --seat-selected:#28a745; --border:#ccc;
-      --radius:10px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
     }
-    *{box-sizing:border-box}
-    body{font-family:Arial, sans-serif; margin:20px; background:var(--bg)}
-    .header{display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--card); border-bottom:2px solid var(--border)}
-    .container{max-width:660px; margin:20px auto; background:var(--card); padding:20px; border-radius:var(--radius); box-shadow:0 0 10px rgba(0,0,0,.08)}
-    .movie-info{margin-bottom:16px; padding:10px; background:#f1f1f1; border-left:5px solid var(--brand); border-radius:6px; font-size:16px}
-    .screen{background:#ddd; text-align:center; padding:6px; margin-bottom:12px; border-radius:6px; font-weight:bold}
-    .legend{display:flex; gap:12px; font-size:14px; margin:8px 0 16px}
-    .legend span{display:inline-flex; align-items:center; gap:6px}
-    .dot{width:16px; height:16px; border-radius:4px; background:var(--seat); display:inline-block; border:1px solid #ccc}
-    .dot.vip{background:var(--seat-vip)}
-    .dot.sold{background:var(--seat-sold)}
-    .dot.selected{background:var(--seat-selected)}
-    .seats{display:grid; grid-template-columns: repeat(10, 1fr); gap:6px; margin-bottom:18px}
-    .seat{width:38px; height:38px; background:var(--seat); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .12s}
-    .seat.vip{background:var(--seat-vip)}
-    .seat.sold{background:var(--seat-sold); cursor:not-allowed}
-    .seat.selected{background:var(--seat-selected); color:#fff; font-weight:bold}
-    .seat:focus{outline:2px solid var(--brand); outline-offset:2px}
-    .seat:not(.sold):active{transform:scale(.96)}
-    .row-label{grid-column:1 / -1; margin:4px 0 2px; font-weight:bold; opacity:.7}
-    .order-summary{display:flex; justify-content:space-between; align-items:center; font-size:18px}
-    .btn{background:var(--brand); color:#fff; padding:10px 18px; border:0; border-radius:6px; cursor:pointer}
-    .btn:disabled{opacity:.5; cursor:not-allowed}
-    @media (max-width:480px){
-      .seats{gap:5px}
-      .seat{width:34px; height:34px}
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: white;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .screen {
+      background: #ccc;
+      text-align: center;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+
+    .seats {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 5px;
+      margin-bottom: 20px;
+    }
+
+    .seat {
+      width: 35px;
+      height: 35px;
+      background-color: #eee;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .seat.vip {
+      background-color: #ffd700;
+    }
+
+    .seat.sold {
+      background-color: #999;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .seat.selected {
+      background-color: #28a745 !important;
+      color: white;
+      font-weight: bold;
+    }
+
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .btn {
+      background-color: #001f3f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .movie-info {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-left: 5px solid #001f3f;
+      border-radius: 5px;
+      font-size: 16px;
     }
   </style>
 </head>
+
 <body>
-  <div class="header" role="banner" aria-label="Thanh điều hướng">
+  
+  <div class="header">
     <h3>Chọn ghế</h3>
     <h3>Thanh toán</h3>
   </div>
-
-  <div class="movie-info" aria-live="polite">
+  <div class="movie-info">
     <p><strong>Phim:</strong> <span id="movieTitle">-</span></p>
     <p><strong>Suất chiếu:</strong> <span id="showTime">-</span></p>
   </div>
 
   <div class="container">
-    <div class="screen" aria-hidden="true">MÀN HÌNH</div>
-
-    <div class="legend" aria-hidden="true">
-      <span><i class="dot"></i>Thường (60.000đ)</span>
-      <span><i class="dot vip"></i>VIP (90.000đ)</span>
-      <span><i class="dot selected"></i>Đang chọn</span>
-      <span><i class="dot sold"></i>Đã bán</span>
-    </div>
-
-    <div id="seats"
-         class="seats"
-         role="grid"
-         aria-label="Sơ đồ ghế">
-    </div>
-
+    <div class="screen">MÀN HÌNH</div>
+    <div class="seats" id="seats"></div>
     <div class="order-summary">
-      <div>Tổng đơn hàng: <strong id="total">0</strong> đ • Ghế: <span id="list">-</span></div>
-      <button class="btn" id="nextBtn" disabled>Tiếp tục</button>
+      <div>Tổng đơn hàng: <span id="total">0</span> đ</div>
+      <a href="checkout.html"><button class="btn" id="nextBtn">Tiếp tục</button></a>
     </div>
   </div>
 
   <script>
-    // ==== CẤU HÌNH ====
-    const ROWS = ['A','B','C','D','E'];
-    const COLS = 10;
-    const PRICES = { standard: 60000, vip: 90000 };
-    const VIP_ROWS = new Set(['D','E']);
-    const SOLD = new Set(['C4','D5','E6']); // giả lập dữ liệu đã bán
+    // Hiển thị tên phim và suất chiếu từ localStorage
+    const movieTitle = localStorage.getItem("movieTitle") || "Chưa chọn";
+    const showTime = localStorage.getItem("showTime") || "Chưa chọn";
+    document.getElementById("movieTitle").textContent = movieTitle;
+    document.getElementById("showTime").textContent = showTime;
 
-    // ==== LẤY THÔNG TIN PHIM / SUẤT ====
-    const movieTitle = localStorage.getItem('movieTitle') || 'Chưa chọn';
-    const showTime   = localStorage.getItem('showTime')   || 'Chưa chọn';
-    document.getElementById('movieTitle').textContent = movieTitle;
-    document.getElementById('showTime').textContent   = showTime;
+    const seatContainer = document.getElementById("seats");
+    const totalDisplay = document.getElementById("total");
+    const rows = ['A', 'B', 'C', 'D', 'E'];
+    const cols = 10;
+    let selectedSeats = [];
 
-    // ==== TẠO GHẾ (DocumentFragment để nhanh hơn) ====
-    const seatContainer = document.getElementById('seats');
-    const frag = document.createDocumentFragment();
+    const soldSeats = ['C4', 'D5', 'E6'];
 
-    const makeSeatId = (r, i) => `${r}${i}`;
-    const getPriceByRow = r => (VIP_ROWS.has(r) ? PRICES.vip : PRICES.standard);
-
-    for (const r of ROWS) {
-      for (let i = 1; i <= COLS; i++) {
-        const id = makeSeatId(r, i);
-        const el = document.createElement('div');
-        el.className = 'seat' + (VIP_ROWS.has(r) ? ' vip' : '');
-        if (SOLD.has(id)) el.classList.add('sold');
-
-        el.setAttribute('role','gridcell');
-        el.setAttribute('tabindex', SOLD.has(id) ? '-1' : '0');
-        el.setAttribute('aria-label', `Ghế ${id}${SOLD.has(id)?' đã bán':''}`);
-        el.dataset.id = id;
-        el.dataset.row = r;
-        el.dataset.price = getPriceByRow(r);
-
-        frag.appendChild(el);
-      }
+    function getSeatPrice(row) {
+      return (row === 'D' || row === 'E') ? 90000 : 60000;
     }
-    seatContainer.appendChild(frag);
 
-    // ==== CHỌN GHẾ (Event Delegation) ====
-    const selected = new Set();
-    const fmt = n => n.toLocaleString('vi-VN');
-
-    const totalEl = document.getElementById('total');
-    const listEl  = document.getElementById('list');
-    const nextBtn = document.getElementById('nextBtn');
-
-    function renderSummary(){
+    function updateTotal() {
       let total = 0;
-      const items = [...selected].sort((a,b)=> a.localeCompare(b));
-      for (const id of items){
-        total += +document.querySelector(`.seat[data-id="${id}"]`).dataset.price;
-      }
-      totalEl.textContent = fmt(total);
-      listEl.textContent = items.length ? items.join(', ') : '-';
-      nextBtn.disabled = items.length === 0;
+      selectedSeats.forEach(seat => {
+        const row = seat.charAt(0);
+        total += getSeatPrice(row);
+      });
+      totalDisplay.innerText = total.toLocaleString();
     }
 
-    function toggleSeat(el){
-      if (!el || !el.classList.contains('seat') || el.classList.contains('sold')) return;
-      const id = el.dataset.id;
-      if (el.classList.toggle('selected')){
-        el.textContent = id;       // hiển thị nhãn khi chọn
-        selected.add(id);
-      } else {
-        el.textContent = '';       // bỏ nhãn khi bỏ chọn
-        selected.delete(id);
-      }
-      renderSummary();
-    }
+    rows.forEach((row) => {
+      for (let i = 1; i <= cols; i++) {
+        const seatName = `${row}${i}`;
+        const seat = document.createElement("div");
+        seat.classList.add("seat");
+        seat.dataset.name = seatName;
 
-    // Click
-    seatContainer.addEventListener('click', (e)=>{
-      toggleSeat(e.target.closest('.seat'));
-    });
-    // Bàn phím (Enter/Space)
-    seatContainer.addEventListener('keydown', (e)=>{
-      if (e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        toggleSeat(e.target.closest('.seat'));
+        if (row === 'D' || row === 'E') seat.classList.add("vip");
+        if (soldSeats.includes(seatName)) {
+          seat.classList.add("sold");
+          seat.innerText = "X";
+        }
+
+        seat.addEventListener("click", () => {
+          if (seat.classList.contains("sold")) return;
+
+          if (seat.classList.contains("selected")) {
+            seat.classList.remove("selected");
+            seat.innerText = "";
+            selectedSeats = selectedSeats.filter(s => s !== seatName);
+          } else {
+            seat.classList.add("selected");
+            seat.innerText = seatName;
+            selectedSeats.push(seatName);
+          }
+          updateTotal();
+        });
+
+        seatContainer.appendChild(seat);
       }
     });
 
-    // ==== TIẾP TỤC (lưu & chuyển trang) ====
-    nextBtn.addEventListener('click', ()=>{
-      const ids = [...selected];
-      const total = ids.reduce((s, id)=>{
-        const row = id[0];
-        return s + getPriceByRow(row);
-      }, 0);
-      localStorage.setItem('selectedSeats', ids.join(','));
-      localStorage.setItem('totalPrice', String(total));
-      // Điều hướng (tránh bọc <a><button>…)
-      window.location.href = 'checkout.html';
+    document.getElementById("nextBtn").addEventListener("click", function () {
+      localStorage.setItem("selectedSeats", selectedSeats.join(','));
+      const total = selectedSeats.reduce((sum, seat) => sum + getSeatPrice(seat[0]), 0);
+      localStorage.setItem("totalPrice", total);
     });
   </script>
 </body>
+
 </html>

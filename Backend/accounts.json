@@ -1,17 +1,8 @@
 [
     {
         "id": 1,
-        "fullName": "Kỳ Duyên",
+        "fullName": "kỳ duyên",
         "gender": "Nam",
-        "phone": "0857950090",
-        "username": "YenVy",
-        "password": "$2b$12$mxI6AJeoIYDMUZQPMdWL4en9B/czdS2BG5tRyTIO8tBPX6WDnBy1S",
-        "role": "user"
-    },
-    {
-        "id": 2,
-        "fullName": "Yến Vy",
-        "gender": "Nữ",
         "phone": "0857950090",
         "username": "kyduyen",
         "password": "123456",
