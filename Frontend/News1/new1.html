@@ -7,6 +7,7 @@
   <title>Tin tức phim</title>
 
   <link rel="stylesheet" href="new1.css">
+  <script src="https://kit.fontawesome.com/a2d9d6c54b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -24,14 +25,13 @@
           </div>
         </div>
 
-
-
-        <div class="nav__items"><a href="../Checkout/book.html" class="nav__items-link">Thanh Toán</a>
+        <div class="nav__items">
+          <a href="../Checkout/book.html" class="nav__items-link">Thanh Toán</a>
         </div>
         <div class="nav__logo"></div>
         <div class="nav__search">
           <i class="nav__search-icon fa-solid fa-magnifying-glass"></i>
-          <input type="search" class="nav__search-items" placeholder="Tu khoa tim kiem">
+          <input type="search" class="nav__search-items" placeholder="Từ khóa tìm kiếm">
         </div>
       </div>
       <div class="nav__login">
@@ -40,158 +40,142 @@
       </div>
     </div>
   </header>
+
   <div class="container">
     <div class="main-content">
-
       <h2>Mới nhất</h2>
 
+      <!-- Tin gõ tay -->
       <div class="news-item">
-      <img src="img1/MangMeDB.jpg.jpg" alt="Mang Mẹ Đi Bỏ">
-
+        <img src="img1/MangMeDB.jpg.jpg" alt="Mang Mẹ Đi Bỏ">
         <div class="info">
           <h3>Mang Mẹ Đi Bỏ phim Gia đình có doanh thu kỉ lục năm 2025 sau Bộ Tứ Báo Thủ</h3>
           <p><strong>Moveek</strong> · 7 giờ trước</p>
-          <p>Mang Mẹ Đi Bỏ 78 tỷ đồng doanh thu, lọt top phim Việt mở màn cao nhất 2025.Phim gia đình đang chứng minh sức hút mạnh mẽ tại phòng vé Việt.</p>
+          <p>Mang Mẹ Đi Bỏ 78 tỷ đồng doanh thu, lọt top phim Việt mở màn cao nhất 2025. Phim gia đình đang chứng minh sức hút mạnh mẽ tại phòng vé Việt.</p>
         </div>
       </div>
 
       <div class="news-item">
-      <img src="img1/Muado.jpg.jpg" alt="Mưa Đỏ">
-
-
+        <img src="img1/Muado.jpg.jpg" alt="Mưa Đỏ">
         <div class="info">
           <h3>Mưa Đỏ – Khúc tráng ca bi hùng về Thành cổ Quảng Trị trên màn ảnh rộng</h3>
           <p><strong>miduynph</strong> · 8 giờ trước</p>
-          <p>Phim điện ảnh Mưa Đỏ tái hiện 81 ngày đêm bi tráng ở Thành Cổ Quảng Trị,là bản tráng ca xúc động về tinh thần bất khuất của người lính.</p>
+          <p>Phim điện ảnh Mưa Đỏ tái hiện 81 ngày đêm bi tráng ở Thành Cổ Quảng Trị, là bản tráng ca xúc động về tinh thần bất khuất của người lính.</p>
         </div>
       </div>
 
       <div class="news-item">
-        <img src="img1/TGDQ.jpg.jpg"  alt="Thanh Gươm Diệt Quỷ">
-
+        <img src="img1/TGDQ.jpg.jpg" alt="Thanh Gươm Diệt Quỷ">
         <div class="info">
           <h3>Thanh Gươm Diệt Quỷ: Vô Hạn Thành mở suất chiếu sớm tại Việt Nam từ 14.08.2025</h3>
           <p><strong>Moveek</strong> · 2 ngày trước</p>
-          <p>Thanh Gươm Diệt Quỷ: Vô Hạn Thành sẽ chiếu sớm từ sau 18h ngày 14.08.2025,chính thức ra rạp ngày 15.08.Cập nhật thông tin phim,kỷ lục phòng vé,hậu trường sản xuất và dàn phản diện đình đám.</p>
-          </div>2
+          <p>Thanh Gươm Diệt Quỷ: Vô Hạn Thành sẽ chiếu sớm từ sau 18h ngày 14.08.2025, chính thức ra rạp ngày 15.08. Cập nhật thông tin phim, kỷ lục phòng vé, hậu trường sản xuất và dàn phản diện đình đám.</p>
+        </div>
       </div>
+      <!-- Tin động sẽ được thêm vào đây bằng JS -->
     </div>
 
     <div class="right">
       <div class="menu">
-  <h3>Chuyên Mục</h3>
-  <ul>
-   
-</div>
+        <h3>Chuyên Mục</h3>
+        <ul></ul>
+      </div>
 
-<div class="menu">
+      <div class="menu">
         <h3>Đánh giá phim</h3>
         <p>Góc nhìn chân thực, khách quan nhất về các bộ phim</p>
       </div>
-      
+
       <div class="menu">
         <h3>Tin điện ảnh</h3>
         <p>Tin tức điện ảnh Việt Nam & thế giới</p>
       </div>
+
       <div class="menu">
         <h3>Video - Trailer</h3>
         <p>Trailer, video những phim chiếu rạp và truyền hình hot nhất</p>
       </div>
     </div>
   </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
 
-  // --- Search bar functionality ---
-  // The search bar is a common interactive element. This script adds focus/blur effects
-  // and listens for user input. It doesn't perform an actual search, but lays the groundwork.
-  const searchContainer = document.querySelector('.nav__search');
-  const searchInput = document.querySelector('.nav__search-items');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- Search bar effect ---
+      const searchContainer = document.querySelector('.nav__search');
+      const searchInput = document.querySelector('.nav__search-items');
 
-  if (searchContainer && searchInput) {
-    searchInput.addEventListener('focus', () => {
-      // Adds a class on focus for visual feedback, though the CSS handles most of this.
-      searchContainer.classList.add('is-focused');
-    });
+      if (searchContainer && searchInput) {
+        searchInput.addEventListener('focus', () => {
+          searchContainer.classList.add('is-focused');
+        });
 
-    searchInput.addEventListener('blur', () => {
-      // Removes the class when the input is no longer focused.
-      searchContainer.classList.remove('is-focused');
-    });
-  }
+        searchInput.addEventListener('blur', () => {
+          searchContainer.classList.remove('is-focused');
+        });
+      }
 
-  // --- Dropdown menu toggle ---
-  // This script handles the display of the dropdown menu when a user hovers over
-  // the 'dropdown' element. The CSS provides the core functionality, but a JS-based
-  // approach can offer more control or alternative triggers (e.g., click).
-  const dropdowns = document.querySelectorAll('.dropdown');
+      // --- Dropdown menu toggle ---
+      const dropdowns = document.querySelectorAll('.dropdown');
+      dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', () => {
+          const dropdownContent = dropdown.querySelector('.dropdown-content');
+          if (dropdownContent) dropdownContent.style.display = 'block';
+        });
 
-  dropdowns.forEach(dropdown => {
-    dropdown.addEventListener('mouseenter', () => {
-      const dropdownContent = dropdown.querySelector('.dropdown-content');
-      if (dropdownContent) {
-        dropdownContent.style.display = 'block';
+        dropdown.addEventListener('mouseleave', () => {
+          const dropdownContent = dropdown.querySelector('.dropdown-content');
+          if (dropdownContent) dropdownContent.style.display = 'none';
+        });
+      });
+
+      // --- Dynamic news content (thêm, không ghi đè) ---
+      const newsData = [
+        {
+          image: 'https://via.placeholder.com/120x80?text=News+1',
+          title: 'Exciting Tech Innovations Announced',
+          source: 'Tech Insider',
+          date: 'Aug 24, 2025',
+          description: 'A look at the latest breakthroughs in artificial intelligence and machine learning.'
+        },
+        {
+          image: 'https://via.placeholder.com/120x80?text=News+2',
+          title: 'Global Economy Shows Promising Signs',
+          source: 'Financial Times',
+          date: 'Aug 23, 2025',
+          description: 'Analysts predict a period of steady growth fueled by new market strategies.'
+        },
+        {
+          image: 'https://via.placeholder.com/120x80?text=News+3',
+          title: 'New Study Reveals Surprising Health Benefits',
+          source: 'Health Daily',
+          date: 'Aug 22, 2025',
+          description: 'Research suggests a simple daily habit can significantly improve well-being.'
+        }
+      ];
+
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        // Thêm tiêu đề mới cho tin động
+        const dynamicTitle = document.createElement('h2');
+        dynamicTitle.textContent = 'Tin tức khác';
+        mainContent.appendChild(dynamicTitle);
+
+        newsData.forEach(item => {
+          const newsItem = document.createElement('div');
+          newsItem.className = 'news-item';
+          newsItem.innerHTML = `
+            <img src="${item.image}" alt="${item.title}">
+            <div class="text">
+              <h3>${item.title}</h3>
+              <div class="meta">${item.source} | ${item.date}</div>
+              <p class="desc">${item.description}</p>
+            </div>
+          `;
+          mainContent.appendChild(newsItem);
+        });
       }
     });
-
-    dropdown.addEventListener('mouseleave', () => {
-      const dropdownContent = dropdown.querySelector('.dropdown-content');
-      if (dropdownContent) {
-        dropdownContent.style.display = 'none';
-      }
-    });
-  });
-
-  // --- Dynamic news content loading ---
-  // This is an example of how you can use JavaScript to populate the news section
-  // dynamically, rather than hard-coding each item in the HTML. This is useful
-  // for sites that fetch content from an API or a database.
-  const newsData = [
-    {
-      image: 'https://via.placeholder.com/120x80?text=News+1',
-      title: 'Exciting Tech Innovations Announced',
-      source: 'Tech Insider',
-      date: 'Aug 24, 2025',
-      description: 'A look at the latest breakthroughs in artificial intelligence and machine learning.'
-    },
-    {
-      image: 'https://via.placeholder.com/120x80?text=News+2',
-      title: 'Global Economy Shows Promising Signs',
-      source: 'Financial Times',
-      date: 'Aug 23, 2025',
-      description: 'Analysts predict a period of steady growth fueled by new market strategies.'
-    },
-    {
-      image: 'https://via.placeholder.com/120x80?text=News+3',
-      title: 'New Study Reveals Surprising Health Benefits',
-      source: 'Health Daily',
-      date: 'Aug 22, 2025',
-      description: 'Research suggests a simple daily habit can significantly improve well-being.'
-    }
-  ];
-
-  const mainContent = document.querySelector('.main-content');
-
-  if (mainContent) {
-    // Clear any existing content to prevent duplication
-    mainContent.innerHTML = '<h2>Latest News</h2>';
-
-    newsData.forEach(item => {
-      const newsItem = document.createElement('div');
-      newsItem.className = 'news-item';
-      newsItem.innerHTML = `
-        <img src="${item.image}" alt="${item.title}">
-        <div class="text">
-          <h3>${item.title}</h3>
-          <div class="meta">${item.source} | ${item.date}</div>
-          <p class="desc">${item.description}</p>
-        </div>
-      `;
-      mainContent.appendChild(newsItem);
-    });
-  }
-});
-</script>
+  </script>
 </body>
 
 </html>
