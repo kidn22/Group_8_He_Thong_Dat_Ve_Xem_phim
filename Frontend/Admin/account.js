@@ -1,4 +1,4 @@
-const registerForm = document.getElementById("register-form");
+    const registerForm = document.getElementById("register-form");
 const loginForm = document.getElementById("login-form");
 const accountList = document.getElementById("account-list");
 
