@@ -16,18 +16,12 @@
     body{margin:0; font-family:Arial, sans-serif; background:var(--bg); color:var(--ink)}
     .container{max-width:760px; margin:24px auto; background:var(--card); padding:24px; border-radius:var(--radius); box-shadow:var(--shadow)}
     h2{margin:18px 0 10px}
-    /* Header (có thể load từ file khác) */
-    .header__nav__wp{display:flex; justify-content:space-around; border-bottom:2px solid var(--border); background:#fff}
-    .navbar{display:flex; align-items:center; gap:12px; padding:10px}
-    .nav__items,.nav__items-link{font-size:15px; color:var(--muted); text-decoration:none}
-    .nav__items:hover,.nav__items-link:hover{color:#7b8390}
-    .nav__search{display:flex; align-items:center; gap:8px; padding:0 12px; height:40px; border:2px solid #c3c6cc; border-radius:50px; background:#fff}
-    .nav__search-items{width:200px; font-size:15px; border:0; outline:0}
-    .nav__login{display:flex; align-items:center; gap:8px; padding:10px; color:#a5aeb4}
-    .dropdown{position:relative}
-    .dropdown-content{display:none; position:absolute; background:#fff; min-width:160px; border:1px solid #ddd; box-shadow:0 8px 16px rgba(0,0,0,.12); z-index:10}
-    .dropdown-content a{display:block; padding:10px 14px; text-decoration:none; color:#333}
-    .dropdown:hover .dropdown-content{display:block}
+
+    /* Header đơn giản có sẵn userNameLink để JS login/logout hoạt động */
+    .header__nav__wp{display:flex; justify-content:center; border-bottom:2px solid var(--border); background:#fff}
+    .navbar{display:flex; align-items:center; gap:16px; padding:10px}
+    .nav__items-link{font-size:15px; color:var(--muted); text-decoration:none}
+    .nav__items-link:hover{color:#7b8390}
 
     /* Bảng tóm tắt */
     table{width:100%; border-collapse:collapse; margin-top:8px}
@@ -48,15 +42,20 @@
     .field label{font-size:14px; color:#555}
     .field input{padding:10px; border:1px solid #ccc; border-radius:6px}
     .err{font-size:12px; color:#c62828; min-height:16px}
-
-    @media (max-width:520px){
-      .nav__search-items{width:140px}
-    }
   </style>
 </head>
 <body>
-  <!-- Header (nếu bạn có file loader riêng, vẫn giữ #header-container) -->
-  <div id="header-container"></div>
+
+  <!-- Header: có sẵn #userNameLink để JS cập nhật tên/đăng xuất -->
+  <div id="header-container">
+    <nav class="header__nav__wp">
+      <div class="navbar">
+        <a class="nav__items-link" href="../">Trang chủ</a>
+        <a class="nav__items-link" href="../movies/">Phim</a>
+        <a class="nav__items-link" id="userNameLink" href="../login/login.html">Đăng nhập</a>
+      </div>
+    </nav>
+  </div>
 
   <div class="container" role="main" aria-labelledby="title">
     <h2 id="title">Tóm tắt đơn hàng</h2>
@@ -66,41 +65,38 @@
         Kiểm tra chi tiết đơn trước khi thanh toán
       </caption>
       <thead>
-      <tr>
-        <th>MÔ TẢ</th>
-        <th>SỐ LƯỢNG</th>
-        <th>THÀNH TIỀN</th>
-      </tr>
+        <tr>
+          <th>MÔ TẢ</th>
+          <th>SỐ LƯỢNG</th>
+          <th>THÀNH TIỀN</th>
+        </tr>
       </thead>
-      <tbody id="summaryBody">
-      <!-- Hàng sẽ được script render dựa trên localStorage -->
+      <tbody>
+        <!-- JS sẽ render các hàng tại đây -->
       </tbody>
       <tfoot>
-      <tr class="total">
-        <td>Tổng</td>
-        <td id="totalQty">0</td>
-        <td id="grandTotal">0 đ</td>
-      </tr>
+        <tr class="total">
+          <td>Tổng</td>
+          <td id="totalQty">0</td>
+          <td id="grandTotal">0 đ</td>
+        </tr>
       </tfoot>
     </table>
 
     <h2>Thông tin cá nhân</h2>
-    <form id="infoForm" novalidate>
+    <form id="infoForm">
       <div class="field">
         <label for="fullName">* Họ và tên</label>
         <input id="fullName" name="fullName" type="text" autocomplete="name" required />
-        <div class="err" id="errName"></div>
       </div>
       <div class="field">
         <label for="phone">* Số điện thoại</label>
         <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="09xxxxxxxx"
-               pattern="^(0|\+84)(\d){9,10}$" required />
-        <div class="err" id="errPhone"></div>
+               pattern="^(0|\\+84)(\\d){9,10}$" required />
       </div>
       <div class="field">
         <label for="email">Email (tuỳ chọn)</label>
         <input id="email" name="email" type="email" autocomplete="email" />
-        <div class="err" id="errEmail"></div>
       </div>
     </form>
 
@@ -112,8 +108,10 @@
       <label><input type="radio" name="payment" value="card"> Thẻ ATM / Thẻ quốc tế</label>
     </fieldset>
 
-    <div class="ticket-info" id="ticketInfo">
-      <!-- Nội dung sẽ được render từ localStorage -->
+    <div class="ticket-info">
+      <!-- ĐỂ Ý: cần một <p> cho script set innerHTML -->
+      <p></p>
+      <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>0 đ</strong></div>
     </div>
 
     <div class="note">
@@ -123,187 +121,14 @@
 
     <div class="actions">
       <button class="btn secondary" type="button" id="backBtn" aria-label="Quay lại">←</button>
-      <button class="btn primary" id="confirmBtn" disabled>Xác nhận</button>
+      <button class="btn primary" id="confirmBtn">Xác nhận</button>
     </div>
   </div>
 
-  <!-- Nếu bạn đang dùng file loader header riêng, cứ giữ như cũ -->
-  <script src="../Homepage/loadheader.js"></script>
+  <!-- Nếu bạn có loader header riêng, có thể giữ; JS bên dưới đã có fallback nếu không tìm thấy #userNameLink -->
+  <!-- <script src="../Homepage/loadheader.js"></script> -->
 
-  <script>
-    // ====== CẤU HÌNH ======
-    const CURRENCY = new Intl.NumberFormat('vi-VN');
-    const PRICE_STANDARD = 60000;
-    const PRICE_VIP = 90000;
-    // 'perTicket' = tính theo số vé, 'perOrder' = tính 1 lần cho cả đơn
-    const FEE_MODE = 'perTicket';
-    const FEE_VALUE = 3000;
-
-    // ====== TIỆN ÍCH ======
-    const $ = (sel, root = document) => root.querySelector(sel);
-    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-    const money = v => CURRENCY.format(v) + ' đ';
-
-    // Lấy dữ liệu từ localStorage do trang chọn ghế lưu
-    const selectedSeats = (localStorage.getItem('selectedSeats') || '')
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean);
-    const storedTotal = Number(localStorage.getItem('totalPrice') || 0);
-    const movieTitle = localStorage.getItem('movieTitle') || '—';
-    const showTime   = localStorage.getItem('showTime')   || '—';
-    // Nếu bạn có thêm phòng chiếu… có thể thêm localStorage key 'room'
-    const room       = localStorage.getItem('room') || '—';
-
-    // Suy ra nhóm vé theo loại (Standard/VIP) bằng cách nhìn chữ cái hàng
-    const VIP_ROWS = new Set(['D','E']);
-    const splitByType = (ids) => {
-      const out = { Standard: [], VIP: [] };
-      for (const id of ids){
-        const row = id[0]?.toUpperCase();
-        (VIP_ROWS.has(row) ? out.VIP : out.Standard).push(id);
-      }
-      return out;
-    };
-
-    // Phí tiện ích
-    function calcFee(qty){
-      if (!qty) return 0;
-      if (FEE_MODE === 'perOrder') return FEE_VALUE;
-      return qty * FEE_VALUE;
-    }
-
-    // ====== RENDER TÓM TẮT ĐƠN ======
-    function renderSummary(){
-      const body = $('#summaryBody');
-      body.innerHTML = '';
-
-      const groups = splitByType(selectedSeats);
-      let subTotal = 0;
-      let qty = 0;
-
-      const addRow = (label, count, amount) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${label}</td><td>${count || ''}</td><td>${money(amount)}</td>`;
-        body.appendChild(tr);
-      };
-
-      if (groups.Standard.length){
-        const count = groups.Standard.length;
-        const amount = count * PRICE_STANDARD;
-        addRow('Standard', count, amount);
-        subTotal += amount; qty += count;
-      }
-      if (groups.VIP.length){
-        const count = groups.VIP.length;
-        const amount = count * PRICE_VIP;
-        addRow('VIP', count, amount);
-        subTotal += amount; qty += count;
-      }
-
-      // Nếu không có ghế (người dùng vào trực tiếp), hiển thị mẫu 1 vé Standard
-      if (!qty){
-        addRow('Standard', 1, PRICE_STANDARD);
-        qty = 1; subTotal = PRICE_STANDARD;
-      }
-
-      const fee = calcFee(qty);
-      addRow('Phí tiện ích', '', fee);
-
-      const grand = subTotal + fee;
-
-      $('#totalQty').textContent = qty;
-      $('#grandTotal').textContent = money(grand);
-
-      // Cập nhật “Thông tin vé”
-      const seatsLabel = selectedSeats.length ? selectedSeats.join(', ') : 'B7';
-      $('#ticketInfo').innerHTML = `
-        <p><strong>${movieTitle}</strong><br>
-        ${/* cụm rạp - có thể thay chuỗi cứng bằng localStorage 'cinema' nếu có */''}
-        Beta Trần Quang Khải<br>
-        Suất <strong>${showTime}</strong><br>
-        Phòng chiếu <strong>${room}</strong> – Ghế <strong>${seatsLabel}</strong></p>
-        <div class="total-amount">TỔNG ĐƠN HÀNG: <strong>${money(grand)}</strong></div>
-      `;
-
-      // Lưu lại tổng cuối (để trang sau dùng nếu cần)
-      localStorage.setItem('payableTotal', String(grand));
-    }
-
-    // ====== FORM VALIDATION ======
-    const form = $('#infoForm');
-    const confirmBtn = $('#confirmBtn');
-    const backBtn = $('#backBtn');
-
-    function validate(){
-      let ok = true;
-      const name = $('#fullName');
-      const phone = $('#phone');
-      const email = $('#email');
-
-      // Họ tên
-      if (!name.value.trim()){
-        ok = false; $('#errName').textContent = 'Vui lòng nhập họ tên.';
-      } else {
-        $('#errName').textContent = '';
-      }
-
-      // Điện thoại (regex trong thuộc tính pattern)
-      if (!phone.value.trim()){
-        ok = false; $('#errPhone').textContent = 'Vui lòng nhập số điện thoại.';
-      } else if (phone.validity.patternMismatch){
-        ok = false; $('#errPhone').textContent = 'SĐT không đúng định dạng (bắt đầu 0 hoặc +84).';
-      } else {
-        $('#errPhone').textContent = '';
-      }
-
-      // Email (tuỳ chọn)
-      if (email.value && email.validity.typeMismatch){
-        ok = false; $('#errEmail').textContent = 'Email không hợp lệ.';
-      } else {
-        $('#errEmail').textContent = '';
-      }
-
-      // Phương thức thanh toán
-      const pay = $('input[name="payment"]:checked');
-      if (!pay) ok = false;
-
-      confirmBtn.disabled = !ok;
-      return ok;
-    }
-
-    form.addEventListener('input', validate);
-    form.addEventListener('change', validate);
-    $$('input[name="payment"]').forEach(r => r.addEventListener('change', validate));
-
-    // ====== HÀNH ĐỘNG ======
-    backBtn.addEventListener('click', ()=> history.back());
-
-    confirmBtn.addEventListener('click', (e)=>{
-      e.preventDefault();
-      if (!validate()) return;
-
-      // Lưu thông tin người mua (để trang kết quả/biên nhận)
-      const payload = {
-        fullName: $('#fullName').value.trim(),
-        phone: $('#phone').value.trim(),
-        email: $('#email').value.trim(),
-        payment: $('input[name="payment"]:checked').value,
-        seats: selectedSeats,
-        movieTitle, showTime, room,
-        payableTotal: Number(localStorage.getItem('payableTotal') || 0),
-        createdAt: new Date().toISOString()
-      };
-      localStorage.setItem('checkoutInfo', JSON.stringify(payload));
-
-      // Điều hướng sang trang kết quả (tuỳ bạn đặt tên)
-      // Ví dụ: 'result.html' hoặc 'payment.html'
-      window.location.href = 'payment.html';
-    });
-
-    // Khởi tạo trang
-    renderSummary();
-    validate();
-  </script>
+  <!-- Liên kết tới file JS đã chỉnh sửa -->
+  <script src="checkout.js"></script>
 </body>
 </html>

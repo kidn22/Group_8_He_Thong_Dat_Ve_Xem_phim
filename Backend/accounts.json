@@ -7,5 +7,14 @@
         "username": "yenvy",
         "password": "123456",
         "role": "user"
+    },
+    {
+        "id": 2,
+        "fullName": "vy",
+        "gender": "Nữ",
+        "phone": "0961392781",
+        "username": "064305010511",
+        "password": "123123",
+        "role": "user"
     }
 ]

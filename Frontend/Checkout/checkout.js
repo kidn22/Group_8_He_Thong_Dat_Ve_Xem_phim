@@ -1,109 +1,169 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const selectedSeats = localStorage.getItem("selectedSeats");
-    const totalPrice = parseInt(localStorage.getItem("totalPrice")) || 0;
-    const fee = 3000;
-    const orderTable = document.querySelector(".order-summary tbody");
+  // ====== Utils ======
+  const fmt = (n) => (Number(n) || 0).toLocaleString("vi-VN") + " đ";
+  const $$ = (s, r=document) => r.querySelectorAll(s);
+  const $  = (s, r=document) => r.querySelector(s);
 
-    let standardCount = 0;
-    let vipCount = 0;
-    let standardTotal = 0;
-    let vipTotal = 0;
+  // ====== Input từ localStorage ======
+  const selectedSeatsRaw = localStorage.getItem("selectedSeats") || "";
+  const seatsArray = selectedSeatsRaw.split(",").map(s => s.trim()).filter(Boolean);
+  const totalPrice = parseInt(localStorage.getItem("totalPrice"), 10) || 0;
 
-    // Xóa dòng mẫu
-    orderTable.innerHTML = "";
+  // Thông tin phim/suất/phòng/rạp (tuỳ bạn set ở trang trước)
+  const movieTitle = localStorage.getItem("movieTitle") || "—";
+  const showTime   = localStorage.getItem("showTime")   || "—";
+  const room       = localStorage.getItem("room")       || "—";
+  const cinema     = localStorage.getItem("cinema")     || "Beta Trần Quang Khải";
 
-    if (selectedSeats) {
-        const seatsArray = selectedSeats.split(',');
-        seatsArray.forEach(seat => {
-            const isVIP = seat[0] === 'D' || seat[0] === 'E';
-            if (isVIP) {
-                vipCount++;
-                vipTotal += 90000;
-            } else {
-                standardCount++;
-                standardTotal += 60000;
-            }
-        });
+  // ====== Cấu hình giá & phí ======
+  const PRICE_STANDARD = 60000;
+  const PRICE_VIP = 90000;
+  const VIP_ROWS = new Set(["D","E"]);
+  const FEE = 3000; // theo yêu cầu: 3.000đ/đơn (không theo số vé)
 
-        if (standardCount > 0) {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>Standard</td><td>${standardCount}</td><td>${standardTotal.toLocaleString()} đ</td>`;
-            orderTable.appendChild(row);
-        }
+  // ====== Tóm tắt đơn hàng ======
+  const orderTableBody = document.querySelector(".order-summary tbody");
+  orderTableBody.innerHTML = ""; // xoá dòng mẫu
 
-        if (vipCount > 0) {
-            const row = document.createElement("tr");
-            row.innerHTML = `<td>VIP</td><td>${vipCount}</td><td>${vipTotal.toLocaleString()} đ</td>`;
-            orderTable.appendChild(row);
-        }
+  let standardCount = 0, vipCount = 0;
+  let standardTotal = 0, vipTotal = 0;
+
+  if (seatsArray.length) {
+    for (const seat of seatsArray) {
+      const row = seat[0]?.toUpperCase();
+      const isVIP = VIP_ROWS.has(row);
+      if (isVIP) { vipCount++; vipTotal += PRICE_VIP; }
+      else { standardCount++; standardTotal += PRICE_STANDARD; }
     }
+  }
 
-    const feeRow = document.createElement("tr");
-    feeRow.innerHTML = `<td>Phí tiện ích</td><td></td><td>${fee.toLocaleString()} đ</td>`;
-    orderTable.appendChild(feeRow);
+  // Render các dòng nhóm
+  if (standardCount > 0) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>Standard</td><td>${standardCount}</td><td>${fmt(standardTotal)}</td>`;
+    orderTableBody.appendChild(tr);
+  }
+  if (vipCount > 0) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>VIP</td><td>${vipCount}</td><td>${fmt(vipTotal)}</td>`;
+    orderTableBody.appendChild(tr);
+  }
 
-    const finalTotal = standardTotal + vipTotal + fee;
-    const totalRow = document.createElement("tr");
-    totalRow.classList.add("total");
-    totalRow.innerHTML = `<td>Tổng</td><td></td><td>${finalTotal.toLocaleString()} đ</td>`;
-    orderTable.appendChild(totalRow);
+  // Nếu không có ghế (vào trực tiếp), hiển thị mẫu 1 vé Standard
+  if (standardCount + vipCount === 0) {
+    standardCount = 1; standardTotal = PRICE_STANDARD;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>Standard</td><td>1</td><td>${fmt(PRICE_STANDARD)}</td>`;
+    orderTableBody.appendChild(tr);
+  }
 
-    const ticketInfo = document.querySelector(".ticket-info p");
-    if (selectedSeats) {
-        ticketInfo.innerHTML = `<strong>Mang Mẹ Đi Bộ</strong><br>
-        Beta Trần Quang Khải<br>
-        Suất <strong>17:15 06/08/2025</strong><br>
-        Phòng chiếu <strong>P2</strong> – Ghế <strong>${selectedSeats}</strong>`;
-    }
+  // Phí tiện ích (mỗi đơn)
+  const feeRow = document.createElement("tr");
+  feeRow.innerHTML = `<td>Phí tiện ích</td><td></td><td>${fmt(FEE)}</td>`;
+  orderTableBody.appendChild(feeRow);
 
-    document.querySelector(".total-amount strong").innerText = finalTotal.toLocaleString() + " đ";
+  // Tổng cuối
+  const finalTotal = standardTotal + vipTotal + FEE;
+  const totalRow = document.createElement("tr");
+  totalRow.classList.add("total");
+  totalRow.innerHTML = `<td>Tổng</td><td>${standardCount + vipCount}</td><td>${fmt(finalTotal)}</td>`;
+  orderTableBody.appendChild(totalRow);
 
-    // ==== Hiển thị tên người dùng và nút đăng xuất nếu đã đăng nhập ====
-    const fullName = localStorage.getItem("fullName");
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    const userNameLink = document.getElementById("userNameLink");
+  // Ghi vào phần tổng (tfoot)
+  const grandTotalCell = $("#grandTotal");
+  const totalQtyCell = $("#totalQty");
+  if (grandTotalCell) grandTotalCell.textContent = fmt(finalTotal);
+  if (totalQtyCell) totalQtyCell.textContent = String(standardCount + vipCount);
 
-    if (isLoggedIn && fullName && userNameLink) {
-        userNameLink.textContent = fullName;
-        userNameLink.href = "#";
+  // ====== Thông tin vé ======
+  const ticketInfoP = document.querySelector(".ticket-info p");
+  const seatsLabel = seatsArray.length ? seatsArray.join(", ") : "B7"; // fallback mẫu
+  if (ticketInfoP) {
+    ticketInfoP.innerHTML = `
+      <strong>${movieTitle}</strong><br>
+      ${cinema}<br>
+      Suất <strong>${showTime}</strong><br>
+      Phòng chiếu <strong>${room}</strong> – Ghế <strong>${seatsLabel}</strong>`;
+  }
 
-        const logoutBtn = document.createElement("a");
-        logoutBtn.textContent = "Đăng xuất";
-        logoutBtn.href = "#";
-        logoutBtn.style.marginLeft = "15px";
-        logoutBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("fullName");
-            window.location.reload();
-        });
+  const totalAmountStrong = document.querySelector(".total-amount strong");
+  if (totalAmountStrong) totalAmountStrong.textContent = fmt(finalTotal);
 
-        userNameLink.parentNode.appendChild(logoutBtn);
-    }
+  // ====== Hiển thị tên người dùng & nút đăng xuất ======
+  const fullName   = localStorage.getItem("fullName");
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const userNameLink = document.getElementById("userNameLink");
 
-    // ==== Xử lý nút xác nhận thanh toán ====
-    const confirmBtn = document.getElementById("confirmBtn");
-    if (confirmBtn) {
-        confirmBtn.addEventListener("click", function (e) {
-            e.preventDefault();
+  if (isLoggedIn && fullName && userNameLink) {
+    userNameLink.textContent = fullName;
+    userNameLink.href = "#";
 
-            if (!isLoggedIn) {
-                // Nếu chưa đăng nhập thì chuyển sang trang login
-                alert("Vui lòng đăng nhập để tiếp tục thanh toán.");
-                window.location.href = "../login/login.html";
-                return;
-            }
+    const logoutBtn = document.createElement("a");
+    logoutBtn.textContent = "Đăng xuất";
+    logoutBtn.href = "#";
+    logoutBtn.style.marginLeft = "15px";
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("fullName");
+      window.location.reload();
+    });
 
-            // Nếu đã đăng nhập: thông báo thanh toán thành công
-            alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
-            localStorage.removeItem("selectedSeats");
-            localStorage.removeItem("totalPrice");
+    // Chèn sau link tên user
+    userNameLink.parentNode.appendChild(logoutBtn);
+  }
 
-            // Disable nút sau khi thanh toán
-            confirmBtn.disabled = true;
-            confirmBtn.innerText = "Đã thanh toán";
-            confirmBtn.style.backgroundColor = "#888";
-            confirmBtn.style.cursor = "not-allowed";
-        });
-    }
+  // ====== Nút quay lại ======
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) backBtn.addEventListener("click", () => history.back());
+
+  // ====== Xử lý nút xác nhận thanh toán ======
+  const confirmBtn = document.getElementById("confirmBtn");
+  const infoForm   = document.getElementById("infoForm");
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Chưa đăng nhập -> chuyển trang login
+      if (!isLoggedIn) {
+        alert("Vui lòng đăng nhập để tiếp tục thanh toán.");
+        window.location.href = "../login/login.html";
+        return;
+      }
+
+      // Đã đăng nhập -> kiểm tra form hợp lệ
+      if (infoForm && !infoForm.reportValidity()) {
+        // Browser sẽ highlight trường lỗi
+        return;
+      }
+
+      // Hoàn tất: lưu thông tin (tuỳ trang sau dùng), dọn state ghế
+      const payload = {
+        fullName: $("#fullName")?.value?.trim() || "",
+        phone: $("#phone")?.value?.trim() || "",
+        email: $("#email")?.value?.trim() || "",
+        payment: (document.querySelector('input[name="payment"]:checked')?.value) || "qr",
+        seats: seatsArray,
+        movieTitle, showTime, room, cinema,
+        total: finalTotal,
+        createdAt: new Date().toISOString()
+      };
+      localStorage.setItem("checkoutInfo", JSON.stringify(payload));
+
+      // Thông báo & dọn một số key
+      alert("Cảm ơn bạn đã đặt vé! Thông tin sẽ được gửi qua email và số điện thoại.");
+      localStorage.removeItem("selectedSeats");
+      localStorage.removeItem("totalPrice");
+
+      // Khóa nút
+      confirmBtn.disabled = true;
+      confirmBtn.innerText = "Đã thanh toán";
+      confirmBtn.style.backgroundColor = "#888";
+      confirmBtn.style.cursor = "not-allowed";
+
+      // (Tuỳ chọn) điều hướng trang kết quả:
+      // window.location.href = "payment.html";
+    });
+  }
 });
