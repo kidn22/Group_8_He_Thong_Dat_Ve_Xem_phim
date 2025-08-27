@@ -1,10 +1,10 @@
 [
     {
         "id": 1,
-        "fullName": "kỳ duyên",
-        "gender": "Nam",
+        "fullName": "Yến Vy",
+        "gender": "Nữ",
         "phone": "0857950090",
-        "username": "kyduyen",
+        "username": "yenvy",
         "password": "123456",
         "role": "user"
     }

@@ -111,6 +111,33 @@ def register_account():
 
     return jsonify({"message": "Đăng ký thành công", "account": new_account}), 201
 
+@app.route("/login", methods=["POST"])
+def login():
+    accounts = load_data(ACCOUNT_FILE)
+    data = request.get_json()
+
+    username = data.get("username", "").strip()
+    password = data.get("password", "").strip()
+
+    if not username or not password:
+        return jsonify({"error": "Thiếu username hoặc password"}), 400
+
+    # Kiểm tra user/pass trong accounts.json
+    account = next((acc for acc in accounts if acc["username"] == username and acc["password"] == password), None)
+
+    if not account:
+        return jsonify({"error": "Sai tên đăng nhập hoặc mật khẩu"}), 401
+
+    return jsonify({
+        "message": "Đăng nhập thành công",
+        "account": {
+            "id": account["id"],
+            "fullName": account["fullName"],
+            "username": account["username"],
+            "role": account.get("role", "user")
+        },
+        "redirect": "../Homepage/index.html" if account.get("role") == "user" else "/admin"
+    }), 200
 
 @app.route('/admin')
 def admin_page():

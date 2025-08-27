@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const logoutLink = document.getElementById("logoutLink");
 
             if (fullName && userNameLink) {
+                // Nếu đã đăng nhập -> hiện tên và bật logout
                 userNameLink.textContent = fullName;
                 userNameLink.href = "#";
 
@@ -19,6 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         localStorage.clear();
                         window.location.href = "../Login/login.html";
                     });
+                }
+            } else {
+                // Nếu chưa đăng nhập -> để userNameLink trỏ tới Login, ẩn logout
+                if (userNameLink) {
+                    userNameLink.textContent = "Login";
+                    userNameLink.href = "../Login/login.html";
+                }
+                if (logoutLink) {
+                    logoutLink.style.display = "none";
                 }
             }
         })
